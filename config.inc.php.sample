@@ -1,0 +1,63 @@
+<?php
+
+// Constants
+define("MAILMAN_BIN_PATH", "/usr/lib/mailman/bin/");
+
+$config = array(
+	"site" => array(
+		"title" => "User Control Panel",
+		"url" => "https://ucp.example.com",
+		"path" => "/srv/www/ucp/htdocs"
+	),
+	"ldap" => array(
+		"server" => "ldap://localhost/",
+		"rdn" => "cn=ucp,ou=community,dc=nodomain",
+		"pass" => '********',
+		"base_dn" => "ou=community,dc=nodomain",
+		"accounts_dn" => "ou=new,ou=accounts,ou=community,dc=nodomain",
+		"verified_dn" => "ou=verified,ou=accounts,ou=community,dc=nodomain",
+	),
+	"mail" => array(
+		"use_smtp" => false,
+		"from" => "no-reply@ucp.example.com",
+		"verification_limit" => 86400 * 7,
+	),
+	"misc" => array(
+		"secret" => "********", // Some secret string
+	),
+	"modules" => array(
+		"login" => array(
+			"title" => "Login",
+			"force_notauthenticated" => true,
+		),
+		"register" => array(
+			"title" => "Registrieren",
+			"force_notauthenticated" => true,
+		),
+		"home" => array(
+			"title" => "Home",
+			"force_authenticated" => true,
+		),
+		"profile" => array(
+			"title" => "Profil",
+			"force_authenticated" => true,
+		),
+		"lists" => array(
+			"title" => "Mailinglisten",
+			"force_authenticated" => true,
+			"force_verified" => true,
+		),
+		"logout" => array(
+			"title" => "Logout",
+			"force_authenticated" => true,
+		),
+		"verify" => array(
+			"title" => "Verifizierung",
+			"hide_navigation" => true,
+		),
+	),
+	"mailinglists" => array(
+	)
+);
+
+?>

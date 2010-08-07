@@ -1,0 +1,62 @@
+* {
+	margin: 0px 0px 0px 0px;
+}
+
+body {
+	background-color: #eeeeee;
+	font-family: Sans-serif;
+	font-size: 12px;
+	text-align: center;
+}
+
+div#maincontainer {
+	width: 800px;
+	background-color: white;
+	margin: 0px auto;
+	text-align: left;
+	padding: 10px;
+}
+
+div#navigation {
+	padding-top: 8px;
+	padding-bottom: 8px;
+	border-bottom: 1px solid #aaaaaa;
+}
+
+div#navigation a {
+	color: #2884D2;
+	text-decoration: none;
+}
+
+div#navigation a:hover {
+	color: #f7931e;
+}
+
+div#navigation a.active {
+	text-decoration: underline;
+}
+
+div#content {
+	margin-top: 8px;
+}
+
+table.login {
+	background-color: #eeeeee;
+}
+
+table.register {
+	background-color: #eeeeee;
+}
+
+table.profile {
+}
+
+table.profile a {
+	text-decoration: none;
+	font-weight: bold;
+	font-size: 10px;
+}
+
+p {
+	padding-bottom: 8px;
+}
