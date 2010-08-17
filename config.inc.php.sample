@@ -13,9 +13,13 @@ $config = array(
 		"server" => "ldap://localhost/",
 		"rdn" => "cn=ucp,ou=community,dc=nodomain",
 		"pass" => '********',
-		"base_dn" => "ou=community,dc=nodomain",
-		"accounts_dn" => "ou=new,ou=accounts,ou=community,dc=nodomain",
-		"verified_dn" => "ou=verified,ou=accounts,ou=community,dc=nodomain",
+		"base_dn" => "ou=accounts,ou=community,dc=nodomain",
+	),
+	"mysql" => array(
+		"server" => "localhost",
+		"user" => "root",
+		"pass" => "anything92",
+		"db" => "ucp",
 	),
 	"mail" => array(
 		"use_smtp" => false,

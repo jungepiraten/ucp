@@ -1,32 +1,32 @@
 <?php
 
-class Mailinglist
-{
+class Mailinglist {
+	private $mailman;
+
 	private $name = "";
 	private $description = "";
 	private $subscribe_policy = 0;
-	private $has_member = 0;
+	private $members = array();
 
-	function __construct($name, $description, $subscribe_policy, $has_member) {
+	function __construct($mailman, $name, $description, $subscribe_policy, $members) {
+		$this->mailman = $mailman;
 		$this->name = $name;
 		$this->description = $description;
 		$this->subscribe_policy = $subscribe_policy;
-		$this->has_member = $has_member;
+		$this->members = $members;
 	}
 
 	function addMember($member) {
-		global $user;
-		exec("newgrp list <<< \"" . MAILMAN_BIN_PATH . "add_members --welcome-msg=n --admin-notify=n --regular-members-file=- " . $this->getName() . " <<< " . $member . "\"");
-		if ($member == $user->getMail()) {
-			$this->has_member = true;
+		$this->mailman->addListMember($this->getName(), $member);
+		if (!in_array($member, $this->members)) {
+			$this->members[] = $member;
 		}
 	}
 
 	function removeMember($member) {
-		global $user;
-		exec("newgrp list <<< \"" . MAILMAN_BIN_PATH . "remove_members --nouserack --noadminack --file=- " . $this->getName() . " <<< " . $member . "\"");
-		if ($member == $user->getMail()) {
-			$this->has_member = false;
+		$this->mailman->removeListMember($this->getName(), $member);
+		if (in_array($member, $this->members)) {
+			unset($this->members[array_search($member, $this->members)]);
 		}
 	}
 
@@ -42,8 +42,12 @@ class Mailinglist
 		return $this->subscribe_policy;
 	}
 
-	function getHasMember() {
-		return $this->has_member;
+	function hasMember() {
+		return count($this->members) > 0;
+	}
+
+	function getMembers() {
+		return $this->members;
 	}
 
 }

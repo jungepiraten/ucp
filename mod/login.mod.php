@@ -1,16 +1,13 @@
 <?php
 
-class login
-{
-
+class login {
 	public function main() {
-		global $smarty, $config, $user;
+		global $smarty, $config, $user, $userdb;
 		ob_start();
 		if (!isset($_POST["user"])) {
 			$smarty->display("login.tpl");
 		} else {
-			if ($dn = LDAPUserManagement::authenticate($_POST["user"], $_POST["pass"])) {
-				$user = new LDAPUser($_POST["user"], $dn);
+			if (($user = $userdb->authenticate($_POST["user"], $_POST["pass"])) instanceof User) {
 				$_SESSION["authenticated"] = true;
 				header("refresh:0; url=index.php");
 			} else {

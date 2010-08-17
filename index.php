@@ -4,17 +4,18 @@
 require_once(dirname(__FILE__) . "/config.inc.php");
 require_once(dirname(__FILE__) . "/functions.inc.php");
 
-require_once(dirname(__FILE__) . "/class/LDAPUser.class.php");
-require_once(dirname(__FILE__) . "/class/LDAPUserManagement.class.php");
+require_once(dirname(__FILE__) . "/class/User.class.php");
+require_once(dirname(__FILE__) . "/class/UserDatabase.class.php");
 
 require_once("/usr/share/php/Smarty/Smarty.class.php");
 
 session_start();
 
 // Establish the LDAP connection and set some options
-$ldapconn = ldap_connect($config["ldap"]["server"]);
-ldap_set_option($ldapconn, LDAP_OPT_PROTOCOL_VERSION, 3);
-ldap_set_option($ldapconn, LDAP_OPT_REFERRALS, 0);
+$userdb = new UserDatabase(
+		$config["ldap"]["server"], $config["ldap"]["rdn"], $config["ldap"]["pass"], $config["ldap"]["base_dn"],
+		$config["mysql"]["server"], $config["mysql"]["user"], $config["ldap"]["pass"], $config["mysql"]["db"] );
+$userdb->open();
 
 // Create the smarty object (templating engine)
 $smarty = new Smarty();
@@ -24,7 +25,7 @@ $smarty->compile_dir = "data/templates_c";
 // If the user is authenticated, the user object is serialized and saved inside a session variable.
 // Therefore, it has to be unserialized at this point.
 if ($_SESSION["authenticated"]) {
-	$user = unserialize($_SESSION["user"]);
+	$user = $userdb->getUser($_SESSION["user"]);
 }
 
 // If a module name has been specified by a GET variable, it is made the current module and saved inside a session variable.
@@ -36,10 +37,24 @@ if (isset($_GET["module"])) {
 	$module = $_SESSION["module"];
 }
 
+function maySeeModule($module, $authenticated) {
+	global $config;
+	if (!is_array($config["modules"][$module])) {
+		return false;
+	}
+	if ($config["modules"][$module]["force_authenticated"] === true && !$authenticated) {
+		return false;
+	}
+	if ($config["modules"][$module]["force_notauthenticated"] === true && $authenticated) {
+		return false;
+	}
+	return true;
+}
+
 // Check whether the given module name is a valid existing module. In addition, check whether the module can be executed with the user's current state of authentication. (Some modules can only be executed by authenticated users, vice versa)
-if (!is_array($config["modules"][$module]) || $config["modules"][$module]["force_authenticated"] && !$_SESSION["authenticated"] || $config["modules"][$module]["force_notauthenticated"] && $_SESSION["authenticated"]) {
+if (!maySeeModule($module, $user instanceof User)) {
 	// If the specified module cannot be executed, execute the default module.
-	if ($_SESSION["authenticated"]) {
+	if ($user instanceof User) {
 		$module = "home";
 	} else {
 		$module = "login";
@@ -52,14 +67,15 @@ $_module = new $module;
 $_content = $_module->main();
 
 // Serialize the user object and save it to a session variable.
-if ($_SESSION["authenticated"]) {
-	$_SESSION["user"] = serialize($user);
+if ($user instanceof User) {
+	$_SESSION["authenticated"] = true;
+	$_SESSION["user"] = $user->getUid();
 }
 
 // Generate the navigation
 $_navigation = array();
 foreach ($config["modules"] as $key => $value) {
-	if (!($value["hide_navigation"]) && !($value["force_authenticated"] && !$_SESSION["authenticated"] || $value["force_notauthenticated"] && $_SESSION["authenticated"]) && !($value["force_verified"] && !$user->isVerified())) {
+	if (!($value["hide_navigation"]) && maySeeModule($key, $user instanceof User)) {
 		$_navigation[$key] = $value["title"];
 	}
 }
@@ -74,6 +90,6 @@ $smarty->assign("content", $_content);
 $smarty->display("main.tpl");
 
 // Close the LDAP connection
-ldap_close($ldapconn);
+$userdb->close();
 
 ?>

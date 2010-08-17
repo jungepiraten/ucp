@@ -3,7 +3,7 @@
 class verify
 {
 	public function main() {
-		global $config, $user;
+		global $config, $user, $userdb;
 		ob_start();
 
 		$uid = $_GET["u"];
@@ -13,14 +13,11 @@ class verify
 
 		if (time() > $timestamp + $config["mail"]["verification_limit"]) {
 			echo "Dieser Best&auml;tigungslink ist leider abgelaufen. Bitte lassen Sie sich die Best&auml;tigungsmail erneut senden.";
-		} else if (LDAPUserManagement::isVerified(base64_decode($uid))) {
+		} else if ($userdb->isVerified(base64_decode($uid), base64_decode($mail))) {
 			echo "Dieser Account wurde bereits verifiziert.";
 		} else if ($hash == md5($config["misc"]["secret"] . " " . $timestamp . " " . $uid . " " . $mail)) {
-			if (LDAPUserManagement::verifyMailAddress(base64_decode($uid), base64_decode($mail))) {
+			if ($userdb->verifyMailAddress(base64_decode($uid), base64_decode($mail))) {
 				echo "Die E-Mail Adresse wurde erfolgreich verifiziert.";
-				if ($_SESSION["authenticated"]) {
-					$user->readFromLdap();
-				}
 			} else {
 				echo "Die E-Mail Adresse konnte nicht verifiziert werden. M&ouml;glicherweise wurde diese nach Versenden der Best&auml;tigungsmail ge&auml;ndert. Bitte lassen Sie sich die Best&auml;tigungsmail erneut senden.";
 			}

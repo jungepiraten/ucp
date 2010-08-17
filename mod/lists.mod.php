@@ -11,7 +11,7 @@ class lists
 
 		ob_start();
 
-		$mailman = new Mailman();
+		$mailman = new Mailman($user);
 
 		if (isset($_POST["submit"])) {
 			foreach ($_POST["old"] as $key => $value) {
@@ -28,7 +28,7 @@ class lists
 
 		$lists = array();
 		foreach ($mailman->getLists() as $list) {
-			$lists[] = array($list->getName(), $list->getDescription(), $list->getHasMember());
+			$lists[] = array($list->getName(), $list->getDescription(), $list->hasMember());
 		}
 		$smarty->assign("lists", $lists);
 		$smarty->display("lists.tpl");

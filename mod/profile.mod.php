@@ -28,24 +28,24 @@ class profile
 	}
 
 	private function changeMail() {
-		global $smarty, $user;
+		global $smarty, $user, $userdb;
 
 		ob_start();
 
 		$smarty->assign("mail", $user->getMail());
 		if (isset($_POST["mail"])) {
-			if (!LDAPUserManagement::isValidMailAddress($_POST["mail"])) {
+			if (!$userdb->isValidMailAddress($_POST["mail"])) {
 				echo "<p>Die angegebene E-Mail Adresse ist ung&uuml;ltig</p>";
 				$smarty->display("change_mail.tpl");
 			} else if ($_POST["mail"] == $user->getMail()) {
 				echo $this->overview();
-			} else if (LDAPUserManagement::mailUsed($_POST["mail"])) {
+			} else if ($userdb->mailUsed($_POST["mail"])) {
 				echo "<p>Die angegebene E-Mail Adresse wird bereits bei einem anderen Account verwendet.</p>";
 				$smarty->display("change_mail.tpl");
 			} else {
 				echo "<p>Die E-Mail Adresse wurde erfolgreich ge&auml;ndert.</p>";
 				$user->changeMail($_POST["mail"]);
-				$user->writeToLdap();
+				$user->save();
 				echo $this->overview();
 			}
 		} else {
@@ -58,7 +58,7 @@ class profile
 	}
 
 	private function changePassword() {
-		global $smarty, $user;
+		global $smarty, $user, $userdb;
 
 		ob_start();
 
@@ -68,7 +68,7 @@ class profile
 			} else if (!isset($_POST["old_pass"])) {
 				echo "<p>Sie haben das alte Passwort nicht angegeben.</p>";
 				$smarty->display("change_password.tpl");
-			} else if (!LDAPUserManagement::authenticate($user->getUid(), $_POST["old_pass"])) {
+			} else if (!$userdb->authenticate($user->getUid(), $_POST["old_pass"])) {
 				echo "<p>Das alte Passwort ist falsch.</p>";
 				$smarty->display("change_password.tpl");
 			} else if ($_POST["pass"] != $_POST["pass_repeat"]) {
@@ -80,7 +80,7 @@ class profile
 			} else {
 				echo "<p>Das Passwort wurde erfolgreich ge&auml;ndert.";
 				$user->changePassword($_POST["pass"]);
-				$user->writeToLdap();
+				$user->save();
 				echo $this->overview();
 			}
 		} else {
@@ -103,7 +103,7 @@ class profile
 			$formatted_email = base64_encode($user->getMail());
 			$timestamp = time();
 			$hash = md5($config["misc"]["secret"] . " " . $timestamp . " " . $formatted_uid . " " . $formatted_email);
-			$verification_link = $config[site][url] . "/index.php?module=verify&u=" . $formatted_uid . "&m=" . $formatted_email . "&h=" . $hash . "&t=" . $timestamp;
+			$verification_link = $config['site']['url'] . "/index.php?module=verify&u=" . $formatted_uid . "&m=" . $formatted_email . "&h=" . $hash . "&t=" . $timestamp;
 			$text = <<<verification_mail
 Ahoi {$user->getUid()},
 
@@ -119,7 +119,7 @@ einfach :o)
 Klarmachen zum Ändern
 verification_mail;
 			if ($config["mail"]["use_smtp"]) {
-
+				// TODO *hust*
 			} else {
 				mail($user->getMail(), "[Junge Piraten] =?UTF-8?Q?Best=C3=A4tigung?= deiner E-Mail Adresse", $text, "From: " . $config["mail"]["from"] . "\r\n" . "Content-Type: text/plain; Charset=UTF-8");
 				echo "<p>Die Best&auml;tigungsmail wurde versandt.</p>";

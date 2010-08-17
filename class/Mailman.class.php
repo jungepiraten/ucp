@@ -1,28 +1,39 @@
 <?php
 
-class Mailman
-{
+class Mailman {
 	private $lists = array();
 
-	function __construct() {
-		$this->loadAttributes();
+	private $user;
+
+	function __construct($user) {
+		$this->user = $user;
+		$this->loadLists();
 	}
 
-	function loadAttributes() {
-		global $config, $user;
+	function loadLists() {
+		global $config;
 
-		$this->setLists(array());
-		exec("newgrp list <<< \"" . $config[site][path] . "/lib/ucp_mailman.py " . $user->getMail() . "\"", $lists);
+		$this->lists = array();
+		exec('newgrp list <<< "' . $config['site']['path'] . '/lib/ucp_mailman.py ' . implode(" ", $this->user->getMails()) . '"', $lists);
 		foreach($lists as $value) {
-			$listinfo = explode(",", $value);
-			if ($listinfo[2] == 1) { // Oeffentliche Liste?
-				$this->lists[] = new Mailinglist($listinfo[0], $listinfo[1], $listinfo[2], $listinfo[3]);
+			list($listname, $listdesc, $policy, $members) = explode(",", $value);
+			if ($policy == 1) { // Oeffentliche Liste?
+				if (trim($members) == "") {
+					$members = array();
+				} else {
+					$members = explode(" ", $members);
+				}
+				$this->addList(new Mailinglist($this, $listname, $listdesc, $policy, $members));
 			}
 		}
 	}
 
 	function setLists($lists) {
 		$this->lists = $lists;
+	}
+
+	function addList($list) {
+		$this->lists[] = $list;
 	}
 
 	function getLists() {
@@ -35,10 +46,6 @@ class Mailman
 		}
 	}
 
-	function addList($list) {
-		$this->lists[] = $list;
-	}
-
 	function hasList($list) {
 		foreach ($this->getLists() as $value) {
 			if ($value == $list) {
@@ -46,6 +53,14 @@ class Mailman
 			}
 		}
 		return false;
+	}
+
+	function addListMember($list, $member) {
+		exec('newgrp list <<< "' . MAILMAN_BIN_PATH . 'add_members --welcome-msg=n --admin-notify=n --regular-members-file=- ' . $list . ' <<< ' . $member . '"');
+	}
+	
+	function removeListMember($list, $member) {
+		exec('newgrp list <<< "' . MAILMAN_BIN_PATH . 'remove_members --nouserack --noadminack --file=- ' . $list . ' <<< ' . $member . '"');
 	}
 }
 

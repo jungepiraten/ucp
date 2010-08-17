@@ -11,6 +11,7 @@ class register
 	}
 
 	private function performRegistration() {
+		global $userdb;
 		$errors = array();
 		if (empty($_POST["user"])) {
 			$errors[] = "Es wurde kein Nutzername angegeben.";
@@ -22,7 +23,7 @@ class register
 				$errors[] = "Der Nutzername darf nur Buchstaben (A-Z), Zahlen (0-9), Unterstriche und Punkte enthalten.";
 			}
 			if (count($errors) < 1) {
-				if (LDAPUserManagement::userExists($_POST["user"])) {
+				if (UserDatabase::userExists($_POST["user"])) {
 					$errors[] = "Der angegebene Nutzername ist leider schon vergeben.";
 				}
 			}
@@ -30,10 +31,10 @@ class register
 		if (empty($_POST["mail"])) {
 			$errors[] = "Es wurde keine E-Mail Adresse angegeben.";
 		} else {
-			if (!LDAPUserManagement::isValidMailAddress($_POST["mail"])) {
+			if (!$userdb->isValidMailAddress($_POST["mail"])) {
 				$errors[] = "Die angegebene E-Mail Adresse ist ung&uuml;ltig.";
 			} else {
-				if (LDAPUserManagement::mailUsed($_POST["mail"])) {
+				if ($userdb->mailUsed($_POST["mail"])) {
 					$errors[] = "Die angegebene E-Mail Adresse wird bereits bei einem anderen Account verwendet.";
 				}
 			}
@@ -49,7 +50,7 @@ class register
 		if (count($errors) > 0) {
 			$this->displayForm($errors);
 		} else {
-			if (LDAPUserManagement::registerUser($_POST["user"], $_POST["pass"], $_POST["mail"])) {
+			if ($userdb->registerUser($_POST["user"], $_POST["pass"], $_POST["mail"])) {
 				echo "Der Account wurde erstellt. Sie k&ouml;nnen sich nun einloggen.";
 			}
 		}

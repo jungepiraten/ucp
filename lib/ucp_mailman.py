@@ -17,9 +17,9 @@ class UCPMailingList:
     listname = ""
     description = ""
     subscribe_policy = 0
-    has_member = ""
+    members = ""
 
-    def __init__(self, listname, member):
+    def __init__(self, listname):
         try:
             mailman_list_object = MailList.MailList(listname, False)
         except Errors.MMUnknownListError:
@@ -28,26 +28,21 @@ class UCPMailingList:
         self.listname = listname
         self.description = mailman_list_object.description
         self.subscribe_policy = mailman_list_object.subscribe_policy
-        if member in mailman_list_object.members:
-            self.has_member = 1
-        else:
-            self.has_member = 0
+        self.members = set(mailman_list_object.members)
 
 # Liefert eine Liste von UCPMailingLists
-def getLists(member):
+def getLists():
     names = Utils.list_names()
     names.sort()
 
     mailinglists = []
     for n in names:
-        mailinglists.append(UCPMailingList(n, member))
+        mailinglists.append(UCPMailingList(n))
 
     return mailinglists
 
 if __name__ == '__main__':
-    member = ''
-    if len(sys.argv) > 1:
-        member = sys.argv[1]
-    for list in getLists(member):
-        print list.listname + "," + list.description + "," + str(list.subscribe_policy) + "," + str(list.has_member)
+    members = set(sys.argv)
+    for list in getLists():
+        print list.listname + "," + list.description + "," + str(list.subscribe_policy) + "," + str(' '.join(list.members.intersection(members)))
 
