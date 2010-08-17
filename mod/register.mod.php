@@ -23,7 +23,7 @@ class register
 				$errors[] = "Der Nutzername darf nur Buchstaben (A-Z), Zahlen (0-9), Unterstriche und Punkte enthalten.";
 			}
 			if (count($errors) < 1) {
-				if (UserDatabase::userExists($_POST["user"])) {
+				if ($userdb->userExists($_POST["user"])) {
 					$errors[] = "Der angegebene Nutzername ist leider schon vergeben.";
 				}
 			}
