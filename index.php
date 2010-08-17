@@ -14,7 +14,7 @@ session_start();
 // Establish the LDAP connection and set some options
 $userdb = new UserDatabase(
 		$config["ldap"]["server"], $config["ldap"]["rdn"], $config["ldap"]["pass"], $config["ldap"]["base_dn"],
-		$config["mysql"]["server"], $config["mysql"]["user"], $config["ldap"]["pass"], $config["mysql"]["db"] );
+		$config["mysql"]["server"], $config["mysql"]["user"], $config["mysql"]["pass"], $config["mysql"]["db"] );
 $userdb->open();
 
 // Create the smarty object (templating engine)

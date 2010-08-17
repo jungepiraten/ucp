@@ -42,7 +42,6 @@ class UserDatabase {
 		$resource = ldap_search($this->ldapconn, $this->ldapbasedn, "uid=" . ldap_escape($username, true));
 		if ($resource) {
 			$entry = ldap_first_entry($this->ldapconn, $resource);
-			$attrs = ldap_get_attributes($this->ldapconn, $entry);
 			if ($dn = @ldap_get_dn($this->ldapconn, $entry))
 				return $dn;
 		}
