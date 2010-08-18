@@ -1,6 +1,9 @@
-<p>Beachten Sie, dass bei einer &Auml;nderung der E-Mail Adresse eine erneute Verifizierung notwendig ist. Auch werden die Mailinglisten f&uuml;r die alte E-Mail Adresse nicht abbestellt. Sie sollten daher, falsch gew&uuml;nscht, vor &Auml;nderung der E-Mail Adresse die abonnierten Mailinglisten abbestellen.</p>
+<p>Beachten Sie, dass bei einer &Auml;nderung der E-Mail Adresse eine erneute Verifizierung notwendig ist.</p>
 <form action="?do=change_mail" method="post">
+	<input type="hidden" name="oldmail" value="{$mail}" />
 	<b>E-Mail:</b>
 	<input type="text" name="mail" value="{$mail}" />
+	<b>Mailinglisten umziehen?</b>
+	<input type="checkbox" name="movelists" value="1" checked="checked" />
 	<input type="submit" value="&auml;ndern" />
 </form>

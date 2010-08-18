@@ -24,7 +24,7 @@ class User {
 		}
 	}
 
-	public function changeMail($mail) {
+	public function changeMail($oldmail, $mail) {
 		$this->mail = $mail;
 		$this->replace_attrs["mail"] = ldap_escape($mail);
 	}

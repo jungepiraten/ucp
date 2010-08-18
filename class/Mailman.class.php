@@ -1,5 +1,7 @@
 <?php
 
+require_once(dirname(__FILE__) . "/Mailinglist.class.php");
+
 class Mailman {
 	private $lists = array();
 
@@ -36,7 +38,7 @@ class Mailman {
 		$this->lists[] = $list;
 	}
 
-	function getLists() {
+	function &getLists() {
 		return $this->lists;
 	}
 

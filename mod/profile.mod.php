@@ -1,5 +1,7 @@
 <?php
 
+require_once(dirname(__FILE__) . "/../class/Mailman.class.php");
+
 class profile
 {
 
@@ -34,18 +36,32 @@ class profile
 
 		$smarty->assign("mail", $user->getMail());
 		if (isset($_POST["mail"])) {
-			if (!$userdb->isValidMailAddress($_POST["mail"])) {
+			$oldmail = stripslashes($_POST["oldmail"]);
+			$mail = stripslashes($_POST["mail"]);
+			if (!in_array($oldmail, $user->getMails())) {
+				echo "<p>Die Mailadresse wird derzeit nicht benutzt.</p>";
+				$smarty->display("change_mail.tpl");
+			} else if (!$userdb->isValidMailAddress($mail)) {
 				echo "<p>Die angegebene E-Mail Adresse ist ung&uuml;ltig</p>";
 				$smarty->display("change_mail.tpl");
-			} else if ($_POST["mail"] == $user->getMail()) {
+			} else if (in_array($mail, $user->getMails())) {
 				echo $this->overview();
-			} else if ($userdb->mailUsed($_POST["mail"])) {
+			} else if ($userdb->mailUsed($mail)) {
 				echo "<p>Die angegebene E-Mail Adresse wird bereits bei einem anderen Account verwendet.</p>";
 				$smarty->display("change_mail.tpl");
 			} else {
-				echo "<p>Die E-Mail Adresse wurde erfolgreich ge&auml;ndert.</p>";
-				$user->changeMail($_POST["mail"]);
+				if (isset($_POST["movelists"])) {
+					$mailman = new Mailman($user);
+					foreach ($mailman->getLists() as $list) {
+						if ($list->hasMember($oldmail)) {
+							$list->removeMember($oldmail);
+							$list->addMember($mail);
+						}
+					}
+				}
+				$user->changeMail($oldmail, $mail);
 				$user->save();
+				echo "<p>Die E-Mail Adresse wurde erfolgreich ge&auml;ndert.</p>";
 				echo $this->overview();
 			}
 		} else {

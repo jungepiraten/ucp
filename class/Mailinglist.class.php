@@ -16,20 +16,6 @@ class Mailinglist {
 		$this->members = $members;
 	}
 
-	function addMember($member) {
-		$this->mailman->addListMember($this->getName(), $member);
-		if (!in_array($member, $this->members)) {
-			$this->members[] = $member;
-		}
-	}
-
-	function removeMember($member) {
-		$this->mailman->removeListMember($this->getName(), $member);
-		if (in_array($member, $this->members)) {
-			unset($this->members[array_search($member, $this->members)]);
-		}
-	}
-
 	function getName() {
 		return $this->name;
 	}
@@ -42,7 +28,24 @@ class Mailinglist {
 		return $this->subscribe_policy;
 	}
 
-	function hasMember() {
+	function addMember($member) {
+		$this->mailman->addListMember($this->getName(), $member);
+		if (!$this->hasMember($member)) {
+			$this->members[] = $member;
+		}
+	}
+
+	function removeMember($member) {
+		$this->mailman->removeListMember($this->getName(), $member);
+		if ($this->hasMember($member)) {
+			unset($this->members[array_search($member, $this->members)]);
+		}
+	}
+
+	function hasMember($member = null) {
+		if ($member != null) {
+			return in_array($member, $this->members);
+		}
 		return count($this->members) > 0;
 	}
 

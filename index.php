@@ -4,7 +4,6 @@
 require_once(dirname(__FILE__) . "/config.inc.php");
 require_once(dirname(__FILE__) . "/functions.inc.php");
 
-require_once(dirname(__FILE__) . "/class/User.class.php");
 require_once(dirname(__FILE__) . "/class/UserDatabase.class.php");
 
 require_once("/usr/share/php/Smarty/Smarty.class.php");
