@@ -25,6 +25,7 @@ $config = array(
 		"use_smtp" => false,
 		"from" => "no-reply@ucp.example.com",
 		"verification_limit" => 86400 * 7,
+		"lostpw_limit" => 86400 * 1,
 	),
 	"misc" => array(
 		"secret" => "********", // Some secret string

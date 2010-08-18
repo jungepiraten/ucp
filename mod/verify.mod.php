@@ -12,7 +12,7 @@ class verify
 		$timestamp = $_GET["t"];
 
 		if (time() > $timestamp + $config["mail"]["verification_limit"]) {
-			echo "<p>Dieser Best&auml;tigungslink ist leider abgelaufen. Bitte lassen Sie sich die Best&auml;tigungsmail erneut senden.</p>";
+			echo "<p>Dieser Best&auml;tigungslink ist leider abgelaufen. Bitte lass dir die Best&auml;tigungsmail erneut senden.</p>";
 		} else if ($userdb->isVerified(base64_decode($uid), base64_decode($mail))) {
 			echo "<p>Dieser Account wurde bereits verifiziert.</p>";
 		} else if ($hash == md5($config["misc"]["secret"] . " " . $timestamp . " " . $uid . " " . $mail)) {
@@ -28,7 +28,7 @@ class verify
 				echo "<p>Die E-Mail Adresse konnte nicht verifiziert werden. M&ouml;glicherweise wurde diese nach Versenden der Best&auml;tigungsmail ge&auml;ndert. Bitte lassen Sie sich die Best&auml;tigungsmail erneut senden.</p>";
 			}
 		} else {
-			echo "Dieser Best&auml;tigungslink ist ung&uuml;ltig. &Uuml;berpr&uuml;fen Sie, ob Sie den Link korrekt aus der E-Mail &uuml;bertragen haben und lassen Sie sich ggf. die Best&auml;tigungsmail erneut senden.";
+			echo "<p>Dieser Best&auml;tigungslink ist ung&uuml;ltig. &Uuml;berpr&uuml;fen Sie, ob Sie den Link korrekt aus der E-Mail &uuml;bertragen haben und lassen Sie sich ggf. die Best&auml;tigungsmail erneut senden.</p>";
 		}
 
 		$content = ob_get_contents();
