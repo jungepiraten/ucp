@@ -124,6 +124,23 @@ class UserDatabase {
 		return $this->mysqlconn->affected_rows > 0;
 	}
 
+	public function addListVerifyQueue($mail, $list) {
+		$query = "INSERT INTO `listVerifyQueue` (`mail`, `list`) VALUES ('" . $this->mysqlconn->real_escape_string($mail) . "', '" . $this->mysqlconn->real_escape_string($list) . "')";
+		$this->mysqlconn->query($query);
+	}
+
+	public function popListVerifyQueue($mail) {
+		$query = "SELECT `list` FROM `listVerifyQueue` WHERE `mail` = '" . $this->mysqlconn->real_escape_string($mail) . "'";
+		$result = $this->mysqlconn->query($query);
+		$lists = array();
+		while ($row = $result->fetch_assoc()) {
+			$lists[] = $row["list"];
+		}
+		$query = "DELETE FROM `listVerifyQueue` WHERE `mail` = '" . $this->mysqlconn->real_escape_string($mail) . "'";
+		$this->mysqlconn->query($query);
+		return $lists;
+	}
+
 	public function generatePasswordHash($password) {
 		return "{MD5}" . base64_encode(pack("H*", md5($password)));
 	}

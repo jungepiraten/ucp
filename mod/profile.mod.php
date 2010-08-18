@@ -1,7 +1,5 @@
 <?php
 
-require_once(dirname(__FILE__) . "/../class/Mailman.class.php");
-
 class profile
 {
 
@@ -13,11 +11,11 @@ class profile
 		$smarty->assign("user", $user->getUid());
 		if ($user->isVerified()) {
 			$smarty->assign("mail", $user->getMail()
-			. "<br /><a href=\"?do=change_mail\">[&auml;ndern]</a>");
+			. "<br /><a href=\"?do=change_mail&amp;mail=".urlencode($user->getMail())."\">[&auml;ndern]</a>");
 		} else {
 			$smarty->assign("mail", "<i>" . $user->getMail() . "</i> <b>(nicht verifiziert)</b>"
-			. "<br /><a href=\"?do=change_mail\">[&auml;ndern]</a>"
-			. "- <a href=\"?do=verify\">[verifizieren]</a>"
+			. "<br /><a href=\"?do=change_mail&amp;mail=".urlencode($user->getMail())."\">[&auml;ndern]</a>"
+			. "- <a href=\"?do=verify&amp;mail=".urlencode($user->getMail())."\">[verifizieren]</a>"
 			);
 		}
 		$smarty->assign("pass", "********"
@@ -34,10 +32,10 @@ class profile
 
 		ob_start();
 
-		$smarty->assign("mail", $user->getMail());
+		$smarty->assign("mail", stripslashes($_REQUEST["mail"]));
 		if (isset($_POST["mail"])) {
-			$oldmail = stripslashes($_POST["oldmail"]);
-			$mail = stripslashes($_POST["mail"]);
+			$oldmail = stripslashes($_POST["mail"]);
+			$mail = stripslashes($_POST["newmail"]);
 			if (!in_array($oldmail, $user->getMails())) {
 				echo "<p>Die Mailadresse wird derzeit nicht benutzt.</p>";
 				$smarty->display("change_mail.tpl");
@@ -51,12 +49,22 @@ class profile
 				$smarty->display("change_mail.tpl");
 			} else {
 				if (isset($_POST["movelists"])) {
+					$verified = $user->isVerified($mail);
 					$mailman = new Mailman($user);
 					foreach ($mailman->getLists() as $list) {
 						if ($list->hasMember($oldmail)) {
 							$list->removeMember($oldmail);
-							$list->addMember($mail);
+							if ($verified) {
+								$list->addMember($mail);
+							} else {
+								$user->addListVerifyQueue($mail, $list->getName());
+							}
 						}
+					}
+					if ($verified) {
+						echo "<p>Die Mailinglisten wurden auf die neue Mailadresse umgezogen.</p>";
+					} else {
+						echo "<p>Die Mailinglisten werden auf die neue Mailadresse umgezogen, sobald die Adresse <a href=\"?do=verify&amp;mail=".urlencode($mail)."\">verifiziert</a> wurde.</p>";
 					}
 				}
 				$user->changeMail($oldmail, $mail);
@@ -114,9 +122,10 @@ class profile
 
 		ob_start();
 
+		$mail = stripslashes($_REQUEST["mail"]);
 		if (isset($_POST["send"])) {
 			$formatted_uid = base64_encode($user->getUid());
-			$formatted_email = base64_encode($user->getMail());
+			$formatted_email = base64_encode($mail);
 			$timestamp = time();
 			$hash = md5($config["misc"]["secret"] . " " . $timestamp . " " . $formatted_uid . " " . $formatted_email);
 			$verification_link = $config['site']['url'] . "/index.php?module=verify&u=" . $formatted_uid . "&m=" . $formatted_email . "&h=" . $hash . "&t=" . $timestamp;
@@ -142,7 +151,7 @@ verification_mail;
 				echo $this->overview();
 			}
 		} else {
-			$smarty->assign("mail", $user->getMail());
+			$smarty->assign("mail", $mail);
 			$smarty->display("verify_mail.tpl");
 		}
 

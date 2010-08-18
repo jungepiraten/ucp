@@ -12,8 +12,8 @@ class User {
 
 	public function __construct($userdb, $uid, $mail) {
 		$this->userdb = $userdb;
-		$this->setUid($uid);
-		$this->setMail($mail);
+		$this->uid = $uid;
+		$this->mail = $mail;
 	}
 
 	public function save() {
@@ -41,33 +41,33 @@ class User {
 		return $this->dn;
 	}
 
-	public function setUid($uid) {
-		$this->uid = $uid;
-	}
-
 	public function getUid() {
 		return $this->uid;
+	}
+
+	public function addListVerifyQueue($mail, $list) {
+		$this->userdb->addListVerifyQueue($mail, $list);
+	}
+
+	public function popListVerifyQueue($mail) {
+		return $this->userdb->popListVerifyQueue($mail);
 	}
 
 	public function getMails() {
 		return array($this->mail);
 	}
 
-	// TODO mehrere Mailadressen / user
-	public function setMail($mail) {
-		$this->mail = $mail;
+	public function verifyMailAddress($mail) {
+		return $this->userdb->verifyMailAddress($this->getUid(), $mail);
 	}
 
+	// TODO mehrere Mailadressen / user
 	public function getMail() {
 		return $this->mail;
 	}
 
 	public function isVerified() {
 		return $this->userdb->isVerified($this->getUid(), $this->getMail());
-	}
-
-	public function verify() {
-		$this->userdb->verifyMailAddress($this->getUid(), $this->getMail());
 	}
 }
 
