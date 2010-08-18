@@ -60,3 +60,11 @@ table.profile a {
 p {
 	padding-bottom: 8px;
 }
+
+img.fold, img.active {
+	border:0px;
+}
+a.listname {
+	font-weight:bold;
+	text-decoration:none;
+}

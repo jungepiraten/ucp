@@ -10,24 +10,42 @@ class lists
 
 		ob_start();
 
+		$mails = array();
+		foreach ($user->getMails() as $mail) {
+			if ($user->isVerified($mail)) {
+				$mails[] = $mail;
+			}
+		}
+		$smarty->assign("mails", $mails);
+
 		$mailman = new Mailman($user);
 
 		if (isset($_POST["submit"])) {
-			foreach ($_POST["old"] as $key => $value) {
-				if ($value == 0 && $_POST["new"][$key] != 0) {
-					// add user to list
-					$mailman->getList($key)->addMember($user->getMail());
-				}
-				if ($value == 1 && $_POST["new"][$key] != 1) {
-					// remove user from list
-					$mailman->getList($key)->removeMember($user->getMail());
+			foreach ($mails as $mail) {
+				foreach ($_POST["old"][$mail] as $key => $value) {
+					if ($value == 0 && $_POST["new"][$mail][$key] != 0) {
+						// add user to list
+						$mailman->getList($key)->addMember($mail);
+					}
+					if ($value == 1 && $_POST["new"][$mail][$key] != 1) {
+						// remove user from list
+						$mailman->getList($key)->removeMember($mail);
+					}
 				}
 			}
 		}
 
 		$lists = array();
 		foreach ($mailman->getLists() as $list) {
-			$lists[] = array($list->getName(), $list->getDescription(), $list->hasMember());
+			$members = array();
+			$has = false;
+			foreach ($mails as $mail) {
+				if ($list->hasMember($mail)) {
+					$members[] = $mail;
+					$has = true;
+				}
+			}
+			$lists[] = array($list->getName(), $list->getDescription(), $has, $members);
 		}
 		$smarty->assign("lists", $lists);
 		$smarty->display("lists.tpl");
@@ -43,7 +61,7 @@ class lists
 
 		ob_start();
 
-		if (!$user->isVerified($user->getMail())) {
+		if (!$user->isVerified()) {
 			echo "Bevor Sie Ihre Mailinglisten verwalten k&ouml;nnen, muss Ihre E-Mail Adresse durch eine Best&auml;tigungsmail verifiziert werden.";
 		} else {
 			switch($_GET["do"]) {

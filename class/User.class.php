@@ -67,7 +67,15 @@ class User {
 		return $this->userdb->verifyMailAddress($this->getUid(), $mail);
 	}
 
-	public function isVerified($mail) {
+	public function isVerified($mail = null) {
+		if ($mail === null) {
+			foreach ($this->getMails() as $mail) {
+				if ($this->isVerified($mail)) {
+					return true;
+				}
+			}
+			return false;
+		}
 		return $this->userdb->isVerified($this->getUid(), $mail);
 	}
 
