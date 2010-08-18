@@ -5,32 +5,38 @@ class User {
 
 	private $dn = "";
 	private $uid = "";
-	private $mail = "";
+	private $pass = null;
+	private $mails = array();
+
 	private $verified = false;
 
-	private $replace_attrs = array();
-
-	public function __construct($userdb, $uid, $mail) {
+	public function __construct($userdb, $uid, $mails) {
 		$this->userdb = $userdb;
 		$this->uid = $uid;
-		$this->mail = $mail;
+		$this->mails = $mails;
 	}
 
 	public function save() {
-		if (count($this->replace_attrs) > 0) {
-			if (!$this->userdb->modifyUser($this->getUid(), $this->replace_attrs)) {	
-				return false;
-			}
+		if (!$this->userdb->modifyUser($this->getUid(), $this->pass, $this->mails)) {	
+			return false;
 		}
 	}
 
 	public function changeMail($oldmail, $mail) {
-		$this->mail = $mail;
-		$this->replace_attrs["mail"] = ldap_escape($mail);
+		$key = array_search($oldmail, $this->mails);
+		if ($key === false) {
+			$this->mails[] = $mail;
+		} else {
+			$this->mails[$key] = $mail;
+		}
+	}
+
+	public function deleteMail($mail) {
+		unset($this->mails[array_search($mail, $this->mails)]);
 	}
 
 	public function changePassword($password) {
-		$this->replace_attrs["userPassword"] = UserDatabase::generatePasswordHash($password);
+		$this->pass = UserDatabase::generatePasswordHash($password);
 	}
 
 	public function setDn($dn) {
@@ -54,20 +60,20 @@ class User {
 	}
 
 	public function getMails() {
-		return array($this->mail);
+		return $this->mails;
 	}
 
 	public function verifyMailAddress($mail) {
 		return $this->userdb->verifyMailAddress($this->getUid(), $mail);
 	}
 
-	// TODO mehrere Mailadressen / user
-	public function getMail() {
-		return $this->mail;
+	public function isVerified($mail) {
+		return $this->userdb->isVerified($this->getUid(), $mail);
 	}
 
-	public function isVerified() {
-		return $this->userdb->isVerified($this->getUid(), $this->getMail());
+	// TODO mehrere Mailadressen / user
+	public function getMail() {
+		return $this->mails[0];
 	}
 }
 

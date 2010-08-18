@@ -10,8 +10,8 @@
 			<td>{$list[0]}</td>
 			<td>{$list[1]}</td>
 			<td>
-				<input type="checkbox" name="new[{$list[0]}]" value="1" {if $list[2]}checked {/if}/>
 				<input type="hidden" name="old[{$list[0]}]" value="{if $list[2]}1{else}0{/if}" />
+				<input type="checkbox" name="new[{$list[0]}]" value="1" {if $list[2]}checked {/if}/>
 			</td>	
 		<tr>
 	{/foreach}

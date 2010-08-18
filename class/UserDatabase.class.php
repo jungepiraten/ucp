@@ -61,7 +61,8 @@ class UserDatabase {
 			$dn = @ldap_get_dn($this->ldapconn, $entry);
 			if ($dn) {
 				$attrs = ldap_get_attributes($this->ldapconn, $entry);
-                        	return new User($this, $username, $attrs['mail'][0]);
+				unset($attrs['mail']['count']);
+                        	return new User($this, $attrs['uid'][0], $attrs['mail']);
 			}
 		}
 		return false;
@@ -75,7 +76,8 @@ class UserDatabase {
 			if ($dn && @ldap_bind($this->ldapconn, $dn, $password)) {
 				ldap_bind($this->ldapconn, $this->ldapbinddn, $this->ldapbindpw);
 				$attrs = ldap_get_attributes($this->ldapconn, $entry);
-                        	return new User($this, $attrs['uid'][0], $attrs['mail'][0]);
+				unset($attrs['mail']['count']);
+                        	return new User($this, $attrs['uid'][0], $attrs['mail']);
 			}
 		}
 		return false;
@@ -95,7 +97,12 @@ class UserDatabase {
 		}
 	}
 
-	public function modifyUser($uid, $attrs) {
+	public function modifyUser($uid, $pass, $mails) {
+		$attrs = array("mail" => array_values($mails));
+		if ($pass != null) {
+			$attrs["userPassword"] = $pass;
+		}
+
 		$dn = $this->getUserDN($uid);
 		if (!ldap_modify($this->ldapconn, $dn, $attrs)) {
 			return false;

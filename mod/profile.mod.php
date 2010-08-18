@@ -9,15 +9,25 @@ class profile
 		ob_start();
 
 		$smarty->assign("user", $user->getUid());
-		if ($user->isVerified()) {
-			$smarty->assign("mail", $user->getMail()
-			. "<br /><a href=\"?do=change_mail&amp;mail=".urlencode($user->getMail())."\">[&auml;ndern]</a>");
-		} else {
-			$smarty->assign("mail", "<i>" . $user->getMail() . "</i> <b>(nicht verifiziert)</b>"
-			. "<br /><a href=\"?do=change_mail&amp;mail=".urlencode($user->getMail())."\">[&auml;ndern]</a>"
-			. "- <a href=\"?do=verify&amp;mail=".urlencode($user->getMail())."\">[verifizieren]</a>"
-			);
+		$mailtexts = array();
+		$mails = $user->getMails();
+		foreach ($mails as $mail) {
+			if ($user->isVerified($mail)) {
+				$mailtext = $mail . " -"
+				. " <a href=\"?do=change_mail&amp;mail=".urlencode($mail)."\">[&auml;ndern]</a>";
+			} else {
+				$mailtext = "<i>" . $mail . "</i> <b>(nicht verifiziert)</b> -"
+				. " <a href=\"?do=change_mail&amp;mail=".urlencode($mail)."\">[&auml;ndern]</a>"
+				. " <a href=\"?do=verify&amp;mail=".urlencode($mail)."\">[verifizieren]</a>";
+			}
+			if (count($mails) > 1) {
+				$mailtext = $mailtext
+				. " <a href=\"?do=delete_mail&amp;mail=".urlencode($mail)."\">[l&ouml;schen]</a>";
+			}
+			$mailtexts[] = $mailtext;
 		}
+		$mailtexts[] = "<a href=\"?do=change_mail\">[hinzuf&uuml;gen]</a>";
+		$smarty->assign("mail", implode("<br />", $mailtexts));
 		$smarty->assign("pass", "********"
 			. "<br /><a href=\"?do=change_password\">[&auml;ndern]</a>");
 		$smarty->display("profile.tpl");
@@ -33,10 +43,10 @@ class profile
 		ob_start();
 
 		$smarty->assign("mail", stripslashes($_REQUEST["mail"]));
-		if (isset($_POST["mail"])) {
+		if (isset($_POST["act"])) {
 			$oldmail = stripslashes($_POST["mail"]);
 			$mail = stripslashes($_POST["newmail"]);
-			if (!in_array($oldmail, $user->getMails())) {
+			if (!empty($oldmail) && !in_array($oldmail, $user->getMails())) {
 				echo "<p>Die Mailadresse wird derzeit nicht benutzt.</p>";
 				$smarty->display("change_mail.tpl");
 			} else if (!$userdb->isValidMailAddress($mail)) {
@@ -74,6 +84,42 @@ class profile
 			}
 		} else {
 			$smarty->display("change_mail.tpl");
+		}
+
+		$content = ob_get_contents();
+		ob_end_clean();
+		return $content;
+	}
+
+	private function deleteMail() {
+		global $smarty, $user, $userdb;
+
+		ob_start();
+
+		$smarty->assign("mail", stripslashes($_REQUEST["mail"]));
+		if (isset($_POST["act"])) {
+			$mail = stripslashes($_POST["mail"]);
+			$listsoption = stripslashes($_POST["listsoption"]);
+			if (!in_array($mail, $user->getMails())) {
+				echo "<p>Die Mailadresse wird derzeit nicht benutzt.</p>";
+				echo $this->overview();
+			} else {
+				$mailman = new Mailman($user);
+				if ($listsoption == "delete") {
+					$mailman = new Mailman($user);
+					foreach ($mailman->getLists() as $list) {
+						if ($list->hasMember($mail)) {
+							$list->removeMember($mail);
+						}
+					}
+				}
+				$user->deleteMail($mail);
+				$user->save();
+				echo "<p>Die E-Mail Adresse wurde erfolgreich gel&ouml;scht.</p>";
+				echo $this->overview();
+			}
+		} else {
+			$smarty->display("delete_mail.tpl");
 		}
 
 		$content = ob_get_contents();
@@ -146,7 +192,7 @@ verification_mail;
 			if ($config["mail"]["use_smtp"]) {
 				// TODO *hust*
 			} else {
-				mail($user->getMail(), "[Junge Piraten] =?UTF-8?Q?Best=C3=A4tigung?= deiner E-Mail Adresse", $text, "From: " . $config["mail"]["from"] . "\r\n" . "Content-Type: text/plain; Charset=UTF-8");
+				mail($mail, "[Junge Piraten] =?UTF-8?Q?Best=C3=A4tigung?= deiner E-Mail Adresse", $text, "From: " . $config["mail"]["from"] . "\r\n" . "Content-Type: text/plain; Charset=UTF-8");
 				echo "<p>Die Best&auml;tigungsmail wurde versandt.</p>";
 				echo $this->overview();
 			}
@@ -166,6 +212,9 @@ verification_mail;
 		switch ($_GET["do"]) {
 			case "change_mail":
 				$content = $this->changeMail();
+				break;
+			case "delete_mail":
+				$content = $this->deleteMail();
 				break;
 			case "verify":
 				$content = $this->verify();

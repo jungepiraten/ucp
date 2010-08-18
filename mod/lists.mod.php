@@ -43,7 +43,7 @@ class lists
 
 		ob_start();
 
-		if (!$user->isVerified()) {
+		if (!$user->isVerified($user->getMail())) {
 			echo "Bevor Sie Ihre Mailinglisten verwalten k&ouml;nnen, muss Ihre E-Mail Adresse durch eine Best&auml;tigungsmail verifiziert werden.";
 		} else {
 			switch($_GET["do"]) {
