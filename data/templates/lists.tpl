@@ -36,16 +36,16 @@ function fold(id) {
 	</table>
 -->
 	{foreach key=id item=list from=$lists name=mailinglists}
-		<div id="ml{$id}-fold">
-			<a href="javascript:void" onClick="unfold('{$id}');" class="listname">
+		<div id="ml{$id}-fold" style="display:none;">
+			<a href="javascript:" onClick="unfold('{$id}');" class="listname">
 				<img src="data/images/unfold.png" class="fold" />
 				{$list[0]}
 				{if $list[2]}<img src="data/images/active.png" alt="[x]" class="active" />{/if}
 			</a>
 			<span class="listdesc">{$list[1]}</span>
 		</div>
-		<div id="ml{$id}-unfold" style="display:none;">
-			<a href="javascript:void" onClick="fold('{$id}');" class="listname">
+		<div id="ml{$id}-unfold">
+			<a href="javascript:" onClick="fold('{$id}');" class="listname">
 				<img src="data/images/fold.png" class="fold" />
 				{$list[0]}
 				{if $list[2]}<img src="data/images/active.png" alt="[x]" class="active" />{/if}
@@ -60,5 +60,16 @@ function fold(id) {
 			</div>
 		</div>
 	{/foreach}
+{foreach key=id item=list from=$lists name=mailinglists}
+<script type="text/javascript">
+<!--
+{if $list[2]}
+unfold('{$id}');
+{else}
+fold('{$id}');
+{/if}
+-->
+</script>
+{/foreach}
 	<input type="submit" name="submit" value="&Auml;nderungen speichern" />
 </form>

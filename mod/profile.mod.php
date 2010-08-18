@@ -38,7 +38,7 @@ class profile
 	}
 
 	private function changeMail() {
-		global $smarty, $user, $userdb;
+		global $config, $smarty, $user, $userdb;
 
 		ob_start();
 
@@ -46,15 +46,15 @@ class profile
 		if (isset($_POST["act"])) {
 			$oldmail = stripslashes($_POST["mail"]);
 			$mail = stripslashes($_POST["newmail"]);
-			if (!empty($oldmail) && !in_array($oldmail, $user->getMails())) {
+			if (!empty($oldmail) && is_array($user->getMails()) && !in_array($oldmail, $user->getMails())) {
 				echo "<p>Die Mailadresse wird derzeit nicht benutzt.</p>";
 				$smarty->display("change_mail.tpl");
 			} else if (!$userdb->isValidMailAddress($mail)) {
 				echo "<p>Die angegebene E-Mail Adresse ist ung&uuml;ltig</p>";
 				$smarty->display("change_mail.tpl");
-			} else if (in_array($mail, $user->getMails())) {
+			} else if (is_array($user->getMails()) && in_array($mail, $user->getMails())) {
 				echo $this->overview();
-			} else if ($userdb->mailUsed($mail)) {
+			} else if ($config["misc"]["singletonmail"] && $userdb->mailUsed($mail)) {
 				echo "<p>Die angegebene E-Mail Adresse wird bereits bei einem anderen Account verwendet.</p>";
 				$smarty->display("change_mail.tpl");
 			} else {

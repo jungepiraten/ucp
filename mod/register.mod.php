@@ -34,7 +34,7 @@ class register
 			if (!$userdb->isValidMailAddress($_POST["mail"])) {
 				$errors[] = "Die angegebene E-Mail Adresse ist ung&uuml;ltig.";
 			} else {
-				if ($userdb->mailUsed($_POST["mail"])) {
+				if ($config["misc"]["singletonmail"] && $userdb->mailUsed($_POST["mail"])) {
 					$errors[] = "Die angegebene E-Mail Adresse wird bereits bei einem anderen Account verwendet.";
 				}
 			}
