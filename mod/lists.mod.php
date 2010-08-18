@@ -20,17 +20,18 @@ class lists
 
 		$mailman = new Mailman($user);
 
-		if (isset($_POST["submit"])) {
-			foreach ($mails as $mail) {
-				foreach ($_POST["old"][$mail] as $key => $value) {
-					if ($value == 0 && $_POST["new"][$mail][$key] != 0) {
-						// add user to list
-						$mailman->getList($key)->addMember($mail);
+		if (isset($_POST["save"])) {
+			foreach ($mailman->getLists() as $list) {
+				$mail = stripslashes($_POST["mail"][$list->getName()]);
+				if ( (empty($mail) && $list->hasMember() )
+				  || (!empty($mail) && !$list->hasMember($mail) ) ) {
+var_dump($list->getName());
+					foreach ($list->getMembers() as $member) {
+						$list->removeMember($member);
 					}
-					if ($value == 1 && $_POST["new"][$mail][$key] != 1) {
-						// remove user from list
-						$mailman->getList($key)->removeMember($mail);
-					}
+				}
+				if (!empty($mail) && !$list->hasMember($mail)) {
+					$list->addMember($mail);
 				}
 			}
 		}
@@ -48,6 +49,7 @@ class lists
 			$lists[] = array($list->getName(), $list->getDescription(), $has, $members);
 		}
 		$smarty->assign("lists", $lists);
+
 		$smarty->display("lists.tpl");
 
 		$content = ob_get_contents();

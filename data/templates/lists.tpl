@@ -16,7 +16,6 @@ function fold(id) {
 </script>
 {/literal}
 <form action="{$PHP_SELF}" method="post">
-<!--
 	<table class="mailinglists" border="0" cellspacing="0" cellpadding="5">
 		<tr>
 			<th>Liste</th>
@@ -28,13 +27,19 @@ function fold(id) {
 			<td>{$list[0]}</td>
 			<td>{$list[1]}</td>
 			<td>
-				<input type="hidden" name="old[{$list[0]}]" value="{if $list[2]}1{else}0{/if}" />
-				<input type="checkbox" name="new[{$list[0]}]" value="1" {if $list[2]}checked {/if}/>
+				<!-- <input type="checkbox" name="new[{$list[0]}]" value="1" {if $list[2]}checked {/if}/> -->
+				<select name="mail[{$list[0]}]">
+					<option value=""></option>
+					{foreach from=$mails item=mail}
+						<option{if in_array($mail,$list[3])} selected="selected"{/if}>{$mail}</option>
+					{/foreach}
+				</select>
 			</td>	
 		<tr>
 	{/foreach}
 	</table>
--->
+
+<!--
 	{foreach key=id item=list from=$lists name=mailinglists}
 		<div id="ml{$id}-fold" style="display:none;">
 			<a href="javascript:" onClick="unfold('{$id}');" class="listname">
@@ -62,14 +67,13 @@ function fold(id) {
 	{/foreach}
 {foreach key=id item=list from=$lists name=mailinglists}
 <script type="text/javascript">
-<!--
 {if $list[2]}
 unfold('{$id}');
 {else}
 fold('{$id}');
 {/if}
--->
 </script>
 {/foreach}
-	<input type="submit" name="submit" value="&Auml;nderungen speichern" />
+-->
+	<input type="submit" name="save" value="&Auml;nderungen speichern" />
 </form>
