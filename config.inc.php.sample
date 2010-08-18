@@ -36,6 +36,10 @@ $config = array(
 			"title" => "Login",
 			"force_notauthenticated" => true,
 		),
+		"lostpw" => array(
+			"title" => "Passwort vergessen",
+			"force_notauthenticated" => true,
+		),
 		"register" => array(
 			"title" => "Registrieren",
 			"force_notauthenticated" => true,
