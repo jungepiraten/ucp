@@ -78,7 +78,7 @@ verification_mail;
 				if ($config["mail"]["use_smtp"]) {
 					// TODO *hust*
 				} else {
-					mail($mail, "[Junge Piraten] Passwort vergessen?", $text, "From: " . $config["mail"]["from"] . "\r\n" . "Content-Type: text/plain; Charset=UTF-8");
+					mail($mail, "[Junge Piraten] Passwort vergessen?", $text, "From: " . $config["mail"]["from"] . "\n" . "Content-Type: text/plain; Charset=UTF-8");
 					echo "<p>Der Hilfelink wurde versandt.</p>";
 				}
 			}

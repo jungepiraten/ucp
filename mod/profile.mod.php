@@ -192,7 +192,7 @@ verification_mail;
 			if ($config["mail"]["use_smtp"]) {
 				// TODO *hust*
 			} else {
-				mail($mail, "[Junge Piraten] =?UTF-8?Q?Best=C3=A4tigung?= deiner E-Mail Adresse", $text, "From: " . $config["mail"]["from"] . "\r\n" . "Content-Type: text/plain; Charset=UTF-8");
+				mail($mail, "[Junge Piraten] =?UTF-8?Q?Best=C3=A4tigung?= deiner E-Mail Adresse", $text, "From: " . $config["mail"]["from"] . "\n" . "Content-Type: text/plain; Charset=UTF-8");
 				echo "<p>Die Best&auml;tigungsmail wurde versandt.</p>";
 				echo $this->overview();
 			}
