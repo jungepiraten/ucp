@@ -64,7 +64,7 @@ var_dump($list->getName());
 		ob_start();
 
 		if (!$user->isVerified()) {
-			echo "Bevor Sie Ihre Mailinglisten verwalten k&ouml;nnen, muss Ihre E-Mail Adresse durch eine Best&auml;tigungsmail verifiziert werden.";
+			echo "Bevor du deine Mailinglisten verwalten kannst, muss mindestens eine E-Mail Adresse durch eine Best&auml;tigungsmail verifiziert werden.";
 		} else {
 			switch($_GET["do"]) {
 				case "overview":

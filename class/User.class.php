@@ -17,13 +17,13 @@ class User {
 	}
 
 	public function save() {
-		if (!$this->userdb->modifyUser($this->getUid(), $this->pass, $this->mails)) {	
+		if (!$this->userdb->modifyUser($this->getUid(), $this->pass, $this->getMails())) {	
 			return false;
 		}
 	}
 
 	public function changeMail($oldmail, $mail) {
-		$key = array_search($oldmail, $this->mails);
+		$key = array_search($oldmail, $this->getMails());
 		if ($key === false) {
 			$this->mails[] = $mail;
 		} else {
@@ -32,7 +32,7 @@ class User {
 	}
 
 	public function deleteMail($mail) {
-		unset($this->mails[array_search($mail, $this->mails)]);
+		unset($this->mails[array_search($mail, $this->getMails())]);
 	}
 
 	public function changePassword($password) {
@@ -59,8 +59,12 @@ class User {
 		return $this->userdb->popListVerifyQueue($mail);
 	}
 
+	public function hasMail() {
+		return count($this->getMails()) > 0;
+	}
+
 	public function getMails() {
-		return $this->mails;
+		return is_array($this->mails) ? $this->mails : array();
 	}
 
 	public function verifyMailAddress($mail) {
@@ -77,11 +81,6 @@ class User {
 			return false;
 		}
 		return $this->userdb->isVerified($this->getUid(), $mail);
-	}
-
-	// TODO mehrere Mailadressen / user
-	public function getMail() {
-		return $this->mails[0];
 	}
 }
 
