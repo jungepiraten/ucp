@@ -1,14 +1,14 @@
-<table class="profile" cellpadding="8" cellspacing="0" border="0">
+<table class="profile">
 	<tr>
-		<td style="vertical-align: top;"><b>User:</b></td>
+		<th>User:</th>
 		<td>{$user}</td>
 	</tr>
 	<tr>
-		<td style="vertical-align: top;"><b>E-Mail:</b></td>
+		<th>E-Mail:</th>
 		<td>{$mail}</td>
 	</tr>
 	<tr>
-		<td style="vertical-align: top;"><b>Passwort:</b></td>
+		<th>Passwort:</th>
 		<td>{$pass}</td>
 	</tr>
 </table>

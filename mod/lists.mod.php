@@ -25,7 +25,6 @@ class lists
 				$mail = stripslashes($_POST["mail"][$list->getName()]);
 				if ( (empty($mail) && $list->hasMember() )
 				  || (!empty($mail) && !$list->hasMember($mail) ) ) {
-var_dump($list->getName());
 					foreach ($list->getMembers() as $member) {
 						$list->removeMember($member);
 					}

@@ -1,18 +1,18 @@
-<?php /* Smarty version 2.6.26, created on 2010-05-15 19:00:48
+<?php /* Smarty version 2.6.20, created on 2010-08-30 20:11:11
          compiled from profile.tpl */ ?>
-<table class="profile" cellpadding="8" cellspacing="0" border="0">
+<table class="profile">
 	<tr>
-		<td style="vertical-align: top;"><b>User:</b></td>
+		<th>User:</th>
 		<td><?php echo $this->_tpl_vars['user']; ?>
 </td>
 	</tr>
 	<tr>
-		<td style="vertical-align: top;"><b>E-Mail:</b></td>
+		<th>E-Mail:</th>
 		<td><?php echo $this->_tpl_vars['mail']; ?>
 </td>
 	</tr>
 	<tr>
-		<td style="vertical-align: top;"><b>Passwort:</b></td>
+		<th>Passwort:</th>
 		<td><?php echo $this->_tpl_vars['pass']; ?>
 </td>
 	</tr>
