@@ -55,12 +55,12 @@ table.profile a {
 	font-size: 0.8em;
 }
 
-form.change_mail table, form.change_password table, form.delete_mail table,
+form.add_mail table, form.change_password table, form.delete_mail table,
  form.login table, form.lostpw table, form.register table {
 	background-color: #eeeeee;
 }
 
-form.change_mail table th, form.change_password table th, form.delete_mail table th,
+form.add_mail table th, form.change_password table th, form.delete_mail table th,
  form.login table th, form.lostpw table th, form.register table th, table.profile th {
 	font-size:1.2em;
 	vertical-align:top;
@@ -80,8 +80,8 @@ form.lists table tfoot tr {
 	font-size:1.2em;
 	border-top:2px solid black;
 }
-form.lists table tr * {
-	padding:0.1em 0.1em;
+form.lists table td {
+	padding:0.1em;
 }
 form.lists table tr.odd {
 	background-color:#cccccc;

@@ -22,13 +22,8 @@ class User {
 		}
 	}
 
-	public function changeMail($oldmail, $mail) {
-		$key = array_search($oldmail, $this->getMails());
-		if ($key === false) {
-			$this->mails[] = $mail;
-		} else {
-			$this->mails[$key] = $mail;
-		}
+	public function addMail($mail) {
+		$this->mails[] = $mail;
 	}
 
 	public function deleteMail($mail) {

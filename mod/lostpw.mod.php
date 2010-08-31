@@ -62,7 +62,7 @@ class lostpw {
 				$timestamp = time();
 				$hash = md5($config["misc"]["secret"] . " " . $timestamp . " " . $formatted_uid);
 				$lostpw_link = $config['site']['url'] . "/index.php?module=lostpw&u=" . $formatted_uid . "&h=" . $hash . "&t=" . $timestamp;
-				$text = <<<verification_mail
+				$text = <<<lostpw_mail
 Ahoi {$user->getUid()},
 
 jemand hat die Passwort-Vergessen-Funktion des User-Control-Panels
@@ -74,13 +74,9 @@ Falls du kein neues Passwort angefordert hast, ignoriere dies E-Mail
 einfach :o)
 
 Klarmachen zum Ändern
-verification_mail;
-				if ($config["mail"]["use_smtp"]) {
-					// TODO *hust*
-				} else {
-					mail($mail, "[Junge Piraten] Passwort vergessen?", $text, "From: " . $config["mail"]["from"] . "\n" . "Content-Type: text/plain; Charset=UTF-8");
-					echo "<p>Der Hilfelink wurde versandt.</p>";
-				}
+lostpw_mail;
+				mail($mail, "[Junge Piraten] Passwort vergessen?", $text, "From: " . $config["mail"]["from"] . "\n" . "Content-Type: text/plain; Charset=UTF-8");
+				echo "<p>Der Hilfelink wurde versandt.</p>";
 			}
 		}
 		$content = ob_get_contents();

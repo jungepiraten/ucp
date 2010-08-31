@@ -9,27 +9,24 @@ class profile
 		ob_start();
 
 		$smarty->assign("user", $user->getUid());
-		$mailtexts = array();
-		$mails = $user->getMails();
-		foreach ($mails as $mail) {
+		$mailadresses = $user->getMails();
+		$mails = array();
+		foreach ($mailadresses as $mail) {
+			$mails[] = array($mail, $user->isVerified($mail));
+/*
 			if ($user->isVerified($mail)) {
-				$mailtext = $mail . " -"
-				. " <a href=\"?do=change_mail&amp;mail=".urlencode($mail)."\">[&auml;ndern]</a>";
+				$mailtext = $mail;
 			} else {
-				$mailtext = "<i>" . $mail . "</i> <b>(nicht verifiziert)</b> -"
-				. " <a href=\"?do=change_mail&amp;mail=".urlencode($mail)."\">[&auml;ndern]</a>"
+				$mailtext = "<i>" . $mail . "</i> <b>(nicht verifiziert)</b>"
 				. " <a href=\"?do=verify&amp;mail=".urlencode($mail)."\">[verifizieren]</a>";
 			}
 			if (count($mails) > 1) {
 				$mailtext = $mailtext
 				. " <a href=\"?do=delete_mail&amp;mail=".urlencode($mail)."\">[l&ouml;schen]</a>";
 			}
-			$mailtexts[] = $mailtext;
+*/
 		}
-		$mailtexts[] = "<a href=\"?do=change_mail\">[hinzuf&uuml;gen]</a>";
-		$smarty->assign("mail", implode("<br />", $mailtexts));
-		$smarty->assign("pass", "********"
-			. "<br /><a href=\"?do=change_password\">[&auml;ndern]</a>");
+		$smarty->assign("mails", $mails);
 		$smarty->display("profile.tpl");
 
 		$content = ob_get_contents();
@@ -37,53 +34,30 @@ class profile
 		return $content;
 	}
 
-	private function changeMail() {
+	private function addMail() {
 		global $config, $smarty, $user, $userdb;
 
 		ob_start();
 
-		$smarty->assign("mail", stripslashes($_REQUEST["mail"]));
+		$mail = stripslashes($_POST["mail"]);
+		$smarty->assign("mail", $mail);
 		if (isset($_POST["act"])) {
-			$oldmail = stripslashes($_POST["mail"]);
-			$mail = stripslashes($_POST["newmail"]);
-			if (!empty($oldmail) && is_array($user->getMails()) && !in_array($oldmail, $user->getMails())) {
-				echo "<p>Die Mailadresse wird derzeit nicht benutzt.</p>";
-				$smarty->display("change_mail.tpl");
-			} else if (!$userdb->isValidMailAddress($mail)) {
+			if (!$userdb->isValidMailAddress($mail)) {
 				echo "<p>Die angegebene E-Mail Adresse ist ung&uuml;ltig</p>";
-				$smarty->display("change_mail.tpl");
+				$smarty->display("add_mail.tpl");
 			} else if (is_array($user->getMails()) && in_array($mail, $user->getMails())) {
 				echo $this->overview();
 			} else if ($config["misc"]["singletonmail"] && $userdb->mailUsed($mail)) {
 				echo "<p>Die angegebene E-Mail Adresse wird bereits bei einem anderen Account verwendet.</p>";
-				$smarty->display("change_mail.tpl");
+				$smarty->display("add_mail.tpl");
 			} else {
-				if (isset($_POST["movelists"])) {
-					$verified = $user->isVerified($mail);
-					$mailman = new Mailman($user);
-					foreach ($mailman->getLists() as $list) {
-						if ($list->hasMember($oldmail)) {
-							$list->removeMember($oldmail);
-							if ($verified) {
-								$list->addMember($mail);
-							} else {
-								$user->addListVerifyQueue($mail, $list->getName());
-							}
-						}
-					}
-					if ($verified) {
-						echo "<p>Die Mailinglisten wurden auf die neue Mailadresse umgezogen.</p>";
-					} else {
-						echo "<p>Die Mailinglisten werden auf die neue Mailadresse umgezogen, sobald die Adresse <a href=\"?do=verify&amp;mail=".urlencode($mail)."\">verifiziert</a> wurde.</p>";
-					}
-				}
-				$user->changeMail($oldmail, $mail);
+				$user->addMail($mail);
 				$user->save();
-				echo "<p>Die E-Mail Adresse wurde erfolgreich ge&auml;ndert.</p>";
+				echo "<p>Die E-Mail Adresse wurde erfolgreich hinzugef&uuml;gt.</p>";
 				echo $this->overview();
 			}
 		} else {
-			$smarty->display("change_mail.tpl");
+			$smarty->display("add_mail.tpl");
 		}
 
 		$content = ob_get_contents();
@@ -97,12 +71,20 @@ class profile
 		ob_start();
 
 		$smarty->assign("mail", stripslashes($_REQUEST["mail"]));
+		$smarty->assign("mails", $user->getMails());
 		if (isset($_POST["act"])) {
 			$mail = stripslashes($_POST["mail"]);
 			$listsoption = stripslashes($_POST["listsoption"]);
+			$movemail = stripslashes($_REQUEST["movemail"]);
 			if (!in_array($mail, $user->getMails())) {
 				echo "<p>Die Mailadresse wird derzeit nicht benutzt.</p>";
 				echo $this->overview();
+			} else if ($listsoption == "move" && !$user->isVerified($movemail)) {
+				echo "<p>Kann nicht zu dieser Mailadress verschieben: Sie ist nicht verifiziert.</p>";
+				$smarty->display("delete_mail.html.tpl");
+			} else if ($listsoption == "move" && $mail == $movemail) {
+				echo "<p>Witzbold ;)</p>";
+				$smarty->display("delete_mail.html.tpl");
 			} else {
 				$mailman = new Mailman($user);
 				if ($listsoption == "delete") {
@@ -110,6 +92,15 @@ class profile
 					foreach ($mailman->getLists() as $list) {
 						if ($list->hasMember($mail)) {
 							$list->removeMember($mail);
+						}
+					}
+				}
+				if ($listsoption == "move") {
+					$mailman = new Mailman($user);
+					foreach ($mailman->getLists() as $list) {
+						if ($list->hasMember($mail)) {
+							$list->removeMember($mail);
+							$list->addMember($movemail);
 						}
 					}
 				}
@@ -189,13 +180,9 @@ einfach :o)
 
 Klarmachen zum Ändern
 verification_mail;
-			if ($config["mail"]["use_smtp"]) {
-				// TODO *hust*
-			} else {
-				mail($mail, "[Junge Piraten] =?UTF-8?Q?Best=C3=A4tigung?= deiner E-Mail Adresse", $text, "From: " . $config["mail"]["from"] . "\n" . "Content-Type: text/plain; Charset=UTF-8");
-				echo "<p>Die Best&auml;tigungsmail wurde versandt.</p>";
-				echo $this->overview();
-			}
+			mail($mail, "[Junge Piraten] =?UTF-8?Q?Best=C3=A4tigung?= deiner E-Mail Adresse", $text, "From: " . $config["mail"]["from"] . "\n" . "Content-Type: text/plain; Charset=UTF-8");
+			echo "<p>Die Best&auml;tigungsmail wurde versandt.</p>";
+			echo $this->overview();
 		} else {
 			$smarty->assign("mail", $mail);
 			$smarty->display("verify_mail.tpl");
@@ -210,8 +197,8 @@ verification_mail;
 		global $config, $smarty, $user;
 
 		switch ($_GET["do"]) {
-			case "change_mail":
-				$content = $this->changeMail();
+			case "add_mail":
+				$content = $this->addMail();
 				break;
 			case "delete_mail":
 				$content = $this->deleteMail();
