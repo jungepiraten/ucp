@@ -37,7 +37,7 @@ class lostpw {
 
 			if ($timestamp + $config["mail"]["lostpw_limit"] < time()) {
 				echo "<p>Dieser Passwort-Vergessen-Link ist leider abgelaufen. Bitte lass dir die Best&auml;tigungsmail erneut senden.</p>";
-			} else if (md5($config["misc"]["secret"] . " " . $timestamp . " " . $uid) != $hash) {
+			} else if (hash($config["misc"]["hash"], $config["misc"]["secret"] . " " . $timestamp . " " . $uid) != $hash) {
 				echo "<p>Dieser Hash ist ung&uuml;ltig</p>";
 			} else {
 				$smarty->assign("uid", $uid);
@@ -60,7 +60,7 @@ class lostpw {
 			} else {
 				$formatted_uid = base64_encode($user->getUid());
 				$timestamp = time();
-				$hash = md5($config["misc"]["secret"] . " " . $timestamp . " " . $formatted_uid);
+				$hash = hash($config["misc"]["hash"], $config["misc"]["secret"] . " " . $timestamp . " " . $formatted_uid);
 				$lostpw_link = $config['site']['url'] . "/index.php?module=lostpw&u=" . $formatted_uid . "&h=" . $hash . "&t=" . $timestamp;
 				$text = <<<lostpw_mail
 Ahoi {$user->getUid()},

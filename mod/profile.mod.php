@@ -164,7 +164,7 @@ class profile
 			$formatted_uid = base64_encode($user->getUid());
 			$formatted_email = base64_encode($mail);
 			$timestamp = time();
-			$hash = md5($config["misc"]["secret"] . " " . $timestamp . " " . $formatted_uid . " " . $formatted_email);
+			$hash = hash($config["misc"]["hash"], $config["misc"]["secret"] . " " . $timestamp . " " . $formatted_uid . " " . $formatted_email);
 			$verification_link = $config['site']['url'] . "/index.php?module=verify&u=" . $formatted_uid . "&m=" . $formatted_email . "&h=" . $hash . "&t=" . $timestamp;
 			$text = <<<verification_mail
 Ahoi {$user->getUid()},
@@ -175,7 +175,7 @@ Adresse benutzt.
 Um diese E-Mail Adresse zu bestätigen, klick bitte auf:
 {$verification_link}
 
-Falls du den Account nicht erstellt hast, ignoriere dies E-Mail
+Falls du den Account nicht erstellt hast, ignoriere diese E-Mail
 einfach :o)
 
 Klarmachen zum Ändern

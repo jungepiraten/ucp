@@ -46,14 +46,6 @@ class User {
 		return $this->uid;
 	}
 
-	public function addListVerifyQueue($mail, $list) {
-		$this->userdb->addListVerifyQueue($mail, $list);
-	}
-
-	public function popListVerifyQueue($mail) {
-		return $this->userdb->popListVerifyQueue($mail);
-	}
-
 	public function hasMail() {
 		return count($this->getMails()) > 0;
 	}

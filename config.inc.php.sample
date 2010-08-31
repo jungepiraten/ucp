@@ -28,6 +28,7 @@ $config = array(
 	),
 	"misc" => array(
 		"secret" => "********", // Some secret string
+		"hash" => "sha256",	// Hash used for link-generation <http://www.php.net/hash_algos>
 		"singletonmail" => true, // Forbid multiple use of one mailaddress
 	),
 	"modules" => array(
