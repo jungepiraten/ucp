@@ -5,13 +5,15 @@ class Mailinglist {
 
 	private $name = "";
 	private $description = "";
+	private $archiveurl = "";
 	private $subscribe_policy = 0;
 	private $members = array();
 
-	function __construct($mailman, $name, $description, $subscribe_policy, $members) {
+	function __construct($mailman, $name, $description, $archiveurl, $subscribe_policy, $members) {
 		$this->mailman = $mailman;
 		$this->name = $name;
 		$this->description = $description;
+		$this->archiveurl = $archiveurl;
 		$this->subscribe_policy = $subscribe_policy;
 		$this->members = $members;
 	}
@@ -22,6 +24,10 @@ class Mailinglist {
 
 	function getDescription() {
 		return $this->description;
+	}
+
+	function getArchiveURL() {
+		return $this->archiveurl;
 	}
 
 	function getSubscribePolicy() {

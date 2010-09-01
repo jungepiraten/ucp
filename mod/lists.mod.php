@@ -2,9 +2,7 @@
 
 require_once(dirname(__FILE__) . "/../class/Mailman.class.php");
 
-class lists
-{
-
+class lists {
 	private function overview() {
 		global $config, $user, $smarty;
 
@@ -26,7 +24,9 @@ class lists
 				if ( (empty($mail) && $list->hasMember() )
 				  || (!empty($mail) && !$list->hasMember($mail) ) ) {
 					foreach ($list->getMembers() as $member) {
-						$list->removeMember($member);
+						if ($user->hasMail($member)) {
+							$list->removeMember($member);
+						}
 					}
 				}
 				if (!empty($mail) && !$list->hasMember($mail)) {
@@ -45,7 +45,7 @@ class lists
 					$has = true;
 				}
 			}
-			$lists[] = array($list->getName(), $list->getDescription(), $has, $members);
+			$lists[] = array($list->getName(), $list->getDescription(), $list->getArchiveURL(), $has, $members);
 		}
 		$smarty->assign("lists", $lists);
 

@@ -18,6 +18,7 @@ class UCPMailingList:
     description = ""
     subscribe_policy = 0
     members = ""
+    archive = ""
 
     def __init__(self, listname):
         try:
@@ -29,6 +30,7 @@ class UCPMailingList:
         self.description = mailman_list_object.description
         self.subscribe_policy = mailman_list_object.subscribe_policy
         self.members = set(mailman_list_object.members)
+        self.archive = mailman_list_object.GetBaseArchiveURL()
 
 # Liefert eine Liste von UCPMailingLists
 def getLists():
@@ -44,5 +46,5 @@ def getLists():
 if __name__ == '__main__':
     members = set(sys.argv)
     for list in getLists():
-        print list.listname + "," + list.description + "," + str(list.subscribe_policy) + "," + str(' '.join(list.members.intersection(members)))
+        print list.listname + "," + list.description + "," + list.archive + "," + str(list.subscribe_policy) + "," + str(' '.join(list.members.intersection(members)))
 

@@ -18,14 +18,14 @@ class Mailman {
 		$this->lists = array();
 		exec('newgrp list <<< "' . $config['site']['path'] . '/lib/ucp_mailman.py ' . implode(" ", $this->user->getMails()) . '"', $lists);
 		foreach($lists as $value) {
-			list($listname, $listdesc, $policy, $members) = explode(",", $value);
+			list($listname, $listdesc, $archiveurl, $policy, $members) = explode(",", $value);
 			if ($policy == 1) { // Oeffentliche Liste?
 				if (trim($members) == "") {
 					$members = array();
 				} else {
 					$members = explode(" ", $members);
 				}
-				$this->addList(new Mailinglist($this, $listname, $listdesc, $policy, $members));
+				$this->addList(new Mailinglist($this, $listname, $listdesc, $archiveurl, $policy, $members));
 			}
 		}
 	}
