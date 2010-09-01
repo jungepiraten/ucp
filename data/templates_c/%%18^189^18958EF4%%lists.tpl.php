@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.20, created on 2010-08-30 20:13:41
+<?php /* Smarty version 2.6.20, created on 2010-09-01 12:13:14
          compiled from lists.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('function', 'cycle', 'lists.tpl', 12, false),)), $this); ?>
@@ -41,7 +41,7 @@ if ($this->_foreach['mailinglists']['total'] > 0):
 	</tbody>
 	<tfoot>
 	<tr>
-		<td colspan="3"><input type="submit" name="save" value="&Auml;nderungen speichern" /></td>
+		<td colspan="3"><input class="submit" type="submit" name="save" value="&Auml;nderungen speichern" /></td>
 	</tfoot>
 	</table>
 </form>

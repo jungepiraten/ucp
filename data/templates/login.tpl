@@ -9,7 +9,7 @@
 		<td><input type="password" name="pass" /></td>
 	</tr>
 	<tr>
-		<td colspan="2"><input type="submit" value="einloggen" /></td>
+		<td colspan="2"><input class="submit" type="submit" value="einloggen" /></td>
 	</tr>
 	</table>
 </form>

@@ -65,8 +65,6 @@ $config = array(
 			"title" => "Verifizierung",
 			"hide_navigation" => true,
 		),
-	),
-	"mailinglists" => array(
 	)
 );
 

@@ -13,18 +13,6 @@ class profile
 		$mails = array();
 		foreach ($mailadresses as $mail) {
 			$mails[] = array($mail, $user->isVerified($mail));
-/*
-			if ($user->isVerified($mail)) {
-				$mailtext = $mail;
-			} else {
-				$mailtext = "<i>" . $mail . "</i> <b>(nicht verifiziert)</b>"
-				. " <a href=\"?do=verify&amp;mail=".urlencode($mail)."\">[verifizieren]</a>";
-			}
-			if (count($mails) > 1) {
-				$mailtext = $mailtext
-				. " <a href=\"?do=delete_mail&amp;mail=".urlencode($mail)."\">[l&ouml;schen]</a>";
-			}
-*/
 		}
 		$smarty->assign("mails", $mails);
 		$smarty->display("profile.tpl");
@@ -154,7 +142,7 @@ class profile
 		return $content;
 	}
 
-	private function verify() {
+	private function verify_mail() {
 		global $smarty, $user, $config;
 
 		ob_start();
@@ -203,8 +191,8 @@ verification_mail;
 			case "delete_mail":
 				$content = $this->deleteMail();
 				break;
-			case "verify":
-				$content = $this->verify();
+			case "verify_mail":
+				$content = $this->verify_mail();
 				break;
 			case "change_password":
 				$content = $this->changePassword();

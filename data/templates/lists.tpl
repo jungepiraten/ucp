@@ -25,7 +25,7 @@
 	</tbody>
 	<tfoot>
 	<tr>
-		<td colspan="3"><input type="submit" name="save" value="&Auml;nderungen speichern" /></td>
+		<td colspan="3"><input class="submit" type="submit" name="save" value="&Auml;nderungen speichern" /></td>
 	</tfoot>
 	</table>
 </form>

@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.20, created on 2010-08-31 15:30:13
+<?php /* Smarty version 2.6.20, created on 2010-09-01 08:14:55
          compiled from add_mail.tpl */ ?>
 <form action="?do=add_mail" class="add_mail" method="post">
 	<table>
@@ -8,7 +8,7 @@
 " /><td>
 	</tr>
 	<tr>
-		<td colspan="2"><input type="submit" name="act" value="hinzuf&uuml;gen" /></td>
+		<td colspan="2"><input class="submit" type="submit" name="act" value="hinzuf&uuml;gen" /></td>
 	</tr>
 	</table>
 </form>

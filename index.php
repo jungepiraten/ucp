@@ -22,8 +22,7 @@ $smarty = new Smarty();
 $smarty->template_dir = "data/templates";
 $smarty->compile_dir = "data/templates_c";
 
-// If the user is authenticated, the user object is serialized and saved inside a session variable.
-// Therefore, it has to be unserialized at this point.
+// If we are authenticated, load User-informations from UserDB
 if ($_SESSION["authenticated"]) {
 	$user = $userdb->getUser($_SESSION["user"]);
 }
@@ -66,7 +65,8 @@ include(dirname(__FILE__) . "/mod/" . $module . ".mod.php");
 $_module = new $module;
 $_content = $_module->main();
 
-// Serialize the user object and save it to a session variable.
+// Do not serialize the user, since the User-Object stores a DB-Link,
+// which gets broken during serialization
 if ($user instanceof User) {
 	$_SESSION["authenticated"] = true;
 	$_SESSION["user"] = $user->getUid();
@@ -89,7 +89,7 @@ $smarty->assign("content", $_content);
 // Display the page
 $smarty->display("main.tpl");
 
-// Close the LDAP connection
+// Close the UserDB connection
 $userdb->close();
 
 ?>

@@ -70,7 +70,7 @@ der Jungen Piraten ( https://ucp.junge-piraten.de/ ) für deinen
 Account benutzt. Um ein neues Passwort zu setzen, klicke auf
 {$lostpw_link}
 
-Falls du kein neues Passwort angefordert hast, ignoriere dies E-Mail
+Falls du kein neues Passwort angefordert hast, ignoriere diese E-Mail
 einfach :o)
 
 Klarmachen zum Ändern

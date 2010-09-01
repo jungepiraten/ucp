@@ -12,7 +12,7 @@
 		<td><input type="password" name="pass_repeat" /></td>
 	</tr>
 	<tr>
-		<td colspan="2"><input type="submit" value="&auml;ndern" /></td>
+		<td colspan="2"><input class="submit" type="submit" value="&auml;ndern" /></td>
 	</tr>
 	</table>
 </form>
