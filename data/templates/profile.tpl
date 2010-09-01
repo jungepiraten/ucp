@@ -10,7 +10,7 @@
 				{if $mail[1]}
 					{$mail[0]}
 				{else}
-					<i>{$mail[0]}</i> <a href="?do=verify&amp;mail={$mail[0]|escape:url}">[verifizieren]</a>
+					<i>{$mail[0]}</i> <a href="?do=verify_mail&amp;mail={$mail[0]|escape:url}">[verifizieren]</a>
 				{/if}
 				{if count($mails)>1}
 					<a href="?do=delete_mail&amp;mail={$mail[0]|escape:url}">[l&ouml;schen]</a>

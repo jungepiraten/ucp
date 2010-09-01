@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.20, created on 2010-08-31 15:29:08
+<?php /* Smarty version 2.6.20, created on 2010-09-01 13:01:47
          compiled from profile.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('modifier', 'escape', 'profile.tpl', 13, false),)), $this); ?>
@@ -19,7 +19,7 @@ smarty_core_load_plugins(array('plugins' => array(array('modifier', 'escape', 'p
 
 				<?php else: ?>
 					<i><?php echo $this->_tpl_vars['mail'][0]; ?>
-</i> <a href="?do=verify&amp;mail=<?php echo ((is_array($_tmp=$this->_tpl_vars['mail'][0])) ? $this->_run_mod_handler('escape', true, $_tmp, 'url') : smarty_modifier_escape($_tmp, 'url')); ?>
+</i> <a href="?do=verify_mail&amp;mail=<?php echo ((is_array($_tmp=$this->_tpl_vars['mail'][0])) ? $this->_run_mod_handler('escape', true, $_tmp, 'url') : smarty_modifier_escape($_tmp, 'url')); ?>
 ">[verifizieren]</a>
 				<?php endif; ?>
 				<?php if (count ( $this->_tpl_vars['mails'] ) > 1): ?>

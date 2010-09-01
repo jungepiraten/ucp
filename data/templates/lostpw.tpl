@@ -1,7 +1,5 @@
 <form action="{$PHP_SELF}" class="lostpw" method="post">
-	<input type="hidden" name="u" value="{$uid}" />
-	<input type="hidden" name="h" value="{$hash}" />
-	<input type="hidden" name="t" value="{$timestamp}" />
+	<input type="hidden" name="v" value="{$v}" />
 	<table>
 	<tr>
 		<th>Neues Passwort:</th>

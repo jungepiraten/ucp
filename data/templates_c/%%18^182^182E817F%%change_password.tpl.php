@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.20, created on 2010-08-30 09:27:32
+<?php /* Smarty version 2.6.20, created on 2010-09-01 13:36:25
          compiled from change_password.tpl */ ?>
 <form action="?do=change_password" class="change_password" method="post">
 	<table>
@@ -15,7 +15,7 @@
 		<td><input type="password" name="pass_repeat" /></td>
 	</tr>
 	<tr>
-		<td colspan="2"><input type="submit" value="&auml;ndern" /></td>
+		<td colspan="2"><input class="submit" type="submit" value="&auml;ndern" /></td>
 	</tr>
 	</table>
 </form>

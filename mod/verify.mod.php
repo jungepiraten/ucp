@@ -6,24 +6,20 @@ class verify
 		global $config, $userdb;
 		ob_start();
 
-		$uid = $_GET["u"];
-		$mail = $_GET["m"];
-		$hash = $_GET["h"];
-		$timestamp = $_GET["t"];
+		$h = Hash::getByHash(stripslashes($_GET["v"]));
+		list($uid, $mail) = explode("\0", $h->getData());
 
-		if (time() > $timestamp + $config["mail"]["verification_limit"]) {
-			echo "<p>Dieser Best&auml;tigungslink ist leider abgelaufen. Bitte lass dir die Best&auml;tigungsmail erneut senden.</p>";
-		} else if ($userdb->isVerified(base64_decode($uid), base64_decode($mail))) {
+		if (!$h->isValid($config["mail"]["verification_limit"], $hash)) {
+			echo "<p>Dieser Best&auml;tigungslink ist leider ung&uuml;ltig. Vielleicht ist er abgelaufen?</p>";
+		} else if ($userdb->isVerified($uid, $mail)) {
 			echo "<p>Dieser Account wurde bereits verifiziert.</p>";
-		} else if ($hash == hash($config["misc"]["hash"], $config["misc"]["secret"] . " " . $timestamp . " " . $uid . " " . $mail)) {
-			$user = $userdb->getUser(base64_decode($uid));
-			if ($user->verifyMailAddress(base64_decode($mail))) {
+		} else {
+			$user = $userdb->getUser($uid);
+			if ($user->verifyMailAddress($mail)) {
 				echo "<p>Die E-Mail Adresse wurde erfolgreich verifiziert.</p>";
 			} else {
 				echo "<p>Die E-Mail Adresse konnte nicht verifiziert werden. M&ouml;glicherweise wurde diese nach Versenden der Best&auml;tigungsmail ge&auml;ndert. Bitte lassen Sie sich die Best&auml;tigungsmail erneut senden.</p>";
 			}
-		} else {
-			echo "<p>Dieser Best&auml;tigungslink ist ung&uuml;ltig. &Uuml;berpr&uuml;fen Sie, ob Sie den Link korrekt aus der E-Mail &uuml;bertragen haben und lassen Sie sich ggf. die Best&auml;tigungsmail erneut senden.</p>";
 		}
 
 		$content = ob_get_contents();

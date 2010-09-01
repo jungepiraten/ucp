@@ -149,11 +149,8 @@ class profile
 
 		$mail = stripslashes($_REQUEST["mail"]);
 		if (isset($_POST["send"])) {
-			$formatted_uid = base64_encode($user->getUid());
-			$formatted_email = base64_encode($mail);
-			$timestamp = time();
-			$hash = hash($config["misc"]["hash"], $config["misc"]["secret"] . " " . $timestamp . " " . $formatted_uid . " " . $formatted_email);
-			$verification_link = $config['site']['url'] . "/index.php?module=verify&u=" . $formatted_uid . "&m=" . $formatted_email . "&h=" . $hash . "&t=" . $timestamp;
+			$hash = new Hash($user->getUid() . "\0" . $mail);
+			$verification_link = $config['site']['url'] . "/index.php?module=verify&v=" . $hash;
 			$text = <<<verification_mail
 Ahoi {$user->getUid()},
 
