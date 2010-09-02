@@ -2,7 +2,7 @@
 
 class lostpw {
 	public function changePassword() {
-		global $smarty, $config, $userdb;
+		global $smarty, $config, $userdb, $user;
 		ob_start();
 
 		$v = stripslashes($_REQUEST["v"]);
@@ -25,9 +25,8 @@ class lostpw {
 				$user = $userdb->getUser($uid);
 				$user->changePassword($_POST["pass"]);
 				$user->save();
-				$_SESSION["authenticated"] = true;
 				header("Location: index.php");
-				exit;
+				return;
 			}
 		} else {
 			if (!$hash->isValid($config["mail"]["lostpw_limit"])) {

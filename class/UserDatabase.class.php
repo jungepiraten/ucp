@@ -93,8 +93,9 @@ class UserDatabase {
 			"preferredLanguage" => "de",
 		);
 		if (ldap_add($this->ldapconn, "uid=" . ldap_escape($username,true) . "," . $this->ldapbasedn, $entry)) {
-			return true;
+			return $this->getUser($username);
 		}
+		return false;
 	}
 
 	public function modifyUser($uid, $pass, $mails) {

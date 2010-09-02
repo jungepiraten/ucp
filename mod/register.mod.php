@@ -2,56 +2,40 @@
 
 class register
 {
-	private function displayForm($errors = null) {
+	private function displayForm() {
 		global $smarty;
-		if ($errors !== null) {
-			$smarty->assign("errors", $errors);
-		}
 		$smarty->display("register.tpl");
 	}
 
 	private function performRegistration() {
-		global $userdb;
-		$errors = array();
+		global $userdb, $user;
+		
 		if (empty($_POST["user"])) {
-			$errors[] = "Es wurde kein Nutzername angegeben.";
-		} else {
-			if (strlen($_POST["user"]) < 3) {
-				$errors[] = "Der Nutzername muss aus mindestens 3 Zeichen bestehen.";
-			}
-			if (!preg_match("/^[a-zA-Z0-9._]+$/", $_POST["user"])) {
-				$errors[] = "Der Nutzername darf nur Buchstaben (A-Z), Zahlen (0-9), Unterstriche und Punkte enthalten.";
-			}
-			if (count($errors) < 1) {
-				if ($userdb->userExists($_POST["user"])) {
-					$errors[] = "Der angegebene Nutzername ist leider schon vergeben.";
-				}
-			}
-		}
-		if (empty($_POST["mail"])) {
-			$errors[] = "Es wurde keine E-Mail Adresse angegeben.";
-		} else {
-			if (!$userdb->isValidMailAddress($_POST["mail"])) {
-				$errors[] = "Die angegebene E-Mail Adresse ist ung&uuml;ltig.";
-			} else {
-				if ($config["misc"]["singletonmail"] && $userdb->mailUsed($_POST["mail"])) {
-					$errors[] = "Die angegebene E-Mail Adresse wird bereits bei einem anderen Account verwendet.";
-				}
-			}
-		}
-		if (empty($_POST["pass"])) {
-			$errors[] = "Es wurde kein Passwort angegeben.";
+			echo "<p>Es wurde kein Nutzername angegeben.</p>";
+		} else if (strlen($_POST["user"]) < 3) {
+			echo "<p>Der Nutzername muss aus mindestens 3 Zeichen bestehen.</p>";
+		} else if (!preg_match("/^[a-zA-Z0-9._]+$/", $_POST["user"])) {
+			echo "<p>Der Nutzername darf nur Buchstaben (A-Z), Zahlen (0-9), Unterstriche und Punkte enthalten.</p>";
+		} else if ($userdb->userExists($_POST["user"])) {
+			echo "<p>Der angegebene Nutzername ist leider schon vergeben.</p>";
+		} else if (empty($_POST["mail"])) {
+			echo "<p>Es wurde keine E-Mail Adresse angegeben.</p>";
+		} else if (!$userdb->isValidMailAddress($_POST["mail"])) {
+			echo "<p>Die angegebene E-Mail Adresse ist ung&uuml;ltig.</p>";
+		} else if ($config["misc"]["singletonmail"] && $userdb->mailUsed($_POST["mail"])) {
+			echo "<p>Die angegebene E-Mail Adresse wird bereits bei einem anderen Account verwendet.</p>";
+		} else if (empty($_POST["pass"])) {
+			echo "<p>Es wurde kein Passwort angegeben.</p>";
 		} else if ($_POST["pass"] != $_POST["pass_repeat"]) {
-			$errors[] = "Die beiden Passw&ouml;rter stimmen nicht &uuml;berein.";
+			echo "<p>Die beiden Passw&ouml;rter stimmen nicht &uuml;berein.</p>";
 		} else if (strlen($_POST["pass"]) < 6) {
-			$errors[] = "Das Passwort muss mindestens 6 Zeichen lang sein.";
-		}
-
-		if (count($errors) > 0) {
-			$this->displayForm($errors);
+			echo "<p>Das Passwort muss mindestens 6 Zeichen lang sein.</p>";
 		} else {
-			if ($userdb->registerUser($_POST["user"], $_POST["pass"], $_POST["mail"])) {
-				echo "Der Account wurde erstellt. Sie k&ouml;nnen sich nun einloggen.";
+			if ($user = $userdb->registerUser($_POST["user"], $_POST["pass"], $_POST["mail"])) {
+				header("Location: index.php?module=profile&do=verify_mail&mail=" . urlencode($_POST["mail"]));
+				return;
+			} else {
+				echo "<p>Fehler beim Registrieren!</p>";
 			}
 		}
 	}

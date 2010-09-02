@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.20, created on 2010-08-30 20:07:06
+<?php /* Smarty version 2.6.20, created on 2010-09-02 14:15:49
          compiled from register.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('modifier', 'count', 'register.tpl', 1, false),)), $this); ?>
@@ -35,7 +35,7 @@ smarty_core_load_plugins(array('plugins' => array(array('modifier', 'count', 're
 		<td><input type="password" name="pass_repeat" /></td>
 	</tr>
 	<tr>
-		<td colspan="2"><input type="submit" name="register" value="registrieren" /></td>
+		<td colspan="2"><input class="submit" type="submit" name="register" value="registrieren" /></td>
 	</tr>
 	</table>
 </form>

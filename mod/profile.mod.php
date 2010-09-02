@@ -42,6 +42,10 @@ class profile
 				$user->addMail($mail);
 				$user->save();
 				echo "<p>Die E-Mail Adresse wurde erfolgreich hinzugef&uuml;gt.</p>";
+				if (!$user->isVerified($mail)) {
+					header("Location: index.php?module=profile&do=verify_mail&mail=" . urlencode($mail));
+					exit;
+				}
 				echo $this->overview();
 			}
 		} else {
@@ -59,7 +63,14 @@ class profile
 		ob_start();
 
 		$smarty->assign("mail", stripslashes($_REQUEST["mail"]));
-		$smarty->assign("mails", $user->getMails());
+		$allmails = $user->getMails();
+		$mails = array();
+		foreach ($allmails as $mail) {
+			if ($user->isVerified($mail)) {
+				$mails[] = $mail;
+			}
+		}
+		$smarty->assign("mails", $mails);
 		if (isset($_POST["act"])) {
 			$mail = stripslashes($_POST["mail"]);
 			$listsoption = stripslashes($_POST["listsoption"]);
@@ -145,9 +156,13 @@ class profile
 	private function verify_mail() {
 		global $smarty, $user, $config;
 
+		$mail = stripslashes($_REQUEST["mail"]);
+		if ($user->isVerified($mail)) {
+			return "<p>Diese Mailadresse wurde bereits verifiziert.</p>"; 
+		}
+
 		ob_start();
 
-		$mail = stripslashes($_REQUEST["mail"]);
 		if (isset($_POST["send"])) {
 			$hash = new Hash($user->getUid() . "\0" . $mail);
 			$verification_link = $config['site']['url'] . "/index.php?module=verify&v=" . $hash;
