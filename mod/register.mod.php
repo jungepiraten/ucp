@@ -45,7 +45,7 @@ class register
 		} else if (empty($_POST["recaptcha_challenge_field"]) || empty($_POST["recaptcha_response_field"])) {
 			echo "<p>Der Captcha muss gel&ouml;st werden!</p>";
 		} else if (!$resp->is_valid) {
-			echo "<p>Falsche Captcha-Lösung.</p>";
+			echo "<p>Falsche Captcha-L&ouml;sung.</p>";
 		} else {
 			if ($user = $userdb->registerUser($_POST["user"], $_POST["pass"], $_POST["mail"])) {
 				header("Location: index.php?module=profile&do=verify_mail&mail=" . urlencode($_POST["mail"]));
