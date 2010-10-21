@@ -33,6 +33,7 @@ class UserDatabase {
 		$this->ldapconn = ldap_connect($this->ldapserver);
 		ldap_set_option($this->ldapconn, LDAP_OPT_PROTOCOL_VERSION, 3);
 		ldap_set_option($this->ldapconn, LDAP_OPT_REFERRALS, 0);
+		ldap_set_option($this->ldapconn, LDAP_OPT_SIZELIMIT, 1000);
 		ldap_bind($this->ldapconn, $this->ldapbinddn, $this->ldapbindpw);
 
 		$this->mysqlconn = new MySQLi($this->mysqlserver, $this->mysqluser, $this->mysqlpw, $this->mysqldb);
