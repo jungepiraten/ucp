@@ -69,6 +69,10 @@ class User {
 		}
 		return $this->userdb->isVerified($this->getUid(), $mail);
 	}
+
+	public function isAdmin() {
+		return $this->userdb->isAdmin($this->getUid());	
+	}
 }
 
 ?>

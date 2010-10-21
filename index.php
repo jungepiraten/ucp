@@ -14,6 +14,7 @@ session_start();
 
 // Establish the LDAP connection and set some options
 $userdb = new UserDatabase(
+		$config["admins"],
 		$config["ldap"]["server"], $config["ldap"]["rdn"], $config["ldap"]["pass"], $config["ldap"]["base_dn"],
 		$config["mysql"]["server"], $config["mysql"]["user"], $config["mysql"]["pass"], $config["mysql"]["db"] );
 $userdb->open();
@@ -37,8 +38,9 @@ if (isset($_GET["module"])) {
 	$module = $_SESSION["module"];
 }
 
-function maySeeModule($module, $authenticated) {
+function maySeeModule($module, $user) {
 	global $config;
+	$authenticated = $user instanceof User;
 	if (!is_array($config["modules"][$module])) {
 		return false;
 	}
@@ -48,11 +50,17 @@ function maySeeModule($module, $authenticated) {
 	if ($config["modules"][$module]["force_notauthenticated"] === true && $authenticated) {
 		return false;
 	}
+	if ($config["modules"][$module]["force_admin"] === true && !$user->isAdmin()) {
+		return false;
+	}
+	if ($config["modules"][$module]["force_notadmin"] === true && $user->isAdmin()) {
+		return false;
+	}
 	return true;
 }
 
 // Check whether the given module name is a valid existing module. In addition, check whether the module can be executed with the user's current state of authentication. (Some modules can only be executed by authenticated users, vice versa)
-if (!maySeeModule($module, $user instanceof User)) {
+if (!maySeeModule($module, $user)) {
 	// If the specified module cannot be executed, execute the default module.
 	if ($user instanceof User) {
 		$module = "home";
@@ -76,7 +84,7 @@ if ($user instanceof User) {
 // Generate the navigation
 $_navigation = array();
 foreach ($config["modules"] as $key => $value) {
-	if (!($value["hide_navigation"]) && maySeeModule($key, $user instanceof User)) {
+	if (!($value["hide_navigation"]) && maySeeModule($key, $user)) {
 		$_navigation[$key] = $value["title"];
 	}
 }

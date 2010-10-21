@@ -2,7 +2,6 @@
 
 class profile
 {
-
 	private function overview() {
 		global $smarty, $user;
 
@@ -198,22 +197,16 @@ verification_mail;
 
 		switch ($_GET["do"]) {
 			case "add_mail":
-				$content = $this->addMail();
-				break;
+				return $this->addMail();
 			case "delete_mail":
-				$content = $this->deleteMail();
-				break;
+				return $this->deleteMail();
 			case "verify_mail":
-				$content = $this->verify_mail();
-				break;
+				return $this->verify_mail();
 			case "change_password":
-				$content = $this->changePassword();
-				break;
+				return $this->changePassword();
 			default:
-				$content = $this->overview();
+				return $this->overview();
 		}
-
-		return $content;
 	}
 
 }

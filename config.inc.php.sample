@@ -9,6 +9,9 @@ $config = array(
 		"url" => "https://ucp.example.com",
 		"path" => "/srv/www/ucp/htdocs"
 	),
+	"admins" => array(
+		"prauscher",
+	),
 	"ldap" => array(
 		"server" => "ldap://localhost/",
 		"rdn" => "cn=ucp,ou=community,dc=nodomain",
@@ -58,6 +61,11 @@ $config = array(
 			"title" => "Mailinglisten",
 			"force_authenticated" => true,
 			"force_verified" => true,
+		),
+		"delete" => array(
+			"title" => "Loeschen",
+			"force_authenticated" => true,
+			"force_admin" => true,
 		),
 		"logout" => array(
 			"title" => "Logout",

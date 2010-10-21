@@ -1,5 +1,5 @@
 <form action="{$PHP_SELF}" class="lists" method="post">
-	<table>
+	<table class="lists">
 	<thead>
 	<tr>
 		<th class="listname">Liste</th>

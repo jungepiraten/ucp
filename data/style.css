@@ -68,32 +68,46 @@ form.add_mail table th, form.change_password table th, form.delete_mail table th
 	padding-right:8px;
 }
 
-form.lists table {
+table.lists,
+table.userlist {
 	width:100%;
 	border-collapse:collapse;
 }
-form.lists table thead tr {
+table.lists thead tr,
+table.userlist thead tr {
 	font-size:1.2em;
 	border-bottom:2px solid black;
 }
-form.lists table tfoot tr {
+table.lists tfoot tr,
+table.userlist tfoot tr {
 	font-size:1.2em;
 	border-top:2px solid black;
 }
-form.lists table td {
+table.lists td,
+table.userlist td {
 	padding:0.1em;
 }
-form.lists table tr.odd {
+table.lists tr.odd,
+table.userlist tr.odd {
 	background-color:#cccccc;
 }
-form.lists table tr.even {
+table.lists tr.even,
+table.userlist tr.even {
 	background-color:#eeeeee;
 }
-form.lists table th.listname {
+
+table.lists th.listname {
 	width:200px;
 }
-form.lists table th.abo {
+table.lists th.abo {
 	width:150px;
+}
+
+table.userlist th.bulk {
+	width:20px;
+}
+table.userlist th.delete {
+	width:50px;
 }
 
 p {

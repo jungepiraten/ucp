@@ -3,6 +3,8 @@
 require_once(dirname(__FILE__) . "/User.class.php");
 
 class UserDatabase {
+	private $admins;
+
 	private $ldapconn;
 	private $ldapserver;
 	private $ldapbinddn;
@@ -15,7 +17,8 @@ class UserDatabase {
 	private $mysqlpw;
 	private $mysqldb;
 
-	public function __construct($ldapserver, $ldapbinddn, $ldapbindpw, $ldapbasedn, $mysqlserver, $mysqluser, $mysqlpw, $mysqldb) {
+	public function __construct($admins, $ldapserver, $ldapbinddn, $ldapbindpw, $ldapbasedn, $mysqlserver, $mysqluser, $mysqlpw, $mysqldb) {
+		$this->admins = $admins;
 		$this->ldapserver = $ldapserver;
 		$this->ldapbinddn = $ldapbinddn;
 		$this->ldapbindpw = $ldapbindpw;
@@ -52,6 +55,18 @@ class UserDatabase {
 
 	public function userExists($username) {
 		return $this->getUserDN($username) !== false;
+	}
+
+	public function getUsers() {
+		$resource = ldap_search($this->ldapconn, $this->ldapbasedn, "objectClass=inetOrgPerson");
+		$entry = ldap_first_entry($this->ldapconn, $resource);
+		$users = array();
+		while ($entry) {
+			$attributes = ldap_get_attributes($this->ldapconn, $entry);
+			$users[] = $attributes["uid"][0];
+			$entry = ldap_next_entry($this->ldapconn, $entry);
+		}
+		return $users;
 	}
 
 	public function getUser($username) {
@@ -110,6 +125,10 @@ class UserDatabase {
 		}
 	}
 
+	public function removeUser($uid) {
+		return ldap_delete($this->ldapconn, $this->getUserDN($uid));
+	}
+
 	public function mailUsed($mail) {
 		$resource = ldap_search($this->ldapconn, $this->ldapbasedn, "mail=" . ldap_escape($mail, true));
 		if ($resource) {
@@ -147,6 +166,10 @@ class UserDatabase {
 		$query = "DELETE FROM `listVerifyQueue` WHERE `mail` = '" . $this->mysqlconn->real_escape_string($mail) . "'";
 		$this->mysqlconn->query($query);
 		return $lists;
+	}
+
+	public function isAdmin($username) {
+		return in_array($username, $this->admins);
 	}
 
 	public function generatePasswordHash($password) {
