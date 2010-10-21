@@ -7,7 +7,7 @@ class register
 		global $config, $smarty;
 
 		// Get reCaptcha code
-		$captcha = recaptcha_get_html($config["register"]["recaptcha_publickey"], null);
+		$captcha = recaptcha_get_html($config["modules"]["register"]["recaptcha_publickey"], null);
 		
 		$smarty->assign("captcha", $captcha);
 		$smarty->display("register.tpl");
@@ -17,7 +17,7 @@ class register
 		global $config, $userdb, $user;
 
 		// Check recaptcha answer
-		$resp = recaptcha_check_answer($config["register"]["recaptcha_privatekey"],
+		$resp = recaptcha_check_answer($config["modules"]["register"]["recaptcha_privatekey"],
 																	 $_SERVER["REMOTE_ADDR"],
 																	 $_POST["recaptcha_challenge_field"],
 																	 $_POST["recaptcha_response_field"]);
