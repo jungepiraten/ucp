@@ -62,8 +62,8 @@ $config = array(
 			"force_authenticated" => true,
 			"force_verified" => true,
 		),
-		"delete" => array(
-			"title" => "Loeschen",
+		"console" => array(
+			"title" => "Konsole",
 			"force_authenticated" => true,
 			"force_admin" => true,
 		),
