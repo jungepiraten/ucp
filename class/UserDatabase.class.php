@@ -60,6 +60,7 @@ class UserDatabase {
 
 	public function getUsers() {
 		$resource = ldap_search($this->ldapconn, $this->ldapbasedn, "objectClass=inetOrgPerson");
+		ldap_sort($this->ldapconn, $resource, "uid");
 		$entry = ldap_first_entry($this->ldapconn, $resource);
 		$users = array();
 		while ($entry) {

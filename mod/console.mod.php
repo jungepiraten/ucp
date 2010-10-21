@@ -21,6 +21,8 @@ class console
 	public function delete() {
 		global $userdb;
 		
+		ob_start();
+		
 		if (!isset($_REQUEST["users"])) {
 			return $this->overview();
 		}
@@ -32,6 +34,11 @@ class console
 				echo "<p><strong>FEHLER!</strong></p>";
 			}
 		}
+
+		$output = ob_get_contents();
+		ob_end_clean();
+
+		return $output;
 	}
 
 	public function main() {
