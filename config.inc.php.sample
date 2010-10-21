@@ -43,6 +43,8 @@ $config = array(
 		"register" => array(
 			"title" => "Registrieren",
 			"force_notauthenticated" => true,
+			"recaptcha_publickey" = ""; // Insert your public key here!
+			"recaptcha_privatekey" = ""; // Insert your public key here!
 		),
 		"home" => array(
 			"title" => "Home",

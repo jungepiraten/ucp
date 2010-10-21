@@ -27,6 +27,10 @@
 		<td><input type="password" name="pass_repeat" /></td>
 	</tr>
 	<tr>
+		<th>Captcha</th>
+		<td>{$captcha}</td>
+	</tr>
+	<tr>
 		<td colspan="2"><input class="submit" type="submit" name="register" value="registrieren" /></td>
 	</tr>
 	</table>

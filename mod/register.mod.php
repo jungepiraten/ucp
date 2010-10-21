@@ -1,14 +1,26 @@
 <?php
+require_once(dirname(__FILE__) . "../lib/recaptchalib.php");
 
 class register
 {
 	private function displayForm() {
-		global $smarty;
+		global $config, $smarty;
+
+		// Get reCaptcha code
+		$captcha = recaptcha_get_html($config["register"]["recaptcha_publickey"], null);
+		
+		$smarty->assign("captcha", $captcha);
 		$smarty->display("register.tpl");
 	}
 
 	private function performRegistration() {
-		global $userdb, $user;
+		global $config, $userdb, $user;
+
+		// Check recaptcha answer
+		$resp = recaptcha_check_answer($config["register"]["recaptcha_privatekey"],
+																	 $_SERVER["REMOTE_ADDR"],
+																	 $_POST["recaptcha_challenge_field"],
+																	 $_POST["recaptcha_response_field"]);
 		
 		if (empty($_POST["user"])) {
 			echo "<p>Es wurde kein Nutzername angegeben.</p>";
@@ -30,6 +42,10 @@ class register
 			echo "<p>Die beiden Passw&ouml;rter stimmen nicht &uuml;berein.</p>";
 		} else if (strlen($_POST["pass"]) < 6) {
 			echo "<p>Das Passwort muss mindestens 6 Zeichen lang sein.</p>";
+		} else if (empty($_POST["recaptcha_challenge_field"]) || empty($_POST["recaptcha_response_field"])) {
+			echo "<p>Der Captcha muss gel&ouml;st werden!</p>";
+		} else if (!$resp->is_valid) {
+			echo "<p>Falsche Captcha-Lösung.</p>";
 		} else {
 			if ($user = $userdb->registerUser($_POST["user"], $_POST["pass"], $_POST["mail"])) {
 				header("Location: index.php?module=profile&do=verify_mail&mail=" . urlencode($_POST["mail"]));
