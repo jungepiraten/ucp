@@ -1,5 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" dir="ltr">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "//www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="//www.w3.org/1999/xhtml" xml:lang="de" dir="ltr">
 	<head>
 		<meta http-equiv="content-type" content="text/xhtml; charset=iso-8859-1" />
 		<link rel="stylesheet" type="text/css" href="data/style.css" />
@@ -18,7 +18,7 @@
 					{if not $smarty.foreach.navigation.last} - {/if}
 				{/foreach}
 			</div>
-			<a href="http://jupis.piratenpad.de/ucp-vorschlaege">Bitte hilf mit, das UCP zu verbessern!</a>
+			<a href="//jupis.piratenpad.de/ucp-vorschlaege">Bitte hilf mit, das UCP zu verbessern!</a>
 			<div id="content">
 				{$content}
 			</div>
