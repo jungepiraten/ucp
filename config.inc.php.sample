@@ -2,6 +2,7 @@
 
 // Constants
 define("MAILMAN_BIN_PATH", "/usr/lib/mailman/bin/");
+define("MAILMAN_EXEC_GROUP", "list");
 
 $config = array(
 	"site" => array(

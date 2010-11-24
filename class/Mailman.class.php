@@ -9,6 +9,7 @@ class Mailman {
 
 	function __construct($user) {
 		$this->user = $user;
+		$this->group = $group;
 		$this->loadLists();
 	}
 
@@ -16,7 +17,7 @@ class Mailman {
 		global $config;
 
 		$this->lists = array();
-		exec('newgrp list <<< "' . $config['site']['path'] . '/lib/ucp_mailman.py ' . implode(" ", $this->user->getMails()) . '"', $lists);
+		exec('newgrp ' . MAILMAN_EXEC_GROUP . ' <<< "' . $config['site']['path'] . '/lib/ucp_mailman.py ' . implode(" ", $this->user->getMails()) . '"', $lists);
 		foreach($lists as $value) {
 			list($listname, $listdesc, $archiveurl, $policy, $members) = explode(",", $value);
 			if ($policy == 1) { // Oeffentliche Liste?
@@ -58,11 +59,11 @@ class Mailman {
 	}
 
 	function addListMember($list, $member) {
-		exec('newgrp list <<< "' . MAILMAN_BIN_PATH . 'add_members --welcome-msg=n --admin-notify=n --regular-members-file=- ' . $list . ' <<< ' . $member . '"');
+		exec('newgrp ' . MAILMAN_EXEC_GROUP . ' <<< "' . MAILMAN_BIN_PATH . 'add_members --welcome-msg=n --admin-notify=n --regular-members-file=- ' . $list . ' <<< ' . $member . '"');
 	}
 	
 	function removeListMember($list, $member) {
-		exec('newgrp list <<< "' . MAILMAN_BIN_PATH . 'remove_members --nouserack --noadminack --file=- ' . $list . ' <<< ' . $member . '"');
+		exec('newgrp ' . MAILMAN_EXEC_GROUP . ' <<< "' . MAILMAN_BIN_PATH . 'remove_members --nouserack --noadminack --file=- ' . $list . ' <<< ' . $member . '"');
 	}
 }
 
