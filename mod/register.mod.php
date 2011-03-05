@@ -23,7 +23,7 @@ class register
 			echo "<p>Es wurde kein Nutzername angegeben.</p>";
 		} else if (strlen($_POST["user"]) < 3) {
 			echo "<p>Der Nutzername muss aus mindestens 3 Zeichen bestehen.</p>";
-		} else if (!preg_match("/^[-a-zA-Z0-9.]+$/", $_POST["user"])) {
+		} else if (!preg_match("/^[-a-zA-Z0-9\\.]+$/", $_POST["user"])) {
 			echo "<p>Der Nutzername darf nur Buchstaben (A-Z), Zahlen (0-9), Bindestriche und Punkte enthalten.</p>";
 		} else if ($userdb->userExists($_POST["user"])) {
 			echo "<p>Der angegebene Nutzername ist leider schon vergeben.</p>";
