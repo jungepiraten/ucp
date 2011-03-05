@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.20, created on 2010-10-21 20:52:13
+<?php /* Smarty version 2.6.20, created on 2010-11-18 00:23:11
          compiled from userlist.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('function', 'cycle', 'userlist.tpl', 13, false),array('modifier', 'escape', 'userlist.tpl', 14, false),)), $this); ?>
