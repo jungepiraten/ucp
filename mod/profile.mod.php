@@ -79,10 +79,10 @@ class profile
 				echo $this->overview();
 			} else if ($listsoption == "move" && !$user->isVerified($movemail)) {
 				echo "<p>Kann nicht zu dieser Mailadress verschieben: Sie ist nicht verifiziert.</p>";
-				$smarty->display("delete_mail.html.tpl");
+				$smarty->display("delete_mail.tpl");
 			} else if ($listsoption == "move" && $mail == $movemail) {
 				echo "<p>Witzbold ;)</p>";
-				$smarty->display("delete_mail.html.tpl");
+				$smarty->display("delete_mail.tpl");
 			} else {
 				$mailman = new Mailman($user);
 				if ($listsoption == "delete") {
