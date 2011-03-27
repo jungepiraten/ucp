@@ -41,10 +41,29 @@ class console
 		return $output;
 	}
 
+	public function override() {
+		global $userdb, $user;
+		
+		$username = stripslashes($_REQUEST["user"]);
+		$newuser = $userdb->getUser($username);
+		if (!($newuser instanceof User)) {
+			return "<p><b>Benutzer nicht gefunden.</b></p>";
+		} else if (isset($_SESSION["user_override"])) {
+			return "<p><b>Bereits im Override-Modus.</b></p>";
+		} else {
+			$_SESSION["user_override"] = $user->getUid();
+			$user = $newuser;
+			return "<p><b>Als Benutzer &quot;" . htmlentities($username) . "&quot; angemeldet. Take a lot of care!</b></p>";
+		}
+	}
+
 	public function main() {
-		switch ($_REQUEST["do"]) {
+		$do = isset($_REQUEST["do"]) ? stripslashes($_REQUEST["do"]) : "";
+		switch ($do) {
 			case "delete":
 				return $this->delete();
+			case "override":
+				return $this->override();
 			default:
 				return $this->overview();
 		}

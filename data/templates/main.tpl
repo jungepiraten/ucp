@@ -8,6 +8,7 @@
 	<body>
 		<div id="maincontainer">
 			<img src="data/images/logo-ucp.png" title="Junge Piraten UCP" alt="Junge Piraten UCP" />
+			<div id="loggedin">{if $user}Angemeldet als {$user}{if $user_override} - <a href="?module=logout">Override beenden</a>{/if}{else}Nicht angemeldet{/if}</div>
 			<div id="navigation">
 				{foreach key=mod item=title from=$navigation name=navigation}
 					{if $mod == $module}

@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.20, created on 2010-10-21 20:30:42
+<?php /* Smarty version 2.6.26, created on 2011-03-28 01:30:29
          compiled from main.tpl */ ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "//www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="//www.w3.org/1999/xhtml" xml:lang="de" dir="ltr">
@@ -11,6 +11,8 @@
 	<body>
 		<div id="maincontainer">
 			<img src="data/images/logo-ucp.png" title="Junge Piraten UCP" alt="Junge Piraten UCP" />
+			<div id="loggedin"><?php if ($this->_tpl_vars['user']): ?>Angemeldet als <?php echo $this->_tpl_vars['user']; ?>
+<?php if ($this->_tpl_vars['user_override']): ?> - <a href="?module=logout">Override beenden</a><?php endif; ?><?php else: ?>Nicht angemeldet<?php endif; ?></div>
 			<div id="navigation">
 				<?php $_from = $this->_tpl_vars['navigation']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }$this->_foreach['navigation'] = array('total' => count($_from), 'iteration' => 0);
 if ($this->_foreach['navigation']['total'] > 0):

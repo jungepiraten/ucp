@@ -1,7 +1,7 @@
-<?php /* Smarty version 2.6.20, created on 2010-11-18 00:23:11
+<?php /* Smarty version 2.6.26, created on 2011-03-28 01:21:10
          compiled from userlist.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
-smarty_core_load_plugins(array('plugins' => array(array('function', 'cycle', 'userlist.tpl', 13, false),array('modifier', 'escape', 'userlist.tpl', 14, false),)), $this); ?>
+smarty_core_load_plugins(array('plugins' => array(array('function', 'cycle', 'userlist.tpl', 14, false),array('modifier', 'escape', 'userlist.tpl', 15, false),)), $this); ?>
 <form action="<?php echo $this->_tpl_vars['PHP_SELF']; ?>
 " class="userlist" method="post" id="form_userlist">
 	<input type="hidden" name="do" id="value_do" value="" />
@@ -10,6 +10,7 @@ smarty_core_load_plugins(array('plugins' => array(array('function', 'cycle', 'us
 	<tr>
 		<th class="bulk">&nbsp;</th>
 		<th class="username">Benutzername</th>
+		<th class="override">&Uuml;berschreiben</th>
 		<th class="delete">L&ouml;schen</th>
 	</tr>
 	</thead>
@@ -23,13 +24,15 @@ smarty_core_load_plugins(array('plugins' => array(array('function', 'cycle', 'us
 " /></td>
 		<td class="username"><?php echo ((is_array($_tmp=$this->_tpl_vars['user'])) ? $this->_run_mod_handler('escape', true, $_tmp, 'html') : smarty_modifier_escape($_tmp, 'html')); ?>
 </td>
+		<td class="override"><a href="?do=override&amp;user=<?php echo ((is_array($_tmp=$this->_tpl_vars['user'])) ? $this->_run_mod_handler('escape', true, $_tmp, 'url') : smarty_modifier_escape($_tmp, 'url')); ?>
+">&Uuml;berschreiben</a></td>
 		<td class="delete"><a href="?do=delete&amp;users[]=<?php echo ((is_array($_tmp=$this->_tpl_vars['user'])) ? $this->_run_mod_handler('escape', true, $_tmp, 'url') : smarty_modifier_escape($_tmp, 'url')); ?>
 " onClick="return confirm('Sicher?');">L&ouml;schen</a></td>
 	<tr>
 	<?php endforeach; endif; unset($_from); ?>
 	</tbody>
 	<tfoot>
-		<td colspan="3">
+		<td colspan="4">
 			<input type="button" onClick="document.getElementById('value_do').value = 'delete'; document.getElementById('form_userlist').submit();" value="L&ouml;schen" />
 		</td>
 	</tfoot>

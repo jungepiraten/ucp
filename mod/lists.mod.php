@@ -65,7 +65,8 @@ class lists {
 		if (!$user->isVerified()) {
 			echo "Bevor du deine Mailinglisten verwalten kannst, muss mindestens eine E-Mail Adresse durch eine Best&auml;tigungsmail verifiziert werden.";
 		} else {
-			switch($_GET["do"]) {
+			$do = isset($_REQUEST["do"]) ? stripslashes($_REQUEST["do"]) : "";
+			switch ($do) {
 				case "overview":
 				default:
 					echo $this->overview();

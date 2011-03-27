@@ -23,6 +23,10 @@ div#maincontainer {
 	-khtml-border-radius-bottomright:1.5em;
 }
 
+div#loggedin {
+	float:right;
+}
+
 div#navigation {
 	background-color: #666666;
 	border-top: 0.2em solid #aaaaaa;

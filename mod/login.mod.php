@@ -9,6 +9,7 @@ class login {
 		} else {
 			if (($user = $userdb->authenticate($_POST["user"], $_POST["pass"])) instanceof User) {
 				$_SESSION["authenticated"] = true;
+				$_SESSION["user_override"] = null;
 				header("refresh:0; url=index.php");
 			} else {
 				echo "<p><b>Authentifizierung fehlgeschlagen!</b></p>";

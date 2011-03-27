@@ -195,7 +195,8 @@ verification_mail;
 	public function main() {
 		global $config, $smarty, $user;
 
-		switch ($_GET["do"]) {
+		$do = isset($_REQUEST["do"]) ? stripslashes($_REQUEST["do"]) : "";
+		switch ($do) {
 			case "add_mail":
 				return $this->addMail();
 			case "delete_mail":
