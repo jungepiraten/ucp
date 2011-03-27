@@ -164,7 +164,7 @@ class profile
 
 		if (isset($_POST["send"])) {
 			$hash = new Hash($user->getUid() . "\0" . $mail);
-			$verification_link = $config['site']['url'] . "/index.php?module=verify&v=" . $hash;
+			$verification_link = $config['site']['url'] . "/index.php?module=verify&v=" . urlencode($hash);
 			$text = <<<verification_mail
 Ahoi {$user->getUid()},
 
