@@ -58,8 +58,13 @@ class UserDatabase {
 		return $this->getUserDN($username) !== false;
 	}
 
-	public function getUsers() {
-		$resource = ldap_search($this->ldapconn, $this->ldapbasedn, "objectClass=inetOrgPerson");
+	public function getUsers($filter = null) {
+		if ($filter !== null) {
+			$filter = "(&(objectClass=inetOrgPerson)(uid=" . addcslashes($filter, '()\\') . "))";
+		} else {
+			$filter = "(objectClass=inetOrgPerson)";
+		}
+		$resource = ldap_search($this->ldapconn, $this->ldapbasedn, $filter);
 		ldap_sort($this->ldapconn, $resource, "uid");
 		$entry = ldap_first_entry($this->ldapconn, $resource);
 		$users = array();
@@ -90,6 +95,7 @@ class UserDatabase {
 		if ($resource) {
 			$entry = ldap_first_entry($this->ldapconn, $resource);
 			$dn = @ldap_get_dn($this->ldapconn, $entry);
+
 			if ($dn && @ldap_bind($this->ldapconn, $dn, $password)) {
 				ldap_bind($this->ldapconn, $this->ldapbinddn, $this->ldapbindpw);
 				$attrs = ldap_get_attributes($this->ldapconn, $entry);
@@ -120,7 +126,6 @@ class UserDatabase {
 		if ($pass != null) {
 			$attrs["userPassword"] = $pass;
 		}
-
 		$dn = $this->getUserDN($uid);
 		if (!ldap_modify($this->ldapconn, $dn, $attrs)) {
 			return false;

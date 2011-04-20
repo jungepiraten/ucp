@@ -1,9 +1,11 @@
-<?php /* Smarty version 2.6.26, created on 2011-03-28 01:21:10
+<?php /* Smarty version 2.6.26, created on 2011-04-20 16:06:09
          compiled from userlist.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
-smarty_core_load_plugins(array('plugins' => array(array('function', 'cycle', 'userlist.tpl', 14, false),array('modifier', 'escape', 'userlist.tpl', 15, false),)), $this); ?>
+smarty_core_load_plugins(array('plugins' => array(array('modifier', 'escape', 'userlist.tpl', 2, false),array('function', 'cycle', 'userlist.tpl', 15, false),)), $this); ?>
 <form action="<?php echo $this->_tpl_vars['PHP_SELF']; ?>
 " class="userlist" method="post" id="form_userlist">
+	<label for="filter"><strong>Filter:</strong></label> <input type="text" name="filter" value="<?php echo ((is_array($_tmp=$_REQUEST['filter'])) ? $this->_run_mod_handler('escape', true, $_tmp, 'html') : smarty_modifier_escape($_tmp, 'html')); ?>
+" /> <input type="button" onClick="document.getElementById('value_do').value = ''; document.getElementById('form_userlist').submit();" value="Filtern" />
 	<input type="hidden" name="do" id="value_do" value="" />
 	<table class="userlist">
 	<thead>

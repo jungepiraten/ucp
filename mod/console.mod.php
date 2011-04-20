@@ -6,8 +6,12 @@ class console
 		global $smarty, $userdb;
 		
 		ob_start();
-
-		$users = $userdb->getUsers();
+		
+		$filter = null;
+		if (!empty($_REQUEST["filter"])) {
+			$filter = "*" . stripslashes($_REQUEST["filter"]) . "*";
+		}
+		$users = $userdb->getUsers($filter);
 		$smarty->assign("users", $users);
 
 		$smarty->display("userlist.tpl");

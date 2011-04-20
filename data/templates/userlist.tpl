@@ -1,4 +1,5 @@
 <form action="{$PHP_SELF}" class="userlist" method="post" id="form_userlist">
+	<label for="filter"><strong>Filter:</strong></label> <input type="text" name="filter" value="{$smarty.request.filter|escape:html}" /> <input type="button" onClick="document.getElementById('value_do').value = ''; document.getElementById('form_userlist').submit();" value="Filtern" />
 	<input type="hidden" name="do" id="value_do" value="" />
 	<table class="userlist">
 	<thead>
