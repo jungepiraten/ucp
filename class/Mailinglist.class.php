@@ -28,7 +28,7 @@ class Mailinglist {
 		return $this->hostname;
 	}
 
-	function getSendAdress() {
+	function getSendAddress() {
 		return $this->name . "@" . $this->getHostname();
 	}
 
