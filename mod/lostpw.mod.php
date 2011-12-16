@@ -52,7 +52,9 @@ class lostpw {
 			$mail = stripslashes($_POST["mail"]);
 			$smarty->assign("mail", $mail);
 			
-			if (!in_array($mail, $user->getMails())) {
+			if ($user === false) {
+				echo "<p>User existiert nicht.</p>";
+			} else if (!in_array($mail, $user->getMails())) {
 				echo "<p>Mailadresse geh&ouml;rt nicht zum Benutzer.</p>";
 			} else {
 				$hash =  new Hash($user->getUid());
