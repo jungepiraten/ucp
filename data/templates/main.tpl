@@ -19,7 +19,6 @@
 					{if not $smarty.foreach.navigation.last} - {/if}
 				{/foreach}
 			</div>
-			<a href="//jupis.piratenpad.de/ucp-vorschlaege">Bitte hilf mit, das UCP zu verbessern!</a>
 			<div id="content">
 				{$content}
 			</div>
