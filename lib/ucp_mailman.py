@@ -15,6 +15,7 @@ from Mailman import Utils
 # auf die notwendigen Attribute reduziert.
 class UCPMailingList:
     listname = ""
+    hostname = ""
     description = ""
     subscribe_policy = 0
     members = ""
@@ -27,6 +28,7 @@ class UCPMailingList:
             mailman_list_object = False
 
         self.listname = listname
+	self.hostname = mailman_list_object.host_name
         self.description = mailman_list_object.description
         self.subscribe_policy = mailman_list_object.subscribe_policy
         self.members = set(mailman_list_object.members)
@@ -46,5 +48,5 @@ def getLists():
 if __name__ == '__main__':
     members = set(sys.argv)
     for list in getLists():
-        print list.listname + "," + list.description + "," + list.archive + "," + str(list.subscribe_policy) + "," + str(' '.join(list.members.intersection(members)))
+        print list.listname + "," + list.hostname + "," + list.description + "," + list.archive + "," + str(list.subscribe_policy) + "," + str(' '.join(list.members.intersection(members)))
 

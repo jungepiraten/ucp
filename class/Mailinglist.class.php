@@ -4,14 +4,16 @@ class Mailinglist {
 	private $mailman;
 
 	private $name = "";
+	private $hostname = "";
 	private $description = "";
 	private $archiveurl = "";
 	private $subscribe_policy = 0;
 	private $members = array();
 
-	function __construct($mailman, $name, $description, $archiveurl, $subscribe_policy, $members) {
+	function __construct($mailman, $name, $hostname, $description, $archiveurl, $subscribe_policy, $members) {
 		$this->mailman = $mailman;
 		$this->name = $name;
+		$this->hostname = $hostname;
 		$this->description = $description;
 		$this->archiveurl = $archiveurl;
 		$this->subscribe_policy = $subscribe_policy;
@@ -20,6 +22,14 @@ class Mailinglist {
 
 	function getName() {
 		return $this->name;
+	}
+
+	function getHostname() {
+		return $this->hostname;
+	}
+
+	function getSendAdress() {
+		return $this->name . "@" . $this->getHostname();
 	}
 
 	function getDescription() {

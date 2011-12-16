@@ -1,9 +1,5 @@
 <?php
 
-// Constants
-define("MAILMAN_BIN_PATH", "/usr/lib/mailman/bin/");
-define("MAILMAN_EXEC_GROUP", "list");
-
 $config = array(
 	"site" => array(
 		"title" => "User Control Panel",
@@ -62,6 +58,8 @@ $config = array(
 			"title" => "Mailinglisten",
 			"force_authenticated" => true,
 			"force_verified" => true,
+			"mailman_group" => "list",
+			"mailman_binpath" => "/usr/lib/mailman/bin/",
 		),
 		"console" => array(
 			"title" => "Konsole",

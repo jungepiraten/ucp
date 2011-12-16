@@ -16,7 +16,7 @@ class lists {
 		}
 		$smarty->assign("mails", $mails);
 
-		$mailman = new Mailman($user);
+		$mailman = new Mailman($user, $config["modules"]["lists"]["mailman_group"], $config["modules"]["lists"]["mailman_binpath"]);
 
 		if (isset($_POST["save"])) {
 			foreach ($mailman->getLists() as $list) {
@@ -45,7 +45,7 @@ class lists {
 					$has = true;
 				}
 			}
-			$lists[] = array($list->getName(), $list->getDescription(), $list->getArchiveURL(), $has, $members);
+			$lists[] = array($list->getName(), $list->getSendAddress(), $list->getDescription(), $list->getArchiveURL(), $has, $members);
 		}
 		$smarty->assign("lists", $lists);
 

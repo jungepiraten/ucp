@@ -6,10 +6,13 @@ class Mailman {
 	private $lists = array();
 
 	private $user;
+	private $group;
+	private $binpath;
 
-	function __construct($user) {
+	function __construct($user, $group, $binpath) {
 		$this->user = $user;
 		$this->group = $group;
+		$this->binpath = $binpath;
 		$this->loadLists();
 	}
 
@@ -17,16 +20,16 @@ class Mailman {
 		global $config;
 
 		$this->lists = array();
-		exec('newgrp ' . MAILMAN_EXEC_GROUP . ' <<< "' . $config['site']['path'] . '/lib/ucp_mailman.py ' . implode(" ", $this->user->getMails()) . '"', $lists);
+		exec('newgrp ' . $this->group . ' <<< "' . $config['site']['path'] . '/lib/ucp_mailman.py ' . implode(" ", $this->user->getMails()) . '"', $lists);
 		foreach($lists as $value) {
-			list($listname, $listdesc, $archiveurl, $policy, $members) = explode(",", $value);
+			list($listname, $hostname, $listdesc, $archiveurl, $policy, $members) = explode(",", $value);
 			if ($policy == 1) { // Oeffentliche Liste?
 				if (trim($members) == "") {
 					$members = array();
 				} else {
 					$members = explode(" ", $members);
 				}
-				$this->addList(new Mailinglist($this, $listname, $listdesc, $archiveurl, $policy, $members));
+				$this->addList(new Mailinglist($this, $listname, $hostname, $listdesc, $archiveurl, $policy, $members));
 			}
 		}
 	}
@@ -59,11 +62,11 @@ class Mailman {
 	}
 
 	function addListMember($list, $member) {
-		exec('newgrp ' . MAILMAN_EXEC_GROUP . ' <<< "' . MAILMAN_BIN_PATH . 'add_members --welcome-msg=n --admin-notify=n --regular-members-file=- ' . $list . ' <<< ' . $member . '"');
+		exec('newgrp ' . $this->group . ' <<< "' . $this->binpath . 'add_members --welcome-msg=n --admin-notify=n --regular-members-file=- ' . $list . ' <<< ' . $member . '"');
 	}
 	
 	function removeListMember($list, $member) {
-		exec('newgrp ' . MAILMAN_EXEC_GROUP . ' <<< "' . MAILMAN_BIN_PATH . 'remove_members --nouserack --noadminack --file=- ' . $list . ' <<< ' . $member . '"');
+		exec('newgrp ' . $this->group . ' <<< "' . $this->binpath . 'remove_members --nouserack --noadminack --file=- ' . $list . ' <<< ' . $member . '"');
 	}
 }
 
