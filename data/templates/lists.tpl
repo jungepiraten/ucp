@@ -10,7 +10,8 @@
 	<tbody>
 	{foreach key=id item=list from=$lists name=mailinglists}
 	<tr class="{cycle values=odd,even}">
-		<td class="listname"><a href="mailto:{$list[1]}" class="sendaddress">MAIL</a>&nbsp;<a href="{$list[3]}" class="archive">{$list[0]}</a></td>
+		<td class="listname"><a href="mailto:{$list[1]}" class="sendaddress"><img src="data/images/mail.gif" alt="[@]" /></a>
+			&nbsp;<a href="{$list[3]}" class="archive">{$list[0]}</a></td>
 		<td class="listdesc">{$list[2]}</td>
 		<td class="abo">
 			<select name="mail[{$list[0]}]">
