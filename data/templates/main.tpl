@@ -58,10 +58,10 @@
 					</ul>
 
 					{if !$user}
-						<form class="navbar-form pull-right form-inline" action="index.php?module=login" method="POST">
+						<form class="navbar-form pull-right form-inline" action="index.php?module=login" method="post">
 							<input type="hidden" name="login" value="1" />
-							<input type="text" name="username" class="span2" placeholder="Loginname" />
-							<input type="password" name="password" class="span2" placeholder="Passwort" />
+							<input type="text" name="user" class="span2" placeholder="Loginname" />
+							<input type="password" name="pass" class="span2" placeholder="Passwort" />
 							<button type="submit" class="btn btn-primary">Anmelden</button>
 						</form>
 					{else}
