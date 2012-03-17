@@ -1,16 +1,21 @@
-<form action="{$PHP_SELF}" class="lostpw" method="post">
-	<input type="hidden" name="v" value="{$v}" />
-	<table>
-	<tr>
-		<th>Neues Passwort:</th>
-		<td><input type="password" name="pass" /></td>
-	</tr>
-	<tr>
-		<th>Wiederholen:</th>
-		<td><input type="password" name="pass_repeat" /></td>
-	</tr>
-	<tr>
-		<td colspan="2"><input class="submit" type="submit" value="&auml;ndern" /></td>
-	</tr>
-	</table>
+<form action="{$PHP_SELF}" method="post" class="form-horizontal">
+	<fieldset>
+		<div class="control-group">
+			<label for="password" class="control-label">Neues Passwort:</label>
+			<p class="controls">
+				<input type="password" class="username" name="password" />
+			</p>
+		</div>
+		
+		<div class="control-group">
+			<label for="pass_repeat" class="control-label">Wiederholen:</label>
+			<p class="controls">
+				<input type="password" class="password" name="pass_repeat" id="pass_repeat"/>
+			</p>
+		</div>
+		
+		<div class="form-actions">
+			<button type="submit" class="btn btn-primary" name="lostpw" value="1">Ändern</button>
+		</div>
+	</fieldset>
 </form>

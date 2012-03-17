@@ -1,15 +1,21 @@
-<form action="{$PHP_SELF}" class="lostpw" method="post">
-	<table>
-	<tr>
-		<th>User:</th>
-		<td><input type="text" name="user" /></td>
-	</tr>
-	<tr>
-		<th>Mail:</th>
-		<td><input type="text" name="mail" /></td>
-	</tr>
-	<tr>
-		<td colspan="2"><input class="submit" type="submit" value="anfordern" /></td>
-	</tr>
-	</table>
+<form action="{$PHP_SELF}" method="post" class="form-horizontal">
+	<fieldset>
+		<div class="control-group">
+			<label for="user" class="control-label">Benutzername:</label>
+			<p class="controls">
+				<input type="text" class="username" name="user" />
+			</p>
+		</div>
+		
+		<div class="control-group">
+			<label for="mail" class="control-label">E-Mail:</label>
+			<p class="controls">
+				<input type="text" class="mail" name="mail" id="mail"/>
+			</p>
+		</div>
+		
+		<div class="form-actions">
+			<button type="submit" class="btn btn-primary" name="lostpw-request" value="1">Anfordern</button>
+		</div>
+	</fieldset>
 </form>

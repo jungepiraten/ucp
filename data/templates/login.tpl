@@ -1,15 +1,21 @@
-<form action="{$PHP_SELF}" class="login" method="post">
-	<table>
-	<tr>
-		<th>User:</th>
-		<td><input type="text" name="user" /></td>
-	</tr>
-	<tr>
-		<th>Passwort:</th>
-		<td><input type="password" name="pass" /></td>
-	</tr>
-	<tr>
-		<td colspan="2"><input class="submit" type="submit" value="einloggen" /></td>
-	</tr>
-	</table>
+<form action="{$PHP_SELF}" method="post" class="form-horizontal">
+	<fieldset>
+		<div class="control-group">
+			<label for="username" class="control-label">Benutzername:</label>
+			<p class="controls">
+				<input type="text" class="username" name="username" />
+			</p>
+		</div>
+		
+		<div class="control-group">
+			<label for="password" class="control-label">Passwort:</label>
+			<p class="controls">
+				<input type="password" class="password" name="password" id="password"/>
+			</p>
+		</div>
+		
+		<div class="form-actions">
+			<button type="submit" class="btn btn-primary" name="login" value="1">Anmelden</button>
+		</div>
+	</fieldset>
 </form>

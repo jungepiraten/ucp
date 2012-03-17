@@ -1,17 +1,17 @@
 <form action="{$PHP_SELF}" class="lists" method="post">
-	<table class="lists">
+	<table class="table table-striped table-bordered">
 	<thead>
 	<tr>
-		<th class="listname">Liste</th>
-		<th class="listdesc">Beschreibung</th>
-		<th class="abo">Abonniert</th>
+		<th>Liste</th>
+		<th>Beschreibung</th>
+		<th>Abonniert</th>
 	</tr>
 	</thead>
 	<tbody>
 	{foreach key=id item=list from=$lists name=mailinglists}
-	<tr class="{cycle values=odd,even}">
-		<td class="listname"><a href="mailto:{$list[1]}" class="sendaddress"><img src="data/images/mail.gif" alt="[@]" /></a>
-			&nbsp;<a href="{$list[3]}" class="archive">{$list[0]}</a></td>
+	<tr>
+		<td><a href="mailto:{$list[1]}" class="sendaddress"><i class="icon-envelope"></i></a>
+			&nbsp;<a href="{$list[3]}">{$list[0]}</a></td>
 		<td class="listdesc">{$list[2]}</td>
 		<td class="abo">
 			<select name="mail[{$list[0]}]">
@@ -24,9 +24,8 @@
 	<tr>
 	{/foreach}
 	</tbody>
-	<tfoot>
-	<tr>
-		<td colspan="3"><input class="submit" type="submit" name="save" value="&Auml;nderungen speichern" /></td>
-	</tfoot>
 	</table>
+			<div class="form-actions">
+			<button type="submit" class="btn btn-primary" name="save" value="1">&Auml;nderungen speichern</button>
+		</div>
 </form>

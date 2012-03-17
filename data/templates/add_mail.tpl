@@ -1,11 +1,14 @@
-<form action="?do=add_mail" class="add_mail" method="post">
-	<table>
-	<tr>
-		<th>E-Mail:</th>
-		<td><input type="text" name="mail" value="{$mail}" /><td>
-	</tr>
-	<tr>
-		<td colspan="2"><input class="submit" type="submit" name="act" value="hinzuf&uuml;gen" /></td>
-	</tr>
-	</table>
+<form action="?do=add_mail" method="post" class="form-horizontal">
+	<fieldset>
+		<div class="control-group">
+			<label for="mail" class="control-label">E-Mail:</label>
+			<p class="controls">
+				<input type="text" class="mail" name="mail" />
+			</p>
+		</div>
+		
+		<div class="form-actions">
+			<button type="submit" class="btn btn-primary" name="add_mail" value="1">hinzuf&uuml;gen</button>
+		</div>
+	</fieldset>
 </form>

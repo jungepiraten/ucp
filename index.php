@@ -8,7 +8,7 @@ require_once(dirname(__FILE__) . "/class/UserDatabase.class.php");
 require_once(dirname(__FILE__) . "/class/Mailman.class.php");
 require_once(dirname(__FILE__) . "/class/Hash.class.php");
 
-require_once("/usr/share/php/Smarty/Smarty.class.php");
+require_once("Smarty/Smarty.class.php");
 
 session_start();
 
@@ -94,6 +94,7 @@ $smarty->assign("user", ($user instanceof User) ? $user->getUid() : false);
 $smarty->assign("module", $module);
 $smarty->assign("navigation", $_navigation);
 $smarty->assign("title", $config["site"]["title"] . ": " . $config["modules"][$module]["title"]);
+$smarty->assign("pagetitle", $config["modules"][$module]["title"]);
 $smarty->assign("content", $_content);
 
 // Display the page
