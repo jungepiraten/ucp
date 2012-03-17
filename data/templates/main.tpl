@@ -77,7 +77,7 @@
 					<div class="well sidebar-nav" style="padding: 8px 0;">
 						<ul class="nav nav-list">
 							{foreach key=mod item=mtitle from=$navigation name=navigation}
-								<li {if $mod == $module}class="active"{/if}><i class="{if $mod == "login"}icon-user{elseif $mod == "lostpw"}icon-lock{elseif $mod == "register"}icon-cog{elseif $mod == "home"}icon-home{elseif $mod == "profile"}icon-user{elseif $mod == "lists"}icon-list-alt{elseif $mod == "console"}icon-lock{elseif $mod == "logout"}icon-off{/if} {if $mod == $module}icon-white{/if}"></i> <a href="index.php?module={$mod}">{$mtitle}</a></li>
+								<li {if $mod == $module}class="active"{/if}><a href="index.php?module={$mod}"><i class="{if $mod == "login"}icon-user{elseif $mod == "lostpw"}icon-lock{elseif $mod == "register"}icon-cog{elseif $mod == "home"}icon-home{elseif $mod == "profile"}icon-user{elseif $mod == "lists"}icon-list-alt{elseif $mod == "console"}icon-lock{elseif $mod == "logout"}icon-off{/if} {if $mod == $module}icon-white{/if}"></i> {$mtitle|escape:html}</a></li>
 							{/foreach}
 						</ul>
 					</div>
