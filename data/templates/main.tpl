@@ -38,17 +38,17 @@
 			<div class="navbar-inner">
 				<div class="container-fluid">
 					<a class="brand" href="index.php">
-						Junge Piraten
+						UCP
 					</a>
 					<ul class="nav">
-						<li class="active"><a href="index.php">Account</a></li>
-						<li><a href="https://forum.junge-piraten.de/index.php">Forum</a></li>
+						<li {if $module == "profile"}class="active"{/if}><a href="index.php">Profil</a></li>
+						<li {if $module == "lists"}class="active"{/if}><a href="index.php?module=lists">Mailinglisten</a></li>
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Junge Piraten <b class="caret"></b></a>
 							<ul class="dropdown-menu">
 								<li><a href="https://www.junge-piraten.de/">Homepage</a></li>
 								<li><a href="https://www.junge-piraten.de/mitmachen/">Mitmachen</a></li>
-								<li><a href="index.php">Forum</a></li>
+								<li><a href="https://forum.junge-piraten.de/">Forum</a></li>
 								<li><a href="https://wiki.junge-piraten.de/">Wiki</a></li>
 								<li><a href="http://jupis.piratenpad.de/">Piratenpad</a></li>
 								<li class="active"><a href="https://ucp.junge-piraten.de/">UCP</a></li>
