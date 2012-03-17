@@ -1,7 +1,11 @@
-<form action="{$PHP_SELF}" class="form-horizontal" method="post" id="form_userlist">
-	<label for="filter" class="label-controls"><strong>Filter:</strong></label>
+<form action="{$PHP_SELF}" class="form-inline" method="post">
+	<label for="filter" class="control-label">Filter:</label>
 	<div class="controls">
-		<input type="text" name="filter" value="{$smarty.request.filter|escape:html}" /> <input type="button" onClick="document.getElementById('value_do').value = ''; document.getElementById('form_userlist').submit();" value="Filtern" />
+		<input type="text" name="filter" value="{$smarty.request.filter|escape:html}" />
+	</div>
+	<input class="btn btn-primary" type="submit" value="Filtern" />
+</form>
+<form action="{$PHP_SELF}" class="form-horizontal" method="post" id="form_userlist">
 	<input type="hidden" name="do" id="value_do" value="" />
 	<table class="table table-striped">
 	<thead>
