@@ -1,4 +1,4 @@
-<table class="form-vertical">
+<div class="form-vertical">
 	<div class="control-group">
 		<label class="control-label">Benutzername</label>
 		<div class="controls">
@@ -28,4 +28,4 @@
 			******** <a class="btn btn-mini" href="?do=change_password">&Auml;ndern</a>
 		</div>
 	</div>
-</table>
+</div>
