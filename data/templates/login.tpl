@@ -1,16 +1,20 @@
-<form action="{$PHP_SELF}" method="post" class="form-horizontal">
+{if $loginfailed}
+<p class="error">Login fehlgeschlagen!</p>
+{/if}
+
+<form action="{$PHP_SELF" method="post" class="form-horizontal">
 	<fieldset>
 		<div class="control-group">
-			<label for="username" class="control-label">Benutzername:</label>
+			<label for="user" class="control-label">Benutzername:</label>
 			<p class="controls">
-				<input type="text" class="username" name="username" />
+				<input type="text" name="user" />
 			</p>
 		</div>
 		
 		<div class="control-group">
-			<label for="password" class="control-label">Passwort:</label>
+			<label for="pass" class="control-label">Passwort:</label>
 			<p class="controls">
-				<input type="password" class="password" name="password" id="password"/>
+				<input type="password" name="pass"/>
 			</p>
 		</div>
 		

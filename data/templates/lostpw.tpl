@@ -10,7 +10,7 @@
 		<div class="control-group">
 			<label for="pass_repeat" class="control-label">Wiederholen:</label>
 			<p class="controls">
-				<input type="password" class="password" name="pass_repeat" id="pass_repeat"/>
+				<input type="password" name="pass_repeat" />
 			</p>
 		</div>
 		
