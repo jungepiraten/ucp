@@ -39,8 +39,10 @@
 					</ul>
 
 					{if $user}
-						<span class="pull-right">angemeldet als<a href="index.php?module=profile">{$user}</a></span>
+					<div class="pull-right">
+						<p style="vertical-algin:center;">angemeldet als<a href="index.php?module=profile">{$user}</a></p>
 						<a href="index.php?module=logout" class="btn btn-danger pull-right"><i class="icon-off icon-white"></i> Abmelden</a>
+					</div>	
 					{else}
 						<form class="navbar-form pull-right form-inline" action="index.php?module=login" method="POST">
 							<input type="hidden" name="login" value="1" />
