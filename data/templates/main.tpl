@@ -1,29 +1,48 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "//www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="//www.w3.org/1999/xhtml" xml:lang="de" dir="ltr">
+<!DOCTYPE html>
+<html dir="ltr">
 	<head>
 		<meta http-equiv="content-type" content="text/xhtml; charset=UTF-8" />
 		<link href="bootstrap/css/bootstrap.css" rel="stylesheet" />
-		<script type="text/javascript" src="data/jquery-1.7.1.js"></script>
-		<script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
-		<title>{$title}</title>
+		<link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet" />
+		<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.1.min.js"></script>
+		<script src="bootstrap/js/bootstrap.min.js"></script>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<style type="text/css">
 		{literal}
-		<style>
-			body {
-				margin-top:60px;
-			}
-		</style>
+                        body {
+                                padding-top: 60px;
+                                padding-bottom: 40px;
+                        }
+        
+                        .no-padding {
+                                padding:0px;
+                        }
+
+                        .no-top-bottom-margin {
+                                margin-top:0px;
+                                margin-bottom:0px;
+                        }
 		{/literal}
+		</style>
+
+                <!--[if lt IE 9]>
+                        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+                <![endif]-->
+
+                <title>Junge Piraten &bull; {$title|escape:html}</title>
 	</head>
 	<body>
 		<div class="navbar navbar-fixed-top">
 			<div class="navbar-inner">
 				<div class="container-fluid">
 					<a class="brand" href="index.php">
-						Junge Piraten UCP
+						Junge Piraten
 					</a>
 					<ul class="nav">
-						<li><a href="https://forum.junge-piraten.de/index.php">Forenübersicht</a></li>
-						<li class="active"><a href="index.php" >Mailinglisten</a></li>
+						<li class="active"><a href="index.php">Account</a></li>
+						<li><a href="https://forum.junge-piraten.de/index.php">Forum</a></li>
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Junge Piraten <b class="caret"></b></a>
 							<ul class="dropdown-menu">
@@ -38,42 +57,43 @@
 						</li>
 					</ul>
 
-					{if $user}
-					<div class="pull-right">
-						<p style="vertical-algin:center;">angemeldet als<a href="index.php?module=profile">{$user}</a></p>
-						<a href="index.php?module=logout" class="btn btn-danger pull-right"><i class="icon-off icon-white"></i> Abmelden</a>
-					</div>	
-					{else}
+					{if !isset($user)}
 						<form class="navbar-form pull-right form-inline" action="index.php?module=login" method="POST">
 							<input type="hidden" name="login" value="1" />
 							<input type="text" name="username" class="span2" placeholder="Loginname" />
 							<input type="password" name="password" class="span2" placeholder="Passwort" />
 							<button type="submit" class="btn btn-primary">Anmelden</button>
 						</form>
+					{else}
+						<a href="index.php?module=logout" class="btn btn-danger pull-right"><i class="icon-off icon-white"></i> Abmelden</a>
 					{/if}
 				</div>
 			</div>
 		</div>
-		<div class="container">
+
+		<div class="container-fluid">
 			<div class="row-fluid">
-				<div class="span3">
+				<div class="span3 hidden-phone">
 					<div class="well sidebar-nav" style="padding: 8px 0;">
 						<ul class="nav nav-list">
-					{foreach key=mod item=mtitle from=$navigation name=navigation}
-						{if $mod == $module}
-							<li><a class="active" href="index.php?module={$mod}">{$mtitle}</a></li>
-						{else} 
-							<li><a href="index.php?module={$mod}">{$mtitle}</a></li>
-						{/if}
-					{/foreach}
+							{foreach key=mod item=mtitle from=$navigation name=navigation}
+								<li {if $mod == $module}class="active"{/if}><a href="index.php?module={$mod}">{$mtitle}</a></li>
+							{/foreach}
 						</ul>
 					</div>
 				</div>
+
 				<div class="span9">
-					<h1 style="margin-bottom: 20px;">{$pagetitle}</h1>
+					<h1 style="margin-bottom: 20px;">{$title|escape:html}</h1>
 					{$content}
 				</div>
 			</div>
 		</div>
+
+		<hr />
+
+		<footer>
+			Erstellt f&uuml;r die <a href="//www.junge-piraten.de/">Jungen Piraten</a>.
+		</footer>
 	</body>
 </html>
