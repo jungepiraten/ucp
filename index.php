@@ -93,7 +93,7 @@ $smarty->assign("user_override", isset($_SESSION["user_override"]));
 $smarty->assign("user", ($user instanceof User) ? $user->getUid() : false);
 $smarty->assign("module", $module);
 $smarty->assign("navigation", $_navigation);
-$smarty->assign("title", $config["site"]["title"] . ": " . $config["modules"][$module]["title"]);
+$smarty->assign("title", $config["modules"][$module]["title"]);
 $smarty->assign("pagetitle", $config["modules"][$module]["title"]);
 $smarty->assign("content", $_content);
 
