@@ -22,24 +22,24 @@
 						Junge Piraten UCP
 					</a>
 					<ul class="nav">
-						<li><a href="https://ucp.junge-piraten.de/index.php?module=lists">Forenübersicht</a></li>
+						<li><a href="https://forum.junge-piraten.de/index.php">Forenübersicht</a></li>
 						<li class="active"><a href="index.php" >Mailinglisten</a></li>
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Junge Piraten <b class="caret"></b></a>
 							<ul class="dropdown-menu">
 								<li><a href="https://www.junge-piraten.de/">Homepage</a></li>
 								<li><a href="https://www.junge-piraten.de/mitmachen/">Mitmachen</a></li>
-								<li class="active"><a href="index.php">Forum</a></li>
+								<li><a href="index.php">Forum</a></li>
 								<li><a href="https://wiki.junge-piraten.de/">Wiki</a></li>
 								<li><a href="http://jupis.piratenpad.de/">Piratenpad</a></li>
-								<li><a href="https://ucp.junge-piraten.de/">UCP</a></li>
+								<li class="active"><a href="https://ucp.junge-piraten.de/">UCP</a></li>
 								<li><a href="https://www.junge-piraten.de/presse">Presse</a></li>
 							</ul>
 						</li>
 					</ul>
 
 					{if $user}
-						<span>angemeldet als<a href="index.php?module=profile">{$user}</a></span>
+						<span class="pull-right">angemeldet als<a href="index.php?module=profile">{$user}</a></span>
 						<a href="logout.php" class="btn btn-danger pull-right"><i class="icon-off icon-white"></i> Abmelden</a>
 					{else}
 						<form class="navbar-form pull-right form-inline" action="index.php?module=login" method="POST">
