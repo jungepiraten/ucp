@@ -18,7 +18,7 @@
 			<td>{$user|escape:html}</td>
 			<td><a class="btn btn-mini" href="?do=override&amp;user={$user|escape:url}">&Uuml;berschreiben</a></td>
 			<td><a class="btn btn-mini btn-danger" href="?do=delete&amp;users[]={$user|escape:url}" onClick="return confirm('Sicher?');">L&ouml;schen</a></td>
-		<tr>
+		</tr>
 	{/foreach}
 	</table>
 
