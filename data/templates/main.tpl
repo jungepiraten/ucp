@@ -57,7 +57,7 @@
 						</li>
 					</ul>
 
-					{if !isset($user)}
+					{if !$user}
 						<form class="navbar-form pull-right form-inline" action="index.php?module=login" method="POST">
 							<input type="hidden" name="login" value="1" />
 							<input type="text" name="username" class="span2" placeholder="Loginname" />
