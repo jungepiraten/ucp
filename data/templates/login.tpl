@@ -2,7 +2,7 @@
 <p class="error">Login fehlgeschlagen!</p>
 {/if}
 
-<form action="{$PHP_SELF" method="post" class="form-horizontal">
+<form action="{$PHP_SELF}" method="post" class="form-horizontal">
 	<fieldset>
 		<div class="control-group">
 			<label for="user" class="control-label">Benutzername:</label>
