@@ -15,11 +15,11 @@
 					<i>{$mail[0]}</i> <a class="btn btn-mini" href="?do=verify_mail&amp;mail={$mail[0]|escape:url}">verifizieren</a>
 				{/if}
 				{if count($mails)>1}
-					<a class="btn btn-mini" href="?do=delete_mail&amp;mail={$mail[0]|escape:url}">L&ouml;schen</a>
+					<a class="btn btn-mini btn-danger" href="?do=delete_mail&amp;mail={$mail[0]|escape:url}">L&ouml;schen</a>
 				{/if}
 				<br />
 			{/foreach}
-			<a class="btn" href="?do=add_mail">Hinzuf&uuml;gen</a>
+			<a class="btn btn-mini" href="?do=add_mail">Hinzuf&uuml;gen</a>
 		</div>
 	</div>
 	<div class="control-group">
