@@ -32,7 +32,7 @@
 		<div class="control-group">
 			<label for="pass_repeat" class="control-label">Passwort wiederholen:</label>
 			<p class="controls">
-				<input type="text" name="pass_repeat" />
+				<input type="password" name="pass_repeat" />
 			</p>
 		</div>
 
