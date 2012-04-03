@@ -2,10 +2,10 @@
 <html dir="ltr">
 	<head>
 		<meta http-equiv="content-type" content="text/xhtml; charset=UTF-8" />
-		<link href="bootstrap/css/bootstrap.css" rel="stylesheet" />
-		<link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet" />
-		<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.1.min.js"></script>
-		<script src="bootstrap/js/bootstrap.min.js"></script>
+		<link href="https://static.junge-piraten.de/bootstrap/css/bootstrap.css" rel="stylesheet" />
+		<link href="https://static.junge-piraten.de/bootstrap/css/bootstrap-responsive.css" rel="stylesheet" />
+		<script src="https://static.junge-piraten.de/jquery.min.js"></script>
+		<script src="https://static.junge-piraten.de/bootstrap/js/bootstrap.min.js"></script>
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -28,7 +28,7 @@
 		</style>
 
                 <!--[if lt IE 9]>
-                        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+                        <script src="https://static.junge-piraten.de/ie-html5.js"></script>
                 <![endif]-->
 
                 <title>Junge Piraten &bull; {$title|escape:html}</title>
@@ -93,7 +93,7 @@
 		<hr />
 
 		<footer>
-			Erstellt f&uuml;r die <a href="//www.junge-piraten.de/">Jungen Piraten</a>.
+			Erstellt f&uuml;r die <a href="https://www.junge-piraten.de/">Jungen Piraten</a>.
 		</footer>
 	</body>
 </html>
