@@ -6,6 +6,7 @@
 		<link href="https://static.junge-piraten.de/bootstrap/css/bootstrap-responsive.css" rel="stylesheet" />
 		<script src="https://static.junge-piraten.de/jquery.min.js"></script>
 		<script src="https://static.junge-piraten.de/bootstrap/js/bootstrap.min.js"></script>
+		<link rel="icon" type="image/png" href="https://static.junge-piraten.de/favicon.png" />
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
