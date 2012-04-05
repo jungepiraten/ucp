@@ -77,7 +77,7 @@ if (!maySeeModule($module, $user)) {
 
 // Include the module class and execute the main function.
 include(dirname(__FILE__) . "/mod/" . $module . ".mod.php");
-$_module = new $module;
+$_module = new $module($config["modules"][$module]);
 $_content = $_module->main();
 
 // Generate the navigation

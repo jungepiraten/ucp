@@ -1,8 +1,14 @@
 <?php
 
 class lostpw {
+	private $options;
+	
+	public function __construct($options) {
+		$this->options = $options;
+	}
+
 	public function changePassword() {
-		global $smarty, $config, $userdb, $user;
+		global $smarty, $userdb, $user;
 		ob_start();
 
 		$v = stripslashes($_REQUEST["v"]);
@@ -13,7 +19,7 @@ class lostpw {
 		if (isset($_REQUEST["pass"])) {
 			$smarty->assign("uid", $uid);
 
-			if (!$hash->isValid($config["mail"]["lostpw_limit"])) {
+			if (!$hash->isValid($this->options["mail_limit"])) {
 				echo "<p>Dieser Passwort-Vergessen-Link ist leider ung&uuml;ltig. Vermutlich ist er abgelaufen.</p>";
 			} else if ($_POST["pass"] != $_POST["pass_repeat"]) {
 				echo "<p>Die beiden Passw&ouml;rter stimmen nicht &uuml;berein.</b>";
@@ -29,7 +35,7 @@ class lostpw {
 				return;
 			}
 		} else {
-			if (!$hash->isValid($config["mail"]["lostpw_limit"])) {
+			if (!$hash->isValid($this->options["mail_limit"])) {
 				echo "<p>Dieser Passwort-Vergessen-Link ist leider ung&uuml;ltig. Vermutlich ist er abgelaufen.</p>";
 			} else {
 				$smarty->display("lostpw.tpl");

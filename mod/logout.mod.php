@@ -1,9 +1,14 @@
 <?php
 
-class logout
-{
+class logout {
+	private $options;
+	
+	public function __construct($options) {
+		$this->options = $options;
+	}
+
 	public function main() {
-		global $smarty, $module, $user, $userdb;
+		global $smarty, $user, $userdb;
 
 		if (isset($_SESSION["user_override"])) {
 			$user = $userdb->getUser($_SESSION["user_override"]);

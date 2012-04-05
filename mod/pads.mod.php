@@ -3,19 +3,19 @@
 require_once(dirname(__FILE__) . "/../lib/etherpad-lite-client.php");
 
 class pads {
+	private $options;
 	private $eplite;
-
-	public function __construct() {
-		global $config;
-
-		$this->eplite = new EtherpadLiteClient($config["modules"]["pads"]["eplite_apikey"], $config["modules"]["pads"]["eplite_url"] . "api");
+	
+	public function __construct($options) {
+		$this->options = $options;
+		$this->eplite = new EtherpadLiteClient($this->options["eplite_apikey"], $this->options["eplite_url"] . "api");
 	}
 
 	private function overview() {
-		global $config, $user, $smarty;
+		global $user, $smarty;
 
 		$pads = array();
-		foreach ($this->eplite->listPads($config["modules"]["pads"]["eplite_groupid"])->padIDs as $padID) {
+		foreach ($this->eplite->listPads($this->options["eplite_groupid"])->padIDs as $padID) {
 			list($groupID, $padName) = explode('$', $padID, 2);
 			$pad = array();
 			$pad["pad"] = $padName;
@@ -30,10 +30,8 @@ class pads {
 	}
 
 	private function createPad() {
-		global $config;
-
 		try {
-			$padID = $this->eplite->createGroupPad($config["modules"]["pads"]["eplite_groupid"], stripslashes($_REQUEST["pad"]), "")->padID;
+			$padID = $this->eplite->createGroupPad($this->options["eplite_groupid"], stripslashes($_REQUEST["pad"]), "")->padID;
 			list($groupID, $padName) = explode('$', $padID, 2);
 			$this->showPad($padName);
 		} catch (InvalidArgumentException $e) {
@@ -42,27 +40,27 @@ class pads {
 	}
 
 	private function setPublic() {
-		global $config, $user;
+		global $user;
 
 		if (!$user->isAdmin()) {
 			return;
 		}
 
-		$this->eplite->setPublicStatus($config["modules"]["pads"]["eplite_groupid"] . '$' . $_REQUEST["pad"], $_REQUEST["public"]);
+		$this->eplite->setPublicStatus($this->options["eplite_groupid"] . '$' . $_REQUEST["pad"], $_REQUEST["public"]);
 	}
 
 	private function setPassword() {
-		global $config, $user;
+		global $user;
 
 		if (!$user->isAdmin()) {
 			return;
 		}
 
-		$this->eplite->setPassword($config["modules"]["pads"]["eplite_groupid"] . '$' . $_REQUEST["pad"], $_REQUEST["password"]);
+		$this->eplite->setPassword($this->options["eplite_groupid"] . '$' . $_REQUEST["pad"], $_REQUEST["password"]);
 	}
 
 	private function showPad($pad = null) {
-		global $config, $user, $smarty;
+		global $user, $smarty;
 
 		if ($pad == null) {
 			$pad = $_REQUEST["pad"];
@@ -80,20 +78,18 @@ class pads {
 			}
 		}
 		$authorID = $this->eplite->createAuthorIfNotExistsFor($userid, $username)->authorID;
-		$sessionID = $this->eplite->createSession($config["modules"]["pads"]["eplite_groupid"], $authorID, time() + 60)->sessionID;
+		$sessionID = $this->eplite->createSession($this->options["eplite_groupid"], $authorID, time() + 60)->sessionID;
 
-		setcookie("sessionID", $sessionID, 0, parse_url($config["modules"]["pads"]["eplite_url"], PHP_URL_PATH), parse_url($config["modules"]["pads"]["eplite_url"], PHP_URL_HOST));
+		setcookie("sessionID", $sessionID, 0, parse_url($this->options["eplite_url"], PHP_URL_PATH), parse_url($this->options["eplite_url"], PHP_URL_HOST));
 
 		$smarty->assign("showNickBox", ($user == null));
 		$smarty->assign("nick", $nick);
 		$smarty->assign("pad", $pad);
-		$smarty->assign("padlink", $config["modules"]["pads"]["eplite_url"] . "p/" . $config["modules"]["pads"]["eplite_groupid"] . '$' . urlencode($pad));
+		$smarty->assign("padlink", $this->options["eplite_url"] . "p/" . $this->options["eplite_groupid"] . '$' . urlencode($pad));
 		return $smarty->fetch("viewpad.tpl");
 	}
 
 	public function main() {
-		global $config, $user;
-
 		$do = isset($_REQUEST["do"]) ? stripslashes($_REQUEST["do"]) : "";
 		switch ($do) {
 			case "createPad":

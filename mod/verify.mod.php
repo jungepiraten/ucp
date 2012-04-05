@@ -1,15 +1,20 @@
 <?php
 
-class verify
-{
+class verify {
+	private $options;
+
+	public function __construct($options) {
+		$this->options = $options;
+	}
+
 	public function main() {
-		global $config, $userdb;
+		global $userdb;
 		ob_start();
 
 		$h = Hash::getByHash(stripslashes($_GET["v"]));
 		list($uid, $mail) = explode("\0", $h->getData());
 
-		if (!$h->isValid($config["mail"]["verification_limit"], $hash)) {
+		if (!$h->isValid($this->options["mail_limit"], $hash)) {
 			echo "<p>Dieser Best&auml;tigungslink ist leider ung&uuml;ltig. Vielleicht ist er abgelaufen?</p>";
 		} else if ($userdb->isVerified($uid, $mail)) {
 			echo "<p>Dieser Account wurde bereits verifiziert.</p>";

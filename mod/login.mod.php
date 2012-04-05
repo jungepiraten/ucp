@@ -1,8 +1,14 @@
 <?php
 
 class login {
+	private $options;
+	
+	public function __construct($options) {
+		$this->options = $options;
+	}
+
 	public function main() {
-		global $smarty, $config, $user, $userdb;
+		global $smarty, $user, $userdb;
 		ob_start();
 		if (!isset($_POST["user"])) {
 			$smarty->display("login.tpl");

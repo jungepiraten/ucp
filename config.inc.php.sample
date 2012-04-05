@@ -23,8 +23,6 @@ $config = array(
 	),
 	"mail" => array(
 		"from" => "no-reply@ucp.example.com",
-		"verification_limit" => 86400 * 7,
-		"lostpw_limit" => 86400 * 1,
 	),
 	"misc" => array(
 		"secret" => "********", // Some secret string
@@ -39,6 +37,7 @@ $config = array(
 		"lostpw" => array(
 			"title" => "Passwort vergessen",
 			"force_notauthenticated" => true,
+			"mail_limit" => 86400 * 1,
 		),
 		"register" => array(
 			"title" => "Registrieren",
@@ -79,6 +78,7 @@ $config = array(
 		"verify" => array(
 			"title" => "Verifizierung",
 			"hide_navigation" => true,
+			"mail_limit" => 86400 * 7,
 		),
 	)
 );

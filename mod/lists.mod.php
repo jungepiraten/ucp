@@ -3,8 +3,14 @@
 require_once(dirname(__FILE__) . "/../class/Mailman.class.php");
 
 class lists {
+	private $options;
+	
+	public function __construct($options) {
+		$this->options = $options;
+	}
+
 	private function overview() {
-		global $config, $user, $smarty;
+		global $user, $smarty;
 
 		ob_start();
 
@@ -16,7 +22,7 @@ class lists {
 		}
 		$smarty->assign("mails", $mails);
 
-		$mailman = new Mailman($user, $config["modules"]["lists"]["mailman_group"], $config["modules"]["lists"]["mailman_binpath"]);
+		$mailman = new Mailman($user, $this->options["mailman_group"], $this->options["mailman_binpath"]);
 
 		if (isset($_POST["save"])) {
 			foreach ($mailman->getLists() as $list) {
@@ -58,7 +64,7 @@ class lists {
 	}
 
 	public function main() {
-		global $config, $user;
+		global $user;
 
 		ob_start();
 

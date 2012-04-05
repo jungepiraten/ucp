@@ -1,7 +1,12 @@
 <?php
 
-class profile
-{
+class profile {
+	private $options;
+
+	public function __construct($options) {
+		$this->options = $options;
+	}
+
 	private function overview() {
 		global $smarty, $user;
 

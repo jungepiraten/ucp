@@ -1,7 +1,12 @@
 <?php
 
-class home
-{
+class home {
+	private $options;
+	
+	public function __construct($options) {
+		$this->options = $options;
+	}
+
 	public function main() {
 		global $user;
 
