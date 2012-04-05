@@ -54,6 +54,12 @@ $config = array(
 			"title" => "Profil",
 			"force_authenticated" => true,
 		),
+		"pads" => array(
+			"title" => "Pads",
+			"eplite_url" => "https://pad.junge-piraten.de/",
+			"eplite_apikey" => "******",
+			"eplite_groupid" => "1",
+		),
 		"lists" => array(
 			"title" => "Mailinglisten",
 			"force_authenticated" => true,
