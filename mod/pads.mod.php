@@ -8,7 +8,7 @@ class pads {
 	
 	public function __construct($options) {
 		$this->options = $options;
-		$this->eplite = new EtherpadLiteClient($this->options["eplite_apikey"], $this->options["eplite_url"] . "api");
+		$this->eplite = new EtherpadLiteClient($this->options["eplite_apikey"], $this->options["eplite_apiurl"] . "api");
 	}
 
 	private function overview() {
@@ -80,12 +80,12 @@ class pads {
 		$authorID = $this->eplite->createAuthorIfNotExistsFor($userid, $username)->authorID;
 		$sessionID = $this->eplite->createSession($this->options["eplite_groupid"], $authorID, time() + 60)->sessionID;
 
-		setcookie("sessionID", $sessionID, 0, parse_url($this->options["eplite_url"], PHP_URL_PATH), parse_url($this->options["eplite_url"], PHP_URL_HOST));
+		setcookie("sessionID", $sessionID, 0, "/", parse_url($this->options["eplite_padurl"], PHP_URL_HOST));
 
 		$smarty->assign("showNickBox", ($user == null));
 		$smarty->assign("nick", $nick);
 		$smarty->assign("pad", $pad);
-		$smarty->assign("padlink", $this->options["eplite_url"] . "p/" . $this->options["eplite_groupid"] . '$' . urlencode($pad));
+		$smarty->assign("padlink", $this->options["eplite_padurl"] . urlencode($pad));
 		return $smarty->fetch("viewpad.tpl");
 	}
 

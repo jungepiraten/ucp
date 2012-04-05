@@ -55,9 +55,10 @@ $config = array(
 		),
 		"pads" => array(
 			"title" => "Pads",
-			"eplite_url" => "https://pad.junge-piraten.de/",
+			"eplite_apiurl" => "https://pad.junge-piraten.de/api",
+			"eplite_padurl" => 'https://pad.junge-piraten.de/p/g.wwr2524t4$',
 			"eplite_apikey" => "******",
-			"eplite_groupid" => "1",
+			"eplite_groupid" => "g.wwr2524t4",
 		),
 		"lists" => array(
 			"title" => "Mailinglisten",
