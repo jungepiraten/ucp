@@ -2,6 +2,7 @@
 <div class="row-fluid">
 	<div class="btn-toolbar span6">
 		<button class="btn" onclick="document.getElementById('pad').webkitRequestFullScreen();">Vollbild</button>
+		<a class="btn" href="{$padlink}" target="_blank">In neuem Fenster öffnen</a>
 	</div>
 	{if $showNickBox}
 		<form action="{$PHP_SELF}" method="post" class="form-inline span6">
