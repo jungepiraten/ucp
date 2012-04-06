@@ -80,7 +80,7 @@ class pads {
 		$authorID = $this->eplite->createAuthorIfNotExistsFor($userid, $username)->authorID;
 		$sessionID = $this->eplite->createSession($this->options["eplite_groupid"], $authorID, time() + 60)->sessionID;
 
-		setcookie("sessionID", $sessionID, 0, "/", parse_url($this->options["eplite_padurl"], PHP_URL_HOST));
+		setcookie("sessionID", $sessionID, 0, dirname(parse_url($this->options["eplite_padurl"], PHP_URL_PATH)), parse_url($this->options["eplite_padurl"], PHP_URL_HOST));
 
 		$smarty->assign("showNickBox", ($user == null));
 		$smarty->assign("nick", $nick);
