@@ -78,6 +78,7 @@
 		</div>
 </div>
 
+{literal}
 <script type="text/javascript">
 <!--
 
@@ -90,3 +91,4 @@ $("a.deletePad").click(function (event) {
 
 //-->
 </script>
+{/literal}
