@@ -67,26 +67,31 @@ class pads {
 		}
 
 		if ($user != null) {
-			$userid = $user->getUid();
-			$username = $nick = $userid;
+			$authorID = $this->eplite->createAuthorIfNotExistsFor($user->getUid(), $user->getUid())->authorID;
 		} else {
-			$userid = "Besucher " . rand(1000,9999);
-			$username = $nick = $userid;
-			if (isset($_REQUEST["nick"])) {
-				$nick = strip_tags(stripslashes($_REQUEST["nick"]));
-				$username = $nick . " (Gast)";
-			}
+			$authorID = $this->eplite->createAuthor()->authorID;
 		}
-		$authorID = $this->eplite->createAuthorIfNotExistsFor($userid, $username)->authorID;
-		$sessionID = $this->eplite->createSession($this->options["eplite_groupid"], $authorID, time() + 60)->sessionID;
+		$sessionID = $this->eplite->createSession($this->options["eplite_groupid"], $authorID, time() + 24*60*60)->sessionID;
 
 		setcookie("sessionID", $sessionID, 0, dirname(parse_url($this->options["eplite_padurl"], PHP_URL_PATH)), parse_url($this->options["eplite_padurl"], PHP_URL_HOST));
 
-		$smarty->assign("showNickBox", ($user == null));
-		$smarty->assign("nick", $nick);
 		$smarty->assign("pad", $pad);
 		$smarty->assign("padlink", $this->options["eplite_padurl"] . urlencode($pad));
 		return $smarty->fetch("viewpad.tpl");
+	}
+
+	private function deletePad($pad = null) {
+		global $user;
+
+		if ($pad == null) {
+			$pad = $_REQUEST["pad"];
+		}
+
+		if (!$user->isAdmin()) {
+			return;
+		}
+
+		$this->eplite->deletePad($this->options["eplite_groupid"] . '$' . $_REQUEST["pad"]);
 	}
 
 	public function main() {
@@ -102,6 +107,9 @@ class pads {
 				return $this->overview();
 			case "showPad":
 				return $this->showPad();
+			case "deletePad":
+				$this->deletePad();
+				return $this->overview();
 			default:
 			case "overview":
 				return $this->overview();
