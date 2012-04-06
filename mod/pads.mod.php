@@ -75,7 +75,7 @@ class pads {
 
 		setcookie("sessionID", $sessionID, 0, dirname(parse_url($this->options["eplite_padurl"], PHP_URL_PATH)), parse_url($this->options["eplite_padurl"], PHP_URL_HOST));
 
-		return '<html><body style="padding:0px"><iframe src="' . $this->options["eplite_padurl"] . urlencode($pad) . '" style="width:100%; height:100%; border:0px; margin:0px;"></iframe></body></html>';
+		return '<html><body style="margin:0px;padding:0px"><iframe src="' . $this->options["eplite_padurl"] . urlencode($pad) . '" style="width:100%; height:100%; border:0px; margin:0px;"></iframe></body></html>';
 	}
 
 	private function deletePad($pad = null) {
