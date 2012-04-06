@@ -8,7 +8,7 @@ class pads {
 	
 	public function __construct($options) {
 		$this->options = $options;
-		$this->eplite = new EtherpadLiteClient($this->options["eplite_apikey"], $this->options["eplite_apiurl"] . "api");
+		$this->eplite = new EtherpadLiteClient($this->options["eplite_apikey"], $this->options["eplite_apiurl"]);
 	}
 
 	private function overview() {
