@@ -74,7 +74,7 @@
 		</p>
 		<div class="modal-footer">
 			<a href="#" class="btn" data-dismiss="modal">Close</a>
-			<a href="" class="btn btn-danger" id="delLink">Löschen</button>
+			<a href="" class="btn btn-danger" id="delLink">Löschen</a>
 		</div>
 </div>
 
