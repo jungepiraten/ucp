@@ -91,7 +91,7 @@ class pads {
 			return;
 		}
 
-		$this->eplite->deletePad($this->options["eplite_groupid"] . '$' . $_REQUEST["pad"]);
+		$this->eplite->deletePad($this->options["eplite_groupid"] . '$' . $pad);
 	}
 
 	public function main() {

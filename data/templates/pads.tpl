@@ -84,7 +84,7 @@
 
 $("a.deletePad").click(function (event) {
 	event.stopImmediatePropagation();
-	$("#deleteModal").children(".modal-footer").children("delLink").attr("href", $(this).attr("href"));
+	$("#deleteModal").children(".modal-footer").children("#delLink").attr("href", $(this).attr("href"));
 	$("#deleteModal").modal();
 	return false;
 });
