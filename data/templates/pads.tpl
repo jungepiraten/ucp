@@ -1,3 +1,4 @@
+{include file="header.tpl"}
 <form action="{$PHP_SELF}" method="post" class="form-inline">
 	<fieldset>
 		<input type="hidden" name="do" value="createPad" />
@@ -92,3 +93,5 @@ $("a.deletePad").click(function (event) {
 //-->
 </script>
 {/literal}
+{include file="footer.tpl"}
+

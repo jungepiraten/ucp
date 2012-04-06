@@ -1,3 +1,4 @@
+{include file="header.tpl"}
 <form action="?do=change_password" class="form-horizontal" method="post">
 	<fieldset>
 		<div class="control-group">
@@ -26,3 +27,4 @@
 		</div>
 	</fieldset>
 </form>
+{include file="footer.tpl"}

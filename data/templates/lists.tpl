@@ -1,3 +1,4 @@
+{include file="header.tpl"}
 <form action="{$PHP_SELF}" class="form-horizontal" method="post">
 	<table class="table table-striped table-bordered">
 	<thead>
@@ -29,3 +30,4 @@
 		<button type="submit" class="btn btn-primary" name="save" value="1">&Auml;nderungen speichern</button>
 	</div>
 </form>
+{include file="footer.tpl"}

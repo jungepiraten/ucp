@@ -1,3 +1,4 @@
+{include file="header.tpl"}
 <form action="{$PHP_SELF}" class="form-inline" method="post">
 	<input type="text" name="filter" value="{$smarty.request.filter|escape:html}" placeholder="Filtern ..." />
 	<input class="btn btn-primary" type="submit" value="Filtern" />
@@ -26,3 +27,5 @@
 		<button class="btn btn-danger" type="submit" name="do" value="delete">L&ouml;schen</button>
 	</div>
 </form>
+{include file="footer.tpl"}
+

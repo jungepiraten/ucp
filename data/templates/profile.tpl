@@ -1,3 +1,4 @@
+{include file="header.tpl"}
 <h2>Benutzername</h2>
 {$user}
 
@@ -28,3 +29,5 @@
 <h2>Passwort</h2>
 
 ******** <a class="btn btn-mini" href="?do=change_password">&Auml;ndern</a>
+{include file="footer.tpl"}
+

@@ -1,9 +1,10 @@
+{include file="header.tpl"}
 {if $errors|@count > 0}
 	{foreach from=$errors item=error}
-	<div class="alert alert-error">
-		<a class="close" data-dismiss="alert">×</a>
-		<strong>Fehler!</strong> {$error}
-	</div>
+		<div class="alert alert-error">
+			<a class="close" data-dismiss="alert">×</a>
+			<strong>Fehler!</strong> {$error}
+		</div>
 	{/foreach}
 {/if}
 <form action="?do=add_mail" method="post" class="form-horizontal">
@@ -48,3 +49,5 @@
 		</div>
 	</fieldset>
 </form>
+{include file="footer.tpl"}
+

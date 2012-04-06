@@ -1,3 +1,4 @@
+{include file="header.tpl"}
 <form action="{$PHP_SELF}" method="post" class="form-horizontal">
 	<fieldset>
 		<div class="control-group">
@@ -19,3 +20,5 @@
 		</div>
 	</fieldset>
 </form>
+{include file="footer.tpl"}
+

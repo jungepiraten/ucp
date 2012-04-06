@@ -1,5 +1,6 @@
+{include file="header.tpl"}
 {if $loginfailed}
-<p class="error">Login fehlgeschlagen!</p>
+	<p class="error">Login fehlgeschlagen!</p>
 {/if}
 
 <form action="{$PHP_SELF}" method="post" class="form-horizontal">
@@ -23,3 +24,5 @@
 		</div>
 	</fieldset>
 </form>
+{include file="footer.tpl"}
+

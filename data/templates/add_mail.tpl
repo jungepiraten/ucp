@@ -1,3 +1,4 @@
+{include file="header.tpl"}
 <form action="?do=add_mail" method="post" class="form-horizontal">
 	<fieldset>
 		<div class="control-group">
@@ -8,7 +9,8 @@
 		</div>
 		
 		<div class="form-actions">
-			<button type="submit" class="btn btn-primary" name="add_mail" value="1">hinzuf&uuml;gen</button>
+			<button type="submit" class="btn btn-primary" name="act" value="1">hinzuf&uuml;gen</button>
 		</div>
 	</fieldset>
 </form>
+{include file="footer.tpl"}
