@@ -75,11 +75,6 @@ if (!maySeeModule($module, $user)) {
 	}
 }
 
-// Include the module class and execute the main function.
-include(dirname(__FILE__) . "/mod/" . $module . ".mod.php");
-$_module = new $module($config["modules"][$module]);
-$_content = $_module->main();
-
 // Generate the navigation
 $_navigation = array();
 foreach ($config["modules"] as $key => $value) {
@@ -95,10 +90,14 @@ $smarty->assign("module", $module);
 $smarty->assign("navigation", $_navigation);
 $smarty->assign("title", $config["modules"][$module]["title"]);
 $smarty->assign("pagetitle", $config["modules"][$module]["title"]);
-$smarty->assign("content", $_content);
+
+// Include the module class and execute the main function.
+include(dirname(__FILE__) . "/mod/" . $module . ".mod.php");
+$_module = new $module($config["modules"][$module]);
+$_content = $_module->main();
 
 // Display the page
-$smarty->display("main.tpl");
+print($_content);
 
 // Do not serialize the user, since the User-Object stores a DB-Link,
 // which gets broken during serialization
