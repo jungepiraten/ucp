@@ -46,7 +46,7 @@ class pads {
 			return;
 		}
 
-		$this->eplite->setPublicStatus($this->options["eplite_groupid"] . '$' . $_REQUEST["pad"], $_REQUEST["public"]);
+		$this->eplite->setPublicStatus($this->options["eplite_groupid"] . '$' . $_REQUEST["pad"], $_REQUEST["public"] == "1" ? "true" : "false");
 	}
 
 	private function setPassword() {
@@ -69,7 +69,7 @@ class pads {
 		if ($user != null) {
 			$authorID = $this->eplite->createAuthorIfNotExistsFor($user->getUid(), $user->getUid())->authorID;
 		} else {
-			$authorID = $this->eplite->createAuthor()->authorID;
+			$authorID = $this->eplite->createAuthor("Anonymous")->authorID;
 		}
 		$sessionID = $this->eplite->createSession($this->options["eplite_groupid"], $authorID, time() + 24*60*60)->sessionID;
 
