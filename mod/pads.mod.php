@@ -36,6 +36,7 @@ class pads {
 		try {
 			$padID = $this->eplite->createGroupPad($this->options["eplite_groupid"], stripslashes($_REQUEST["pad"]), "")->padID;
 			list($groupID, $padName) = explode('$', $padID, 2);
+			$this->eplite->setPublicStatus($padID, "true");
 			$this->showPad($padName);
 		} catch (InvalidArgumentException $e) {
 			return "<p>" . htmlentities($e->getMessage()) . "</p>";
