@@ -9,7 +9,6 @@ class lostpw {
 
 	public function changePassword() {
 		global $smarty, $userdb, $user;
-		ob_start();
 
 		$v = stripslashes($_REQUEST["v"]);
 		$smarty->assign("v", $v);
@@ -38,17 +37,13 @@ class lostpw {
 			if (!$hash->isValid($this->options["mail_limit"])) {
 				echo "<p>Dieser Passwort-Vergessen-Link ist leider ung&uuml;ltig. Vermutlich ist er abgelaufen.</p>";
 			} else {
-				$smarty->display("lostpw.tpl");
+				return $smarty->fetch("lostpw.tpl");
 			}
 		}
-		$content = ob_get_contents();
-		ob_end_clean();
-		return $content;
 	}
 
 	public function sendMail() {
 		global $smarty, $config, $userdb;
-		ob_start();
 
 		if (isset($_POST["user"])) {
 			$user = stripslashes($_POST["user"]);
@@ -82,11 +77,8 @@ lostpw_mail;
 				echo "<p>Der Hilfelink wurde versandt.</p>";
 			}
 		} else {
-			$smarty->display("lostpw-request.tpl");
+			return $smarty->fetch("lostpw-request.tpl");
 		}
-		$content = ob_get_contents();
-		ob_end_clean();
-		return $content;
 	}
 
 	public function main() {

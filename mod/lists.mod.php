@@ -12,8 +12,6 @@ class lists {
 	private function overview() {
 		global $user, $smarty;
 
-		ob_start();
-
 		$mails = array();
 		foreach ($user->getMails() as $mail) {
 			if ($user->isVerified($mail)) {
@@ -55,18 +53,11 @@ class lists {
 		}
 		$smarty->assign("lists", $lists);
 
-		$smarty->display("lists.tpl");
-
-		$content = ob_get_contents();
-		ob_end_clean();
-
-		return $content;
+		return $smarty->fetch("lists.tpl");
 	}
 
 	public function main() {
 		global $user;
-
-		ob_start();
 
 		if (!$user->isVerified()) {
 			echo "Bevor du deine Mailinglisten verwalten kannst, muss mindestens eine E-Mail Adresse durch eine Best&auml;tigungsmail verifiziert werden.";
@@ -75,14 +66,9 @@ class lists {
 			switch ($do) {
 				case "overview":
 				default:
-					echo $this->overview();
+					return $this->overview();
 			}
 		}
-
-		$content = ob_get_contents();
-		ob_end_clean();
-
-		return $content;
 	}
 
 }

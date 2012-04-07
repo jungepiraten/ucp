@@ -21,7 +21,9 @@ class pads {
 			$pad["pad"] = $padName;
 			$pad["isProtected"] = $this->eplite->isPasswordProtected($padID)->isPasswordProtected;
 			$pad["isPublic"] = $this->eplite->getPublicStatus($padID)->publicStatus;
-			$pads[] = $pad;
+			if ($user != null || $this->eplite->getPublicStatus($padID)->publicStatus) {
+				$pads[] = $pad;
+			}
 		}
 		$smarty->assign("pads", $pads);
 		$smarty->assign("showPadOptions", ($user != null && $user->isAdmin()) );
@@ -68,12 +70,10 @@ class pads {
 
 		if ($user != null) {
 			$authorID = $this->eplite->createAuthorIfNotExistsFor($user->getUid(), $user->getUid())->authorID;
-		} else {
-			$authorID = $this->eplite->createAuthor("Anonymous")->authorID;
-		}
-		$sessionID = $this->eplite->createSession($this->options["eplite_groupid"], $authorID, time() + 24*60*60)->sessionID;
+			$sessionID = $this->eplite->createSession($this->options["eplite_groupid"], $authorID, time() + 24*60*60)->sessionID;
 
-		setcookie("sessionID", $sessionID, 0, dirname(parse_url($this->options["eplite_padurl"], PHP_URL_PATH)), parse_url($this->options["eplite_padurl"], PHP_URL_HOST));
+			setcookie("sessionID", $sessionID, 0, dirname(parse_url($this->options["eplite_padurl"], PHP_URL_PATH)), parse_url($this->options["eplite_padurl"], PHP_URL_HOST));
+		}
 
 		return '<html><body style="margin:0px;padding:0px"><iframe src="' . $this->options["eplite_padurl"] . urlencode($pad) . '" style="width:100%; height:100%; border:0px; margin:0px;"></iframe></body></html>';
 	}

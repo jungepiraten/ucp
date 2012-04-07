@@ -1,5 +1,18 @@
 {include file="header.tpl"}
 <div class="alert">Mailadresse <strong>{$mail}</strong> von ihrem Konto l&ouml;schen?</div>
+{if $mailnotinuse}
+	<p>Die Mailadresse wird derzeit nicht benutzt.</p>
+{/if}
+{if $mailnotverified}
+	<p>Kann nicht zu dieser Mailadresse verschieben: Sie ist nicht verifiziert.</p>
+{/if}
+{if $sourceequalsdestination}
+	<p>Witzbold ;)</p>
+{/if}
+{if $success}
+	<p>Die E-Mail Adresse wurde erfolgreich gel&ouml;scht.</p>
+{/if}
+
 <form action="?do=delete_mail" method="post" class="form-horizontal">
 	<fieldset>
 		<input type="hidden" name="mail" value="{$mail}" />

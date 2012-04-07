@@ -10,8 +10,6 @@ class console {
 	public function overview() {
 		global $smarty, $userdb;
 		
-		ob_start();
-		
 		$filter = null;
 		if (!empty($_REQUEST["filter"])) {
 			$filter = "*" . stripslashes($_REQUEST["filter"]) . "*";
@@ -19,18 +17,11 @@ class console {
 		$users = $userdb->getUsers($filter);
 		$smarty->assign("users", $users);
 
-		$smarty->display("userlist.tpl");
-
-		$output = ob_get_contents();
-		ob_end_clean();
-
-		return $output;
+		return $smarty->fetch("userlist.tpl");
 	}
 
 	public function delete() {
 		global $userdb;
-		
-		ob_start();
 		
 		if (!isset($_REQUEST["users"])) {
 			return $this->overview();
@@ -43,11 +34,6 @@ class console {
 				echo "<p><strong>FEHLER!</strong></p>";
 			}
 		}
-
-		$output = ob_get_contents();
-		ob_end_clean();
-
-		return $output;
 	}
 
 	public function override() {

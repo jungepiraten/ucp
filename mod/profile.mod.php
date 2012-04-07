@@ -10,8 +10,6 @@ class profile {
 	private function overview() {
 		global $smarty, $user;
 
-		ob_start();
-
 		$smarty->assign("user", $user->getUid());
 		$mailadresses = $user->getMails();
 		$mails = array();
@@ -19,29 +17,23 @@ class profile {
 			$mails[] = array($mail, $user->isVerified($mail));
 		}
 		$smarty->assign("mails", $mails);
-		$smarty->display("profile.tpl");
-
-		$content = ob_get_contents();
-		ob_end_clean();
-		return $content;
+		return $smarty->fetch("profile.tpl");
 	}
 
 	private function addMail() {
 		global $config, $smarty, $user, $userdb;
 
-		ob_start();
-
 		$mail = stripslashes($_POST["mail"]);
 		$smarty->assign("mail", $mail);
 		if (isset($_POST["act"])) {
 			if (!$userdb->isValidMailAddress($mail)) {
-				echo "<p>Die angegebene E-Mail Adresse ist ung&uuml;ltig</p>";
-				$smarty->display("add_mail.tpl");
+				$smarty->assign("mailinvalid", 1);
+				return $smarty->fetch("add_mail.tpl");
 			} else if (is_array($user->getMails()) && in_array($mail, $user->getMails())) {
-				echo $this->overview();
+				return $this->overview();
 			} else if ($config["misc"]["singletonmail"] && $userdb->mailUsed($mail)) {
-				echo "<p>Die angegebene E-Mail Adresse wird bereits bei einem anderen Account verwendet.</p>";
-				$smarty->display("add_mail.tpl");
+				$smarty->assign("mailinuse", 1);
+				return $smarty->fetch("add_mail.tpl");
 			} else {
 				$user->addMail($mail);
 				$user->save();
@@ -50,21 +42,15 @@ class profile {
 					header("Location: index.php?module=profile&do=verify_mail&mail=" . urlencode($mail));
 					exit;
 				}
-				echo $this->overview();
+				return $this->overview();
 			}
 		} else {
-			$smarty->display("add_mail.tpl");
+			return $smarty->fetch("add_mail.tpl");
 		}
-
-		$content = ob_get_contents();
-		ob_end_clean();
-		return $content;
 	}
 
 	private function deleteMail() {
 		global $smarty, $user, $userdb;
-
-		ob_start();
 
 		$smarty->assign("mail", stripslashes($_REQUEST["mail"]));
 		$allmails = $user->getMails();
@@ -80,14 +66,14 @@ class profile {
 			$listsoption = stripslashes($_POST["listsoption"]);
 			$movemail = stripslashes($_REQUEST["movemail"]);
 			if (!in_array($mail, $user->getMails())) {
-				echo "<p>Die Mailadresse wird derzeit nicht benutzt.</p>";
-				echo $this->overview();
+				$smarty->assign("mailnotinuse", 1);
+				return $this->overview();
 			} else if ($listsoption == "move" && !$user->isVerified($movemail)) {
-				echo "<p>Kann nicht zu dieser Mailadress verschieben: Sie ist nicht verifiziert.</p>";
-				$smarty->display("delete_mail.tpl");
+				$smarty->assign("notverified", 1);
+				return $smarty->fetch("delete_mail.tpl");
 			} else if ($listsoption == "move" && $mail == $movemail) {
-				echo "<p>Witzbold ;)</p>";
-				$smarty->display("delete_mail.tpl");
+				$smarty->assign("sourceequalsdestination", 1);
+				return $smarty->fetch("delete_mail.tpl");
 			} else {
 				$mailman = new Mailman($user);
 				if ($listsoption == "delete") {
@@ -109,16 +95,12 @@ class profile {
 				}
 				$user->deleteMail($mail);
 				$user->save();
-				echo "<p>Die E-Mail Adresse wurde erfolgreich gel&ouml;scht.</p>";
-				echo $this->overview();
+				$smarty->assign("success", 1);
+				return $this->overview();
 			}
 		} else {
-			$smarty->display("delete_mail.tpl");
+			return $smarty->fetch("delete_mail.tpl");
 		}
-
-		$content = ob_get_contents();
-		ob_end_clean();
-		return $content;
 	}
 
 	private function changePassword() {
@@ -165,8 +147,6 @@ class profile {
 			return "<p>Diese Mailadresse wurde bereits verifiziert.</p>"; 
 		}
 
-		ob_start();
-
 		if (isset($_POST["send"])) {
 			$hash = new Hash($user->getUid() . "\0" . $mail);
 			$verification_link = $config['site']['url'] . "/index.php?module=verify&v=" . urlencode($hash);
@@ -189,12 +169,8 @@ verification_mail;
 			echo $this->overview();
 		} else {
 			$smarty->assign("mail", $mail);
-			$smarty->display("verify_mail.tpl");
+			return $smarty->fetch("verify_mail.tpl");
 		}
-
-		$content = ob_get_contents();
-		ob_end_clean();
-		return $content;
 	}
 
 	public function main() {
