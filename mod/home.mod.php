@@ -10,6 +10,8 @@ class home {
 	public function main() {
 		global $user, $smarty;
 
+		$smarty->assign("user", $user->getUid());
+
 		if (!$user->hasMail()) {
 			$smarty->assign("showAddMail", 1);
 		} else if (!$user->isVerified()) {

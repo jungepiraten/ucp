@@ -1,5 +1,5 @@
 {include file="header.tpl"}
-<p class="greeting">Willkommen, {$user}!</p>";
+<p class="greeting">Willkommen, {$user}!</p>
 
 {if $showAddMail}
 <p class="note">Deinem Account sind noch keine Mailadressen zugeordnet. Um die Funktionen dieses Panels voll nutzen zu k&ouml;nnen, solltest du <a href="?module=profile&amp;do=add_mail">eine Mailadresse eintragen</a>.</p>
