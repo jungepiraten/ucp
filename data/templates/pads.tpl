@@ -63,7 +63,7 @@
 			</div>
 		</form>
 		<div class="modal-footer">
-			<a href="#" class="btn" data-dismiss="modal">Close</a>
+			<a href="#" class="btn" data-dismiss="modal">Abbrechen</a>
 			<button onclick="$(this).parent().parent().find('form').submit()" class="btn btn-primary">Passwort setzen</button>
 		</div>
 </div>
@@ -77,7 +77,7 @@
 			Pad wirklich löschen?
 		</p>
 		<div class="modal-footer">
-			<a href="#" class="btn" data-dismiss="modal">Close</a>
+			<a href="#" class="btn" data-dismiss="modal">Abbrechen</a>
 			<a href="" class="btn btn-danger" id="delLink">Löschen</a>
 		</div>
 </div>
