@@ -1,11 +1,14 @@
 {include file="header.tpl"}
-<form action="{$PHP_SELF}" method="post" class="form-inline">
-	<fieldset>
-		<input type="hidden" name="do" value="createPad" />
-		<input type="text" name="pad" />
-		<input type="submit" class="btn btn-primary" value="Pad anlegen" />
-	</fieldset>
-</form>
+{if $showCreatePadBox}
+	<form action="{$PHP_SELF}" method="post" class="form-inline">
+		<fieldset>
+			<input type="hidden" name="do" value="createPad" />
+			<input type="text" name="pad" />
+			<input type="submit" class="btn btn-primary" value="Pad anlegen" />
+		</fieldset>
+	</form>
+{/if}
+
 <table class="table table-striped table-bordered">
 <thead>
 	<tr>

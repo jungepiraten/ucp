@@ -26,6 +26,7 @@ class pads {
 			}
 		}
 		$smarty->assign("pads", $pads);
+		$smarty->assign("showCreatePadBox", $user != null );
 		$smarty->assign("showPadOptions", ($user != null && $user->isAdmin()) );
 
 		return $smarty->fetch("pads.tpl");
