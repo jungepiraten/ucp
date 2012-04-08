@@ -2,6 +2,7 @@
 {if $showCreatePadBox}
 	<form action="{$PHP_SELF}" method="post" class="form-inline">
 		<fieldset>
+			<input type="hidden" name="module" value="{$module}" />
 			<input type="hidden" name="do" value="createPad" />
 			<input type="text" name="pad" />
 			<input type="submit" class="btn btn-primary" value="Pad anlegen" />
@@ -24,21 +25,21 @@
 	<tr>
 		<td>
 			{if $pad.isPublic}
-				{if $showPadOptions}<a href="?do=setPublic&pad={$pad.pad|escape:url}&public=0">{/if}
+				{if $showPadOptions}<a href="?module={$module}&amp;do=setPublic&amp;pad={$pad.pad|escape:url}&amp;public=0">{/if}
 				<i class="icon-eye-open"></i>
 				{if $showPadOptions}</a>{/if}
 			{else}
-				{if $showPadOptions}<a href="?do=setPublic&pad={$pad.pad|escape:url}&public=1">{/if}
+				{if $showPadOptions}<a href="?module={$module}&amp;do=setPublic&amp;pad={$pad.pad|escape:url}&amp;public=1">{/if}
 				<i class="icon-eye-close"></i>
 				{if $showPadOptions}</a>{/if}
 			{/if}
 			{if $pad.isProtected}<i class="icon-lock"></i>{/if}
 		</td>
-		<td><a href="?do=showPad&pad={$pad.pad|escape:url}">{$pad.pad|escape:html}</a></td>
+		<td><a href="?module={$module}&amp;do=showPad&amp;pad={$pad.pad|escape:url}">{$pad.pad|escape:html}</a></td>
 		{if $showPadOptions}
 			<td>
-				<a href="?do=setPassword" onclick="$('#setPasswordModal input[name=pad]').val('{$pad.pad}'); $('#setPasswordModal').modal(); return false;" class="btn btn-mini">Passwort setzen</a>
-				<a href="?do=deletePad&amp;pad={$pad.pad|escape:url}" class="btn btn-danger btn-mini deletePad">Pad löschen</a>
+				<a href="?module={$module}&amp;do=setPassword" onclick="$('#setPasswordModal input[name=pad]').val('{$pad.pad}'); $('#setPasswordModal').modal(); return false;" class="btn btn-mini">Passwort setzen</a>
+				<a href="?module={$module}&amp;do=deletePad&amp;pad={$pad.pad|escape:url}" class="btn btn-danger btn-mini deletePad">Pad löschen</a>
 			</td>
 		{/if}
 	</tr>
@@ -52,6 +53,7 @@
 			<h3>Passwort setzen</h3>
 		</div>
 		<form action="{$PHPSELF}" method="post" class="form-horizontal modal-body">
+			<input type="hidden" name="module" value="{$module}" />
 			<input type="hidden" name="do" value="setPassword" />
 			<input type="hidden" name="pad" value="" />
 
