@@ -84,6 +84,7 @@ foreach ($config["modules"] as $key => $value) {
 }
 
 // Assign the template variables
+$smarty->assign("PHP_SELF", $_SERVER["PHP_SELF"]);
 $smarty->assign("user_override", isset($_SESSION["user_override"]));
 $smarty->assign("user", ($user instanceof User) ? $user->getUid() : false);
 $smarty->assign("module", $module);
