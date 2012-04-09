@@ -16,6 +16,7 @@ class home {
 			$smarty->assign("showAddMail", 1);
 		} else if (!$user->isVerified()) {
 			$smarty->assign("showVerify", 1);
+			$smarty->assign("userMail", $user->getUnverfiedMailAddress());
 		}
 
 		return $smarty->fetch("home.tpl");
