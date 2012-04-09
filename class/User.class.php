@@ -58,6 +58,21 @@ class User {
 		return $this->userdb->verifyMailAddress($this->getUid(), $mail);
 	}
 
+	/**
+	 * @return string|bool returns first unverified mail adress or false
+	 */
+	public function getUnverfiedMailAddress()
+	{
+		if ($this->hasMail()) {
+			foreach ($this->getMails() as $mail) {
+				if (!$this->isVerified($mail))
+					return $mail;
+			}
+			return false;
+		}
+		return false;
+	}
+
 	public function isVerified($mail = null) {
 		if ($mail === null) {
 			foreach ($this->getMails() as $mail) {
