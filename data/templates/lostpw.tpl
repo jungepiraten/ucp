@@ -1,6 +1,8 @@
 {include file="header.tpl"}
 <form action="{$PHP_SELF}" method="post" class="form-horizontal">
 	<fieldset>
+		<input type="hidden" name="v" value="{$v}" />
+
 		<div class="control-group">
 			<label for="password" class="control-label">Neues Passwort:</label>
 			<p class="controls">
