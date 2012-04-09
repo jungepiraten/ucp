@@ -4,7 +4,7 @@
 		<div class="control-group">
 			<label for="password" class="control-label">Neues Passwort:</label>
 			<p class="controls">
-				<input type="password" class="username" name="password" />
+				<input type="password" class="username" name="pass" />
 			</p>
 		</div>
 		
