@@ -18,7 +18,7 @@
                 <title>Junge Piraten &bull; {$title|escape:html}</title>
 	</head>
 	<body>
-		<div class="spacer-top">&nbsp;</div>
+		<div class="visible-desktop spacer-top">&nbsp;</div>
 
 		<div class="navbar navbar-fixed-top navbar-inverse">
 			<div class="navbar-inner">
