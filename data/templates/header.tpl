@@ -2,32 +2,14 @@
 <html dir="ltr">
 	<head>
 		<meta http-equiv="content-type" content="text/xhtml; charset=UTF-8" />
-		<link href="https://static.junge-piraten.de/bootstrap/css/bootstrap.css" rel="stylesheet" />
-		<link href="https://static.junge-piraten.de/bootstrap/css/bootstrap-responsive.css" rel="stylesheet" />
-		<link href="https://static.junge-piraten.de/bootstrap-jupis.css" rel="stylesheet" />
-		<script src="https://static.junge-piraten.de/jquery.min.js"></script>
-		<script src="https://static.junge-piraten.de/bootstrap/js/bootstrap.min.js"></script>
+		<link href="https://static.junge-piraten.de/bootstrap-2.1.1/css/bootstrap.css" rel="stylesheet" />
+		<link href="https://static.junge-piraten.de/bootstrap-2.1.1/css/bootstrap-responsive.css" rel="stylesheet" />
+		<link href="https://static.junge-piraten.de/bootstrap-jupis-2.css" rel="stylesheet" />
+		<script src="https://static.junge-piraten.de/jquery-1.8.2.min.js"></script>
+		<script src="https://static.junge-piraten.de/bootstrap-2.1.1/js/bootstrap.min.js"></script>
 		<link rel="icon" type="image/png" href="https://static.junge-piraten.de/favicon.png" />
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-		<style type="text/css">
-		{literal}
-                        body {
-                                padding-top: 60px;
-                                padding-bottom: 40px;
-                        }
-        
-                        .no-padding {
-                                padding:0px;
-                        }
-
-                        .no-top-bottom-margin {
-                                margin-top:0px;
-                                margin-bottom:0px;
-                        }
-		{/literal}
-		</style>
 
                 <!--[if lt IE 9]>
                         <script src="https://static.junge-piraten.de/ie-html5.js"></script>
@@ -36,6 +18,8 @@
                 <title>Junge Piraten &bull; {$title|escape:html}</title>
 	</head>
 	<body>
+		<div class="spacer-top">&nbsp;</div>
+
 		<div class="navbar navbar-fixed-top navbar-inverse">
 			<div class="navbar-inner">
 				<div class="container-fluid">
