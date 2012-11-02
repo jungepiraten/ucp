@@ -184,7 +184,7 @@ class UserDatabase {
 	}
 
 	public function isValidMailAddress($mail) {
-		return preg_match("/^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@([a-zA-Z0-9-]+\.)+([a-zA-Z0-9]{2,4})$/", $mail);
+		return preg_match("/^[_a-zA-Z0-9+-][_\.a-zA-Z0-9+-]*@([a-zA-Z0-9-]+\.)+([a-zA-Z0-9]{2,4})$/", $mail);
 	}
 
 }
