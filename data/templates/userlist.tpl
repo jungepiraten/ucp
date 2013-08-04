@@ -8,7 +8,7 @@
 	<thead>
 		<tr>
 			<th>&nbsp;</th>
-			<th>Benutzername</th>
+			<th>Benutzer*innenname</th>
 			<th>&Uuml;berschreiben</th>
 			<th>L&ouml;schen</th>
 		</tr>

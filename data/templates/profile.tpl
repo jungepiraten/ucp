@@ -1,5 +1,5 @@
 {include file="header.tpl"}
-<h2>Benutzername</h2>
+<h2>Benutzer*innenname</h2>
 {$user}
 
 <h2>E-Mail</h2>

@@ -2,7 +2,7 @@
 <form action="{$PHP_SELF}" method="post" class="form-horizontal">
 	<fieldset>
 		<div class="control-group">
-			<label for="user" class="control-label">Benutzername:</label>
+			<label for="user" class="control-label">Benutzer*innenname:</label>
 			<p class="controls">
 				<input type="text" class="username" name="user" />
 			</p>

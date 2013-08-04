@@ -10,7 +10,7 @@
 <form action="?do=add_mail" method="post" class="form-horizontal">
 	<fieldset>
 		<div class="control-group">
-			<label for="user" class="control-label">Nutzername:</label>
+			<label for="user" class="control-label">Benutzer*innenname:</label>
 			<p class="controls">
 				<input type="text" name="user" />
 			</p>
