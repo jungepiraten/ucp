@@ -84,7 +84,7 @@ class User {
 			}
 			return false;
 		}
-		return $this->userdb->isVerified($this->getUid(), $mail);
+		return in_array($mail, $this->fixedmails) || $this->userdb->isVerified($this->getUid(), $mail);
 	}
 
 	public function isAdmin() {
