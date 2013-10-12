@@ -6,13 +6,15 @@ class User {
 	private $dn = "";
 	private $uid = "";
 	private $pass = null;
+	private $fixedmails = array();
 	private $mails = array();
 
 	private $verified = false;
 
-	public function __construct($userdb, $uid, $mails) {
+	public function __construct($userdb, $uid, $fixedmails, $mails) {
 		$this->userdb = $userdb;
 		$this->uid = $uid;
+		$this->fixedmails = $fixedmails;
 		$this->mails = $mails;
 	}
 
@@ -51,7 +53,7 @@ class User {
 	}
 
 	public function getMails() {
-		return is_array($this->mails) ? $this->mails : array();
+		return array_merge($this->fixedmails, $this->mails);
 	}
 
 	public function verifyMailAddress($mail) {

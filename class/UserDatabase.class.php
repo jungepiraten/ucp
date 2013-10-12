@@ -84,7 +84,8 @@ class UserDatabase {
 			if ($dn) {
 				$attrs = ldap_get_attributes($this->ldapconn, $entry);
 				unset($attrs['mail']['count']);
-                        	return new User($this, $attrs['uid'][0], $attrs['mail']);
+				unset($attrs['otherMailbox']['count']);
+                        	return new User($this, $attrs['uid'][0], $attrs['mail'], $attrs['otherMailbox']);
 			}
 		}
 		return false;
@@ -100,7 +101,8 @@ class UserDatabase {
 				ldap_bind($this->ldapconn, $this->ldapbinddn, $this->ldapbindpw);
 				$attrs = ldap_get_attributes($this->ldapconn, $entry);
 				unset($attrs['mail']['count']);
-                        	return new User($this, $attrs['uid'][0], $attrs['mail']);
+				unset($attrs['otherMail']['count']);
+                        	return new User($this, $attrs['uid'][0], $attrs['mail'], $attrs['otherMailbox']);
 			}
 		}
 		return false;
@@ -109,9 +111,10 @@ class UserDatabase {
 	public function registerUser($username, $password, $mail) {
 		$entry = array(
 			"cn" => ldap_escape($username),
-			"mail" => ldap_escape($mail),
+			"mail" => ldap_escape(str_replace(" ","_",$username) . "@community.junge-piraten.de"),
+			"otherMailbox" => $mail,
 			"userPassword" => $this->generatePasswordHash($password),
-			"objectClass" => array("inetOrgPerson"),
+			"objectClass" => array("inetOrgPerson", "extensibleObject"),
 			"sn" => $username,
 			"preferredLanguage" => "de",
 		);
@@ -122,7 +125,7 @@ class UserDatabase {
 	}
 
 	public function modifyUser($uid, $pass, $mails) {
-		$attrs = array("mail" => array_values($mails));
+		$attrs = array("otherMailbox" => array_values($mails));
 		if ($pass != null) {
 			$attrs["userPassword"] = $pass;
 		}
@@ -137,7 +140,7 @@ class UserDatabase {
 	}
 
 	public function mailUsed($mail) {
-		$resource = ldap_search($this->ldapconn, $this->ldapbasedn, "mail=" . ldap_escape($mail, true));
+		$resource = ldap_search($this->ldapconn, $this->ldapbasedn, "otherMailbox=" . ldap_escape($mail, true));
 		if ($resource) {
 			$entry = ldap_first_entry($this->ldapconn, $resource);
 			if (@ldap_get_dn($this->ldapconn, $entry))
