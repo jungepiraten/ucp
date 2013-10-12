@@ -53,7 +53,7 @@ class User {
 	}
 
 	public function getMails() {
-		return array_merge($this->fixedmails, $this->mails);
+		return array_merge(is_array($this->fixedmails) ? $this->fixedmails : array(), is_array($this->mails) ? $this->mail : array());
 	}
 
 	public function verifyMailAddress($mail) {
