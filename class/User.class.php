@@ -19,7 +19,7 @@ class User {
 	}
 
 	public function save() {
-		if (!$this->userdb->modifyUser($this->getUid(), $this->pass, $this->getMails())) {	
+		if (!$this->userdb->modifyUser($this->getUid(), $this->pass, $this->mails)) {
 			return false;
 		}
 	}
