@@ -29,7 +29,7 @@ class User {
 	}
 
 	public function deleteMail($mail) {
-		unset($this->mails[array_search($mail, $this->getMails())]);
+		unset($this->mails[array_search($mail, $this->mails)]);
 	}
 
 	public function changePassword($password) {
