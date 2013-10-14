@@ -27,7 +27,7 @@
 						UCP
 					</a>
 					<ul class="nav">
-						<li {if $module == "profile"}class="active"{/if}><a href="index.php">Profil</a></li>
+						<li {if $module == "profile"}class="active"{/if}><a href="index.php?module=profile">Profil</a></li>
 						<li {if $module == "lists"}class="active"{/if}><a href="index.php?module=lists">Mailinglisten</a></li>
 						<li class="dropdown hidden-phone">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Junge Piraten <b class="caret"></b></a>
